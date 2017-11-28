@@ -5,8 +5,11 @@ import App from './App'
 import router from './router'
 
 /*引入mintUI*/
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+import MintUI from 'mint-ui';
+import 'mint-ui/lib/style.css';
+
+/*引入公共样式*/
+import 'lib-flexible/flexible.js';
 
 Vue.use(MintUI)
 
