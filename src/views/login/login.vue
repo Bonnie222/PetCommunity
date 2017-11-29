@@ -4,12 +4,16 @@
 		<div class="loginform">
 			<ul>
 				<li class="">
-					<span>s</span>
-					<input type="text" placeholder="sss" value=""/>
+					<span class="labellogo">
+						<img src="../../assets/images/phone.png" />
+					</span>
+					<input type="text" placeholder="请输入手机号" value=""/>
 				</li>
 				<li class="">
-					<span>s</span>
-					<input type="text" placeholder="sss" value=""/>
+					<span class="labellogo">
+						<img src="../../assets/images/psw.png" />
+					</span>
+					<input type="text" placeholder="请输入密码" value=""/>
 				</li>
 			</ul>
 		</div>
@@ -42,34 +46,49 @@ export default {
 
 <style lang='less' scoped>
 #Login{
-	font-size: 36px;
+	font-size: 34px;
 	background: #f2f2f2;
 	.loginform{
 		background: #ffffff;
-		margin-top: 20px;
+		margin-top: 40px;
 		& ul{
 			text-align: center;
 			& li{
 				margin: 0 50px;
 				height: 125px;
-				border-bottom: 1px solid #e4e4e4;
+				border-bottom: 1px solid #e4e4e4;/*no*/
 				&:last-child{
 					border: none;
 				}
+				.labellogo{
+					background: yellow;
+					margin: 0px 10px 0 0;
+					display: inline-block;
+					width: 70px;
+					height: 70px;
+					vertical-align: middle;
+					img{
+						width: 100%;	
+						height: 100%;					
+					}
+				}
 				input{
-					height: inherit;
+					display: inline-block;
+					width: 500px;
+					height: 125px;					
+					text-align: left;
 				}
 		    }
 		}
 	}
 	.btn-wrap{
-		margin-top: 30px;
+		margin-top: 100px;
 		text-align: center;
 		.btn-cancel,.btn-save{
 			font-size: 34px;
 		}
 		.btn-cancel{
-			margin-right: 20px;
+			margin-right: 25px;
 		}
 	}
 }

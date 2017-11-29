@@ -8,6 +8,12 @@ const Login = _import('login/login');
 const Register = _import('login/register');
 /*首页*/
 const Home = _import('home/home');
+/*宠物秀*/
+const Petshow = _import('pet/petshow');
+/*医疗*/
+const Medical = _import('medical/medical');
+/*我的*/
+const Myself = _import('myself/myself');
 
 Vue.use(Router)
 
@@ -31,6 +37,18 @@ export default new Router({
   		path: '/home',
   		name: 'Home',
   		component: Home
+  	},{
+  		path: '/petshow',
+  		name: 'Petshow',
+  		component: Petshow
+  	},{
+  		path: '/medical',
+  		name: 'Medical',
+  		component: Medical
+  	},{
+  		path: '/myself',
+  		name: 'Myself',
+  		component: Myself
   	}
   ]
 })

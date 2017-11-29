@@ -8,6 +8,49 @@
 		  		<mt-swipe-item>3</mt-swipe-item>
 			</mt-swipe>
 		</div>
+		<div class="home-menu-wrap">
+			<div class="home-menu-list">
+				<span class="menu-pic"></span>
+				<span class="menu-title">寻宠110</span>
+			</div>
+			<div class="home-menu-list">
+				<span class="menu-pic"></span>
+				<span class="menu-title">寻宠110</span>
+			</div>
+			<div class="home-menu-list">
+				<span class="menu-pic"></span>
+				<span class="menu-title">寻宠110</span>
+			</div>
+			<div class="home-menu-list">
+				<span class="menu-pic"></span>
+				<span class="menu-title">寻宠110</span>
+			</div>			
+		</div>
+		<div class="findpet">
+			<span class="findpet-title">寻宠启示</span>
+			<span class="findpet-list">
+				<yd-rollnotice autoplay="5000" speed="500">
+			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>荣耀V9 3月超级钜惠！</yd-rollnotice-item>
+			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>3.23京东超级品牌日格力盛典</yd-rollnotice-item>
+			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>京东服饰 早春新品低至7折</yd-rollnotice-item>
+    			   <yd-rollnotice-item><span style="color:#F00;"> 荐 </span></yd-rollnotice-item>
+				</yd-rollnotice>
+			</span>
+		</div>
+		<div class="pet-list">
+			<div class="pet-list-title">
+				<span class="tip">新宠露脸</span>
+				<span class="more">更多＞</span>
+			</div>
+			<ul>
+				<li>s</li><li>s</li>
+				<li>s</li>
+				<li>s</li>
+				<li>s</li>
+				<li>s</li>
+			</ul>
+		</div>
+		
 		<Navmenu></Navmenu>
 	</div>
 </template>
@@ -22,8 +65,11 @@ export default{
 	},
 	data(){
 		return{
-			headerLeft: false
+			headerLeft: false,
+			show1:false
 		}
+	},
+	methods:{
 	}
 }
 </script>
@@ -33,6 +79,86 @@ export default{
 	.swipe-wrap{
 		background: yellowgreen;
 		height: 300px;
+	}
+	.home-menu-wrap{
+		background: #FFFFFF;
+		height: 170px;
+		border-bottom: 1px solid #e4e4e4;/*no*/
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		.home-menu-list{
+			display: flex;
+			flex-direction: column;
+			align-items:center;
+			span{
+				display: block;
+			}
+			.menu-pic{
+				width: 90px;
+				height: 90px;
+				border-radius: 100%;
+				background: yellow;
+				margin-bottom: 15px;
+			}
+		}
+	}
+	.findpet{
+		margin:30px 25px;
+		height: 130px;
+		background: #FFFFFF;
+		border: 1px solid #e4e4e4;/*no*/
+		border-radius: 10px;		
+		.findpet-title{
+			margin:20px;
+			vertical-align: middle;
+			display: inline-block;
+			width: 100px;
+			font-size: 46px;
+			font-weight: bolder;
+			color: #EB695C;
+		}
+		.findpet-list{
+			margin-top: 20px;
+			display: inline-block;
+			vertical-align: middle;
+			.yd-rollnotice{
+		
+			}
+			.yd-rollnotice-item{
+				font-size: 36px;
+			}
+		}
+	}
+	.pet-list{
+		margin:0px 25px;
+		height: 420px;
+		background: #FFFFFF;
+		border: 1px solid #e4e4e4;/*no*/
+		border-radius: 10px;
+		.pet-list-title{
+			padding:25px 20px;
+			color: #666666;
+			font-size: 32px;
+			overflow:hidden;
+			.more{
+				display: inline-block;
+				float: right;
+				font-size: 28px;
+				color: #999999;
+			}			
+		}
+		& ul{
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			& li{
+				height: 150px;
+				width: 200px;
+				background: yellow;
+				margin-bottom: 20px;
+			}
+		}
 	}
 }
 </style>

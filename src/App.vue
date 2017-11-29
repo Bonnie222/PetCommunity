@@ -18,15 +18,16 @@ export default {
 	        width: 300px;
 	        height: 88px;
 	        border-radius: 5px;
+	        font-size: 36px;
 	    }
 	    .btn-cancel{
 	        background: #ffffff;
-	        border:1px solid #eb695c;
+	        border:1px solid #eb695c; /*no*/
 	        color:  #eb695c;
 	    }
 	    .btn-save{
 	        background: #eb695c;
-	        border:1px solid  #eb695c;
+	        border:1px solid  #eb695c; /*no*/
 	        color: #ffffff;
 	    }
 	}

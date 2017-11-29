@@ -33,26 +33,26 @@ export default{
 @commonColor:#eb695c;
 #Signhome{
 	.title{
-		height: 150px;
+		height: 500px;
 		background: yellow;
 		color: @commonColor;
 		font-size: 20px;margin-bottom: 20px;
 	}
 	.pic{
 		display: block;
-		width: 200px;
-		height: 150px;
+		width: 300px;
+		height: 170px;
 		margin: 0 auto;
 		margin-top: 30px;
 		background: @commonColor;
 	}
 	.btn-wrap{
-		margin-top: 80px;
+		margin-top: 250px;
 	    .btn-save, .btn-cancel{
 	    	display: block;
 	    	margin: 0 auto;
-	    	width: 150px;
-	    	margin-bottom: 15px;
+	    	width: 475px;
+	    	margin-bottom: 40px;
 	    }
 	}
 }

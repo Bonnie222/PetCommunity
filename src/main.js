@@ -7,11 +7,15 @@ import router from './router'
 /*引入mintUI*/
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
+/*引入YdUI*/
+import YDUI from 'vue-ydui';
+import 'vue-ydui/dist/ydui.px.css';
 
-/*引入公共样式*/
+/*引入适配方案*/
 import 'lib-flexible/flexible.js';
 
 Vue.use(MintUI)
+Vue.use(YDUI);
 
 Vue.config.productionTip = false
 

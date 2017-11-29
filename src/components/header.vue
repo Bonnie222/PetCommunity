@@ -1,5 +1,5 @@
 <template>
-	<mt-header :title="title" id="header1">
+	<mt-header :title="title" id="header">
 	    <mt-button icon="back" @click="gotoRouter" slot="left" v-show="headerLeft"></mt-button>
 	    <mt-button icon="more" slot="right" v-show="headerRight"></mt-button>
 	</mt-header>

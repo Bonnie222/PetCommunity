@@ -66,15 +66,14 @@ export default {
 #Register{
 	.formlist{
 		background: #ffffff;
-		margin-top: 20px;
+		margin-top: 40px;
 		color: #666666;
-		font-size: 14px;
-		& ul{
-			
+		font-size: 34px;
+		& ul{			
 			& li{
 				margin: 0 50px;
 				height: 125px;
-				border-bottom: 1px solid #e4e4e4;
+				border-bottom: 1px solid #e4e4e4; /*no*/
 				&:last-child{
 					border: none;
 				}
@@ -87,12 +86,11 @@ export default {
 				}
 				input{
 					width: 500px;
-					background: yellow;
 					text-align: right;
 				}
 				.radio-wrap{
 					display: inline-block;
-					margin-left: 200px;
+					margin-left:320px;
 					.radio-input{
 						display: none;
 					}
@@ -101,20 +99,20 @@ export default {
 						box-sizing: border-box;
 						background: #ffffff;
 						border-radius: 100%;
-						border: 1px solid #ccc;
+						border: 1px solid #ccc;/*no*/
 						position: relative;
-						width: 20px;
-						height: 20px;
+						width: 40px;
+						height: 40px;
 						vertical-align: middle;
 						&::after{
 							content: " ";
 							border-radius: 100%;
 							position: absolute;
-							top:5px;
-							left:5px;
-							width: 8px;
-							height: 8px;
-							
+							top:8px;
+							left:8px;
+							width: 20px;
+							height: 20px;
+							background: yellowgreen;
 						}
 					}
 					.radio-label{
@@ -126,19 +124,21 @@ export default {
 		    }
 		}
 		.tip{
+			display: inline-block;
 			color: #eb695c;
+			margin-left: 10px;
 		}
 	}
 	.btn-wrap{
 		text-align: center;
-		margin-top: 50px;
+		margin-top: 100px;
 		.btn-save{
 			width: 645px;
 			height: 88px;
 		}
 	}
 	.readp{
-		margin-top: 200px;
+		margin-top: 180px;
 		text-align: center;
 	}
 }
