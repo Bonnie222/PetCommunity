@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	.btn-wrap{
