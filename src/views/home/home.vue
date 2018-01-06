@@ -78,7 +78,7 @@ export default{
 #Home{
 	.swipe-wrap{
 		background: yellowgreen;
-		height: 300px;
+		height: 250px;
 	}
 	.home-menu-wrap{
 		background: #FFFFFF;
@@ -87,6 +87,7 @@ export default{
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+		padding: 100px 0;
 		.home-menu-list{
 			display: flex;
 			flex-direction: column;
@@ -131,8 +132,7 @@ export default{
 		}
 	}
 	.pet-list{
-		margin:0px 25px;
-		height: 420px;
+		margin:0px 25px 25px;
 		background: #FFFFFF;
 		border: 1px solid #e4e4e4;/*no*/
 		border-radius: 10px;
