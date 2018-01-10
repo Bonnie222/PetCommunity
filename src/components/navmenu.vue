@@ -1,25 +1,35 @@
 <template>
 	<div id="Navmenu">
 	    <div class="menu">
-	    	<div class="menu-list" @click="gotoRouter('home')">
-		         <span>ss</span>
-		         <span>首页</span>
-		    </div>
-		    <div class="menu-list" @click="gotoRouter('petshow')">
-		         <span>ss</span>
-		         <span>宠物秀</span>
-		    </div>
-		    <div class="menu-list" @click="showadd=true">
-		         <span class="middlemenu"></span>
-		    </div>
-		    <div class="menu-list" @click="gotoRouter('medical')">
-		         <span>ss</span>
-		         <span>医疗</span>
-		    </div>
-		    <div class="menu-list" @click="gotoRouter('myself')">
-		         <span>ss</span>
-		         <span>我的</span>
-		    </div>
+	    	<span class="menu-list">
+		        <router-link class="menu-item" to="/home">
+		        	<i class="iconfont icon-shouye1"></i>
+		        	<span>首页</span>
+		        </router-link>
+		    </span>
+		    <span class="menu-list" >
+		    	<router-link class="menu-item" to="/petshow">
+		        	<i class="iconfont icon-chongwu"></i>
+		         	<span>宠物秀</span>
+		        </router-link>
+		    </span>
+		    <span class="menu-list" @click="showadd=true">
+		         <span class="menu-item">
+		         	<span class="middlemenu"></span>
+		         </span>
+		    </span>
+		    <span class="menu-list">
+		    	<router-link class="menu-item" to="/medical">
+		        	<i class="iconfont icon-yiliao"></i>
+		         	<span>医疗</span>
+		        </router-link>
+		    </span>
+		    <span class="menu-list">
+		    	<router-link class="menu-item" to="/myself">
+		        	<i class="iconfont icon-wo2"></i>
+		         	<span>我的</span>
+		        </router-link>
+		    </span>
 	    </div>
 	    <yd-popup v-model="showadd" position="center" width="90%">
             <span>1</span>
@@ -43,9 +53,7 @@ export default{
 		}
 	},
 	methods:{
-		gotoRouter: function(path){
-			this.$router.push("/" + path);
-		}
+
 	}
 }
 </script>
@@ -64,11 +72,23 @@ export default{
 		display: -webkit-flex; /* Safari */
 		justify-content:space-around;
 		align-items: center;
+		font-size: 0;
 	}
 	.menu-list{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+		display: inline-block;
+		position: relative;
+		font-size: 28px;
+		.menu-item{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			color: #666666;
+		}
+		.iconfont{
+			display: block;
+			font-size: 36px;
+			margin-bottom: 10px;
+		}
 		.middlemenu{
 			background: #eb695c;
 			width: 80px;
@@ -81,6 +101,9 @@ export default{
 				color:#ffffff;				
 				font-size: 88px;
 			}			
+		}
+		.router-link-active{
+			color: #EB695C;
 		}
 	}
 	

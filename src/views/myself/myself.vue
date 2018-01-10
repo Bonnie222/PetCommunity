@@ -26,27 +26,26 @@
 				日常管理
 			</div>
 			<div class="manage-menu">
-				<a class="menu-item" v-for="item in manageMenu">
-					<span class="manage-icon">1
-						<img />
-					</span>
-					<span class="manage-text">{{ item.name }}</span>
-				</a>
+				<span v-for="item in manageMenu">
+					<router-link to="" class="menu-item">
+						<span class="manage-icon">
+							<i :class="item.icon"></i>
+						</span>
+						<span class="manage-text">{{ item.name }}</span>
+					</router-link>
+				</span>
 			</div>
 		</div>
 		
 		<div class="other-list">
-			<div class="other-item">
-				<span>xsss</span>
-				<span>></span>
-			</div>
-			<div class="other-item">
-				<span>xsss</span>
-				<span>></span>
-			</div>
-			<div class="other-item">
-				<span>xsss</span>
-				<span>></span>
+			<div v-for="item in otherMenu">
+				<router-link to="" class="other-item">
+					<span>
+						<i :class="item.icon"></i>
+						<span class="name">{{item.name}}</span>
+					</span>
+					<span class="link"><img src="../../assets/images/right.svg"/></span>
+				</router-link>
 			</div>
 		</div>
 		<Navmenu></Navmenu>
@@ -68,16 +67,30 @@ export default{
 			
 			manageMenu:[{
 				name: '宠物',
-				icon: 'xx',
+				icon: 'iconfont icon-baoji',
 				href: '',				
 			},{
 				name: '宠友',
-				icon: '',
+				icon: 'iconfont icon-pengyou',
 				href: ''
 			},{
 				name: '设置',
-				icon: '',
+				icon: 'iconfont icon-shezhi1',
 				href: ''
+			}],
+			
+			otherMenu:[{
+				name:'我的问诊',
+				icon: 'iconfont icon-Interrogation',
+				href:''
+			},{
+				name:'我的寻宠/主',
+				icon:'iconfont icon-xunzhaochewei',
+				href:''
+			},{
+				name:'我的活动',
+				icon:'iconfont icon-grade-alt',
+				href:''
 			}]
 		    
 		}
@@ -151,6 +164,7 @@ export default{
 	}
 	.management{
 		height: 300px;
+		width: 750px;
 		background: #FFFFFF;
 		margin-bottom: 30px;
 		.manage-title{
@@ -162,22 +176,29 @@ export default{
 			font-size: 30px;
 		}
 		.manage-menu{
+			height: 200px;
+			width: inherit;
 			display: flex;
 			display: -webkit-flex;
 			justify-content: space-around;
-			padding: 30px 0;
-			/*align-items: center;*/
+			align-items: center;
 			font-size: 28px;
 			color: #666666;
 			.menu-item{
+				width: 249px;
+				height: inherit;
 				display: flex;
-				display: -webkit-flex;
-				flex:1;
+				display: -webkit-flex;				
 				flex-direction: column;
+				justify-content: space-around;
 				align-items: center;
-				border-right:1px solid #E4E4E4; /*no*/
-				&:last-child{
-					border-right: none;
+				/*border-right:1px solid #E4E4E4;*/ /*no*/
+				font-size: 32px;
+				.iconfont{
+					display: block;
+					font-size: 56px;
+					margin-bottom: 20px;
+					color: #54B0F1;
 				}
 			}
 		}
@@ -193,6 +214,21 @@ export default{
 			display: flex;
 			display: -webkit-flex;
 			justify-content: space-between;
+			font-size:28px;
+			color:#999999;
+			.iconfont{
+				display: inline-block;
+				color: #666666;
+				margin-right: 10px;
+			}
+			.link{
+				width: 15px;
+				height: 26px;
+				img{
+					width: 15px;
+					height: 26px;
+				}
+			}
 		}
 	}
 }

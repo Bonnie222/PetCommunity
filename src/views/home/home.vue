@@ -9,22 +9,14 @@
 			</mt-swipe>
 		</div>
 		<div class="home-menu-wrap">
-			<div class="home-menu-list">
-				<span class="menu-pic"></span>
-				<span class="menu-title">寻宠110</span>
+			<div v-for="item in middleMenu">
+				<router-link to="" class="home-menu-list">
+					<span class="menu-pic">
+						<img :src="item.src" />
+					</span>
+					<span class="menu-title">{{item.name}}</span>
+				</router-link>
 			</div>
-			<div class="home-menu-list">
-				<span class="menu-pic"></span>
-				<span class="menu-title">寻宠110</span>
-			</div>
-			<div class="home-menu-list">
-				<span class="menu-pic"></span>
-				<span class="menu-title">寻宠110</span>
-			</div>
-			<div class="home-menu-list">
-				<span class="menu-pic"></span>
-				<span class="menu-title">寻宠110</span>
-			</div>			
 		</div>
 		<div class="findpet">
 			<span class="findpet-title">寻宠启示</span>
@@ -66,7 +58,25 @@ export default{
 	data(){
 		return{
 			headerLeft: false,
-			show1:false
+			show1:false,
+			
+			middleMenu:[{
+				name:'寻宠110',
+				src: require('../../assets/images/xunzhao.svg'),
+				href:''
+			},{
+				name:'话题',
+				src: require('../../assets/images/huati.svg'),
+				href:''
+			},{
+				name:'咨询',
+				src:require('../../assets/images/zixun.svg'),
+				href:''
+			},{
+				name:'活动',
+				src:require('../../assets/images/huodong.svg'),
+				href:''
+			}]
 		}
 	},
 	methods:{
@@ -99,8 +109,13 @@ export default{
 				width: 90px;
 				height: 90px;
 				border-radius: 100%;
-				background: yellow;
+				/*background: yellow;*/
 				margin-bottom: 15px;
+				img{
+					display: block;
+					width: inherit;
+					height: inherit;
+				}
 			}
 		}
 	}
