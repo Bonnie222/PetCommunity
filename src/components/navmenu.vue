@@ -31,11 +31,31 @@
 		        </router-link>
 		    </span>
 	    </div>
-	    <yd-popup v-model="showadd" position="center" width="90%">
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-            <span>4</span>
+	    <yd-popup v-model="showadd" position="center" width="90%" class="middle">
+            <!--<div class="">
+            	<router-link to="">
+            		<i></i>
+            		<span>11</span>
+            	</router-link>
+            </div>
+            <div>
+            	<router-link to="">
+            		<i></i>
+            		<span>11</span>
+            	</router-link>
+            </div>
+            <div>
+            	<router-link to="">
+            		<i></i>
+            		<span>11</span>
+            	</router-link>
+            </div>
+            <div>
+            	<router-link to="">
+            		<i></i>
+            		<span>11</span>
+            	</router-link>
+            </div>-->
         </yd-popup>
 	</div>
 </template>
@@ -106,6 +126,9 @@ export default{
 			color: #EB695C;
 		}
 	}
+	/*.middle{
+		display: flex;	
+	}*/
 	
 }
 </style>

@@ -81,7 +81,7 @@ export default{
 			
 			otherMenu:[{
 				name:'我的问诊',
-				icon: 'iconfont icon-Interrogation',
+				icon: 'iconfont icon-shouye',
 				href:''
 			},{
 				name:'我的寻宠/主',

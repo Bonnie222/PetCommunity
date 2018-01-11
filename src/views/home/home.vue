@@ -109,7 +109,6 @@ export default{
 				width: 90px;
 				height: 90px;
 				border-radius: 100%;
-				/*background: yellow;*/
 				margin-bottom: 15px;
 				img{
 					display: block;
