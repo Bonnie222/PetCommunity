@@ -27,7 +27,7 @@
 			</div>
 			<div class="manage-menu">
 				<span v-for="item in manageMenu">
-					<router-link to="" class="menu-item">
+					<router-link :to="item.href" class="menu-item">
 						<span class="manage-icon">
 							<i :class="item.icon"></i>
 						</span>
@@ -68,7 +68,7 @@ export default{
 			manageMenu:[{
 				name: '宠物',
 				icon: 'iconfont icon-baoji',
-				href: '',				
+				href: '/myself/mypetlist',				
 			},{
 				name: '宠友',
 				icon: 'iconfont icon-pengyou',

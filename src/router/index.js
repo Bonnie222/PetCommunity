@@ -14,6 +14,8 @@ const Petshow = _import('pet/petshow');
 const Medical = _import('medical/medical');
 /*我的*/
 const Myself = _import('myself/myself');
+const MypetList = _import('myself/mypetlist');
+const Addpet = _import('myself/addpet');
 
 Vue.use(Router)
 
@@ -49,6 +51,14 @@ export default new Router({
   		path: '/myself',
   		name: 'Myself',
   		component: Myself
+  	},{
+  		path: '/myself/mypetlist',
+  		name: 'Mypet',
+  		component: MypetList
+  	},{
+  		path: '/myself/addpet',
+  		name: 'Addpet',
+  		component: Addpet
   	}
   ]
 })
