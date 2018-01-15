@@ -1,7 +1,6 @@
 <template>
 	<div id="Petshow">
-		
-		<Navmenu></Navmenu>
+		<Header title="医疗" :headerLeft="headerLeft"></Header>
 	</div>
 </template>
 
