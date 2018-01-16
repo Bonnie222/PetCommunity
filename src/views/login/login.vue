@@ -54,9 +54,9 @@ export default {
 //  	this.$http.post('/api/addUser', data,{}).then((response) => {
 //      console.log(response);
 //    })
-    	this.$http.post('/api/queryUser', data,{}).then((response) => {
-	        console.log(response);
-	      })
+//  	this.$http.post('/api/queryUser', data,{}).then((response) => {
+//	        console.log(response);
+//	      })
     },
     methods:{
     	login: function(){
