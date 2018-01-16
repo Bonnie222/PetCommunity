@@ -25,7 +25,9 @@
 </template>
 
 <script>
-import Header from '@/components/header'
+import Header from '@/components/header';
+import utils from '@/public/utils';
+import urls from '@/public/api';
 export default {
     name: 'Login',
     components:{
@@ -35,6 +37,11 @@ export default {
     	return{
     	
     	}
+    },
+    created(){
+    	utils.getData(urls.foodList, res =>{
+    		console.log(res);
+    	})
     },
     methods:{
     	login: function(){

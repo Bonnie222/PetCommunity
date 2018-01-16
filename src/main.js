@@ -14,6 +14,10 @@ import 'vue-ydui/dist/ydui.px.css';
 /*引入适配方案*/
 import 'lib-flexible/flexible.js';
 
+/*引入axios*/
+//import axios from "axios";
+//Vue.prototype.$ajax = axios;
+
 Vue.use(MintUI)
 Vue.use(YDUI);
 
