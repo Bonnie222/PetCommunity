@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueResource from 'vue-resource'
 
 /*引入mintUI*/
 import MintUI from 'mint-ui';
@@ -15,11 +16,12 @@ import 'vue-ydui/dist/ydui.px.css';
 import 'lib-flexible/flexible.js';
 
 /*引入axios*/
-//import axios from "axios";
-//Vue.prototype.$ajax = axios;
+import axios from 'axios';
+Vue.prototype.$ajax = axios;
 
 Vue.use(MintUI)
 Vue.use(YDUI);
+Vue.use(VueResource);
 
 Vue.config.productionTip = false
 

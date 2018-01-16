@@ -5,6 +5,7 @@
   "author": "Bonnie222 <616247581@qq.com>",
   "private": true,
   "scripts": {
+    "wser": "node server/index.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
@@ -20,6 +21,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue": "^2.5.2",
+    "vue-resource": "^1.3.5",
     "vue-router": "^3.0.1",
     "vue-ydui": "^1.1.1"
   },

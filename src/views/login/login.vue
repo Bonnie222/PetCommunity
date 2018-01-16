@@ -39,9 +39,24 @@ export default {
     	}
     },
     created(){
-    	utils.getData(urls.foodList, res =>{
-    		console.log(res);
-    	})
+    	var data = {
+//  		name: "ss",
+//  		age: 22
+//			id: 1
+			tablename: 'user',
+			id:2
+    	}
+    	
+    	var callback = function(r){
+    		console.log(r);
+    	}
+    	//utils.postData('/api/addUser',data, callback);
+//  	this.$http.post('/api/addUser', data,{}).then((response) => {
+//      console.log(response);
+//    })
+    	this.$http.post('/api/queryUser', data,{}).then((response) => {
+	        console.log(response);
+	      })
     },
     methods:{
     	login: function(){
