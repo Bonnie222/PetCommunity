@@ -40,28 +40,37 @@ export default {
     },
     created(){
     	var data = {
-    		name: 'ss',
-    		phone: '1252365',
-    		password: '123456'
+//  		name: 'ss',
+//  		phone: '1252365',
+//  		password: '123456'
 //			id: 1
-//			tablename: 'user',
-//			id:1
+			tablename: 'user',
+			id:2
     	}
     	
-//  	var callback = function(r){
-//  		console.log(r);
-//  	}
-    	//utils.postData('/api/addUser',data, callback);
+    	var callback = function(r){
+    		console.log(r);
+    	}
+    	//utils.postData('/api/queryUser',data, callback);
 //  	this.$http.post('/api/addUser', data,{}).then((response) => {
 //	        console.log(response);
 //	      })
-//  	this.$http.post('/api/addUser', data,{}).then((response) => {
-//	        //console.log(response);
-//	      })
+    	this.$http.post('/api/queryUser', data,{}).then((response) => {
+	        console.log(response);
+	      })
     },
     methods:{
     	login: function(){
-    		this.$router.push('/home');
+    		var vm = this;
+    		var url = urls.login;
+    		var data = {
+    			userPhone : '13437851632',
+    			userPassword : '123456'
+    		}
+    		var callback = function(r){
+    			vm.$router.push('/home');
+    		}
+    		utils.postData(url, data, callback);	
     	}
     }
 }

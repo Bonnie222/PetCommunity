@@ -8,7 +8,6 @@ var $sql = require('../sqlMap');
 //使用db.js的配置信息创建一个MySql连接池
 //var pool = mysql.createPool(db.mysql)
 var conn = mysql.createConnection(db.mysql);
-
 conn.connect();
 
 var jsonWrite = function(res, ret) {
@@ -26,10 +25,18 @@ var jsonWrite = function(res, ret) {
  * 登录
  */
 router.post('/login', (req, res) => {
+	var sql = $sql.login;
 	var params = req.body;
-	var phone = params.phone;
-	var pw = params.password;
-//	conn.query('SELECT * FROM user WHERE phone = "'+phone+'" AND password = "'+pw + '";', function(err, results))
+	console.log(params);
+	var sqlParams = [params.userPhone, params.userPassword]
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+        }        
+        if (result) {
+            jsonWrite(res, result);
+        }
+	})
 })
 
 // 增加用户接口
@@ -73,19 +80,20 @@ router.get('/addUser', function(req, res, next){
     });
  });
 
-//查询用户
-//router.post('/queryUser',(req,res) => {
-//	var sql = $sql.queryAll;
-//	var params = req.body;    
-//  console.log(params);
-//  conn.query(sql, [params.tablename,params.id], function(err, result) {    
-//      if (err) {       
-//          console.log(err);
-//      }        
-//      if (result) {
-//          jsonWrite(res, result);
-//      }
-//  })
-//})
+//查询用户个人信息
+router.post('/user/personal',(req,res) => {
+	var sql = $sql.queryById;
+	var params = req.body;    
+    console.log(params);
+    var sqlParams = ['user',params.id];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }        
+        if (result) {
+            jsonWrite(res, result);
+        }
+    })
+})
 module.exports = router;
 

@@ -1,7 +1,7 @@
 <template>
 	<div id="Myself">
 		<Header title="个人中心" :headerLeft="headerLeft"></Header>
-		<div class="mymessage">
+		<div class="mymessage" :data="myInfo">
 			<div class="mymessage-wrap">
 				<div class="mymessage-card">
 					<div class="card-info">
@@ -9,13 +9,13 @@
 							<img src="../../assets/images/member.png" />
 						</span>
 						<span class="info-mess">
-							<span class="info-name">name</span>
-							<span class="info-phone">number</span>
+							<span class="info-name">{{myInfo.userName}}</span>
+							<span class="info-phone">{{myInfo.userPhone}}</span>
 						</span>
 					</div>
 					<div class="card-id">
 						<label>有宠号:</label>
-						<span>xss</span>
+						<span>{{myInfo.id}}</span>
 					</div>
 				</div>
 			</div>
@@ -53,8 +53,10 @@
 </template>
 
 <script>
-import Header from '@/components/header'
-import Navmenu from '@/components/navmenu'
+import Header from '@/components/header';
+import Navmenu from '@/components/navmenu';
+import utils from '@/public/utils';
+import urls from '@/public/api';
 export default{
 	name:"Myself",
 	components:{
@@ -64,6 +66,7 @@ export default{
 		return{
 			headerLeft: false,
 			show1:false,
+			myInfo:{},
 			
 			manageMenu:[{
 				name: '宠物',
@@ -95,7 +98,23 @@ export default{
 		    
 		}
 	},
+	created(){
+		this.getMyself();
+	},
 	methods:{
+		getMyself: function(){
+			var vm = this;
+			var url = urls.getPersonal;
+			var data = {
+				id: 1
+			}
+			var callback = function(r){
+				var dt = r.data[0];
+				console.log(dt);
+				vm.myInfo = dt;
+			}
+			utils.postData(url, data, callback);
+		}
 	}
 }
 </script>
