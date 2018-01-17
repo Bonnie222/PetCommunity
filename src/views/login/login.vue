@@ -40,22 +40,23 @@ export default {
     },
     created(){
     	var data = {
-//  		name: "ss",
-//  		age: 22
+    		name: 'ss',
+    		phone: '1252365',
+    		password: '123456'
 //			id: 1
-			tablename: 'user',
-			id:2
+//			tablename: 'user',
+//			id:1
     	}
     	
-    	var callback = function(r){
-    		console.log(r);
-    	}
+//  	var callback = function(r){
+//  		console.log(r);
+//  	}
     	//utils.postData('/api/addUser',data, callback);
 //  	this.$http.post('/api/addUser', data,{}).then((response) => {
-//      console.log(response);
-//    })
-//  	this.$http.post('/api/queryUser', data,{}).then((response) => {
 //	        console.log(response);
+//	      })
+//  	this.$http.post('/api/addUser', data,{}).then((response) => {
+//	        //console.log(response);
 //	      })
     },
     methods:{

@@ -12,7 +12,7 @@
 					<input type="text" placeholder="" value=""/>
 				</li>
 				<li class="">
-					<label>密码</label>
+					<label>密码<span class="tip">*</span></label>
 					<input type="text" placeholder="请设置6位数密码" value=""/>
 				</li>
 				<li class="">

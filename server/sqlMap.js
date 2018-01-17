@@ -1,11 +1,11 @@
 //SQL语句映射文件，以供api逻辑调用
 
 var sqlMap = {
-	queryAll: 'select * from ??',
-	queryById: 'select * from ?? where id = ?',
+	queryAll: 'SELECT * FROM ??',
+	queryById: 'SELECT * FROM ?? WHERE id = ?',
 	//用户
 	user: {
-		add: 'insert into user(id, name, age) values (0, ?, ?)',
+		add: 'INSERT INTO user(phone, name, password, email, sex, birth) VALUES(?, ?, ?, ?, ?, ?)',
 	}
 }
 

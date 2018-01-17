@@ -11,12 +11,14 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "css-loader": "^0.28.7",
     "express": "^4.16.2",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.11",
+    "mysql": "^2.15.0",
     "style-loader": "^0.19.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
