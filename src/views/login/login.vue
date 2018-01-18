@@ -7,13 +7,13 @@
 					<span class="labellogo">
 						<img src="../../assets/images/phone.png" />
 					</span>
-					<input type="text" placeholder="请输入手机号" value=""/>
+					<input type="text" placeholder="请输入手机号" v-model="loginForm.userPhone"/>
 				</li>
 				<li class="">
 					<span class="labellogo">
 						<img src="../../assets/images/psw.png" />
 					</span>
-					<input type="text" placeholder="请输入密码" value=""/>
+					<input type="text" placeholder="请输入密码" v-model="loginForm.userPsd"/>
 				</li>
 			</ul>
 		</div>
@@ -35,39 +35,24 @@ export default {
     },
     data(){
     	return{
-    	
+    		loginForm:{
+    			userPhone: '',
+    			userPsd: ''
+    		}
+    		
     	}
     },
     created(){
-    	var data = {
-//  		name: 'ss',
-//  		phone: '1252365',
-//  		password: '123456'
-//			id: 1
-			tablename: 'user',
-			id:2
-    	}
-    	
-    	var callback = function(r){
-    		console.log(r);
-    	}
-    	//utils.postData('/api/queryUser',data, callback);
-//  	this.$http.post('/api/addUser', data,{}).then((response) => {
-//	        console.log(response);
-//	      })
-    	this.$http.post('/api/queryUser', data,{}).then((response) => {
-	        console.log(response);
-	      })
+
     },
     methods:{
     	login: function(){
     		var vm = this;
     		var url = urls.login;
-    		var data = {
-    			userPhone : '13437851632',
-    			userPassword : '123456'
-    		}
+    		var data = vm.loginForm;
     		var callback = function(r){
+    			var data = r.data[0];
+    			sessionStorage.setItem("userId", data.id);
     			vm.$router.push('/home');
     		}
     		utils.postData(url, data, callback);	

@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
 	var sql = $sql.login;
 	var params = req.body;
 	console.log(params);
-	var sqlParams = [params.userPhone, params.userPassword]
+	var sqlParams = [params.userPhone, params.userPsd]
 	conn.query(sql, sqlParams, function(err, result){
 		if (err) {       
             console.log(err);

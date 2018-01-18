@@ -15,7 +15,7 @@
 					</div>
 					<div class="card-id">
 						<label>有宠号:</label>
-						<span>{{myInfo.id}}</span>
+						<span>{{myInfo.userNumber}}</span>
 					</div>
 				</div>
 			</div>
@@ -105,15 +105,22 @@ export default{
 		getMyself: function(){
 			var vm = this;
 			var url = urls.getPersonal;
+			var userId = sessionStorage.getItem('userId')
 			var data = {
-				id: 1
+				id: userId
+			}
+			var options = {
+				params:{
+					id: userId
+				}
 			}
 			var callback = function(r){
 				var dt = r.data[0];
+				dt.userNumber = dt.userNumber.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
 				console.log(dt);
 				vm.myInfo = dt;
 			}
-			utils.postData(url, data, callback);
+			utils.postData(url, data, callback, options);
 		}
 	}
 }
