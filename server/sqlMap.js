@@ -4,10 +4,15 @@ var sqlMap = {
 	queryAll: 'SELECT * FROM ??',
 	queryById: 'SELECT * FROM ?? WHERE id = ?',	
 	//登录
-	login: 'SELECT id, userNumber FROM user WHERE userPhone = ? AND userPsd = ?',
+	login: 'SELECT * FROM user WHERE userPhone = ?',
+	
 	//用户
 	user: {
 		add: 'INSERT INTO user(phone, name, password, email, sex, birth) VALUES(?, ?, ?, ?, ?, ?)',
+	},
+	//宠物
+	pet:{
+		userPetList: 'SELECT * FROM pet WHERE  petBelongId = ?',
 	}
 }
 

@@ -1,17 +1,17 @@
 <template>
 	<div id="Mypet">
 		<Header title="我的宠物" :headerLeft="headerLeft"></Header>
-		<div>
+		<div v-for="item in petList">
 			<router-link to="" class="pet-wrap">
 				<span class="pet-info">
 					<img src="" />
 					<span class="mess">
 						<span class="name">
-							刚刚
+							{{ item.petName}}
 							<i class="iconfont icon-baoji"></i>
 						</span>
 						<span>
-							<span class="type">大白兔</span>
+							<span class="type">{{item.petType}}</span>
 							<span class="age">1个月</span>
 						</span>
 					</span>
@@ -28,7 +28,9 @@
 </template>
 
 <script>
-import Header from '@/components/header'
+import Header from '@/components/header';
+import utils from '@/public/utils';
+import urls from '@/public/api';
 export default{
 	name:"Mypet",
 	components:{
@@ -37,10 +39,50 @@ export default{
 	data(){
 		return{
 			headerLeft: true,
-//			show1:false,		    
+			petList:{},
+			
 		}
 	},
+	created(){
+		this.getMypetList();
+	},
 	methods:{
+		getMypetList:function(){
+			var vm = this;
+			var dt = JSON.parse(window.sessionStorage.userInfo);
+			var url = urls.getMyPetList;
+			var data = {
+				petBelongId : dt.id
+			}
+			var options = {
+				params:{
+					userid: dt.id
+				}
+			}
+			var callback = function(r){
+				console.log(r);
+				var data = r.data.data;
+				if(data.length == 0){
+					vm.$router.replace('/myself/addpet');
+				}else{
+					var petTypeList = {
+						1:'汪星人',
+						2:'喵星人',
+						3:'兔星人',
+						4:'鼠星人',
+						5:'鸟星人',
+						6:'龟星人',
+						7:'鱼星人',
+						8:'其他'
+					}
+					$.each(data, function(index, item) {
+						item.petType = petTypeList[item.petType];
+					});
+					vm.petList = data;	
+				}
+			}
+			utils.postData(url, data, callback, options);
+		}
 	}
 }
 </script>

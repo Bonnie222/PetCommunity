@@ -104,21 +104,20 @@ export default{
 	methods:{
 		getMyself: function(){
 			var vm = this;
+			var dt = JSON.parse(window.sessionStorage.userInfo);
 			var url = urls.getPersonal;
-			var userId = sessionStorage.getItem('userId')
 			var data = {
-				id: userId
+				id: dt.id
 			}
 			var options = {
 				params:{
-					id: userId
+					id: dt.id
 				}
 			}
 			var callback = function(r){
-				var dt = r.data[0];
-				dt.userNumber = dt.userNumber.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
-				console.log(dt);
-				vm.myInfo = dt;
+				var data = r.data.data[0];
+				data.userNumber = data.userNumber.replace(/\B(?=(?:\d{4})+\b)/g, ' - ');
+				vm.myInfo = data;
 			}
 			utils.postData(url, data, callback, options);
 		}

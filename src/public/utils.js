@@ -11,7 +11,7 @@ export default{
 		axios.get(url, options).then(cb).catch(response => {
 			if(response instanceof Error){
 				//一些错误是在设置请求的时候触发
-			    console.log('Error',reponse.message);   
+			    console.log('Error:',response.message);   
 			}else {
 				 //请求已经发出，但是服务器响应返回的状态吗不在2xx的范围内      
 				console.log(response.data);     
@@ -29,10 +29,10 @@ export default{
      * @param cb { Function } -必选 成功回调
      */
 	postData(url, data, cb, options){
-		axios.post(url, data, options).then(cb).catch(reponse => {
+		axios.post(url, data, options).then(cb).catch(response => {
 			if(response instanceof Error){
 				//一些错误是在设置请求的时候触发
-			    console.log('Error',reponse.message);   
+			    console.log('Error:',response.message);   
 			}else {
 				 //请求已经发出，但是服务器响应返回的状态吗不在2xx的范围内      
 				console.log(response.data);     
