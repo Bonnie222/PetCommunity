@@ -25,7 +25,7 @@
 						<input type="radio" class="radio-input" value="A" />
 					    <span class="radio-core"></span>
 					    <span class="radio-label">男</span>
-					    <input type="radio" class="radio-input" value="A" />
+					    <input type="radio" class="radio-input" value="B" />
 					    <span class="radio-core"></span>
 					    <span class="radio-label">女</span>
 					</span>			
@@ -125,7 +125,7 @@ export default {
 		}
 		.tip{
 			display: inline-block;
-			color: #eb695c;
+			color: red;
 			margin-left: 10px;
 		}
 	}

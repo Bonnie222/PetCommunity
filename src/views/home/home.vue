@@ -21,11 +21,11 @@
 		<div class="findpet">
 			<span class="findpet-title">寻宠启示</span>
 			<span class="findpet-list">
-				<yd-rollnotice autoplay="5000" speed="500">
+				<yd-rollnotice autoplay="2000" speed="500">
 			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>荣耀V9 3月超级钜惠！</yd-rollnotice-item>
 			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>3.23京东超级品牌日格力盛典</yd-rollnotice-item>
 			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>京东服饰 早春新品低至7折</yd-rollnotice-item>
-    			   <yd-rollnotice-item><span style="color:#F00;"> 荐 </span></yd-rollnotice-item>
+    			   <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>sss</yd-rollnotice-item>
 				</yd-rollnotice>
 			</span>
 		</div>

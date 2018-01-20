@@ -7,13 +7,13 @@
 					<span class="labellogo">
 						<img src="../../assets/images/phone.png" />
 					</span>
-					<input type="text" placeholder="请输入手机号" v-model="loginForm.userPhone" @focus="onFocus"/>
+					<input type="text" placeholder="请输入手机号" v-model="loginForm.userPhone" @focus="onPhoneFocus" @blur="onPhoneBlur"/>
 				</li>
 				<li class="">
 					<span class="labellogo">
 						<img src="../../assets/images/psw.png" />
 					</span>
-					<input type="password" placeholder="请输入密码" v-model="loginForm.userPsd" @focus="onFocus"/>
+					<input type="password" placeholder="请输入密码" v-model="loginForm.userPsd" @focus="onPsdFocus"/>
 				</li>
 			</ul>
 		</div>
@@ -29,8 +29,6 @@
 
 <script>
 import Header from '@/components/header';
-import utils from '@/public/utils';
-import urls from '@/public/api';
 export default {
     name: 'Login',
     components:{
@@ -51,10 +49,27 @@ export default {
 
     },
     methods:{
-    	onFocus: function(){
+    	onPhoneFocus: function(){
     		var vm = this;
     		vm.errMsg = '';
     		vm.errWindow = false;
+    	},
+    	   	
+    	onPhoneBlur: function(){
+    		var vm = this;
+    		var partten = /^$|^1(3|4|5|7|8)\d{9}$/;
+    		if(!vm.loginForm.userPhone){
+    			vm.errMsg = '手机号不能为空';
+    			vm.errWindow = true;
+    		}else if(!partten.test(vm.loginForm.userPhone)){
+    			vm.errMsg = '请输入正确的手机号格式';
+    			vm.errWindow = true;
+    		}
+    	},
+    	
+    	onPsdFocus: function(){
+    		var vm = this;
+    		vm.onPhoneBlur();
     	},
  
     	login: function(){
@@ -77,7 +92,7 @@ export default {
     		vm.loginForm.userPhone = vm.loginForm.userPhone.trim();
     		vm.loginForm.userPsd = vm.loginForm.userPsd.trim();
     		
-    		var url = urls.login;
+    		var url = vm.urls.login;
     		var data = vm.loginForm;
 			vm.$axios.post(url, data).then((res) =>{
 				if(res.status == 200){

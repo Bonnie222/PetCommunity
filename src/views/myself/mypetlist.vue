@@ -29,8 +29,6 @@
 
 <script>
 import Header from '@/components/header';
-import utils from '@/public/utils';
-import urls from '@/public/api';
 export default{
 	name:"Mypet",
 	components:{
@@ -50,7 +48,7 @@ export default{
 		getMypetList:function(){
 			var vm = this;
 			var dt = JSON.parse(window.sessionStorage.userInfo);
-			var url = urls.getMyPetList;
+			var url = vm.urls.getMyPetList;
 			var data = {
 				petBelongId : dt.id
 			}
@@ -81,7 +79,7 @@ export default{
 					vm.petList = data;	
 				}
 			}
-			utils.postData(url, data, callback, options);
+			vm.utils.postData(url, data, callback, options);
 		}
 	}
 }
@@ -114,7 +112,7 @@ export default{
 				flex-direction: column;
 				padding: 5px 0;
 				.name{
-					font-size: 28px;
+					font-size: 32px;
 					font-weight: bold;
 					margin-bottom: 15px;
 					.iconfont{
@@ -126,7 +124,7 @@ export default{
 				color: #666666;				
 				border: 1px solid #666666;/*no*/
 				border-radius: 3px;/*no*/
-				padding: 0px 12px;
+				padding: 3px 12px;
 				font-size: 16px;
 			}
 			.age{

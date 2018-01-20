@@ -17,10 +17,16 @@ import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 /*引入YdUI*/
 import YDUI from 'vue-ydui';
-import 'vue-ydui/dist/ydui.px.css';
+import 'vue-ydui/dist/ydui.rem.css';
+//import 'vue-ydui/dist/ydui.px.css';
 
 /*引入适配方案*/
 import 'lib-flexible/flexible.js';
+
+import utils from './public/utils';
+import urls from './public/api';
+Vue.prototype.utils = utils;
+Vue.prototype.urls = urls;
 
 Vue.prototype.$axios = axios;
 

@@ -55,8 +55,6 @@
 <script>
 import Header from '@/components/header';
 import Navmenu from '@/components/navmenu';
-import utils from '@/public/utils';
-import urls from '@/public/api';
 export default{
 	name:"Myself",
 	components:{
@@ -105,7 +103,7 @@ export default{
 		getMyself: function(){
 			var vm = this;
 			var dt = JSON.parse(window.sessionStorage.userInfo);
-			var url = urls.getPersonal;
+			var url = vm.urls.getPersonal;
 			var data = {
 				id: dt.id
 			}
@@ -119,7 +117,7 @@ export default{
 				data.userNumber = data.userNumber.replace(/\B(?=(?:\d{4})+\b)/g, ' - ');
 				vm.myInfo = data;
 			}
-			utils.postData(url, data, callback, options);
+			vm.utils.postData(url, data, callback, options);
 		}
 	}
 }
