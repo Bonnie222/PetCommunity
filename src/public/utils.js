@@ -71,6 +71,80 @@ export default{
     },
     
     /**
+     *  "2016-08-15T16:00:00.000Z" 格式转换 默认格式 yyyy-MM-dd
+     */
+    changeDate: function(time, fmt){
+    	var d = new Date(time);
+		var date = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+		date = this.formatDate(date,fmt);
+		return date;
+    },
+    
+    /**
+     * 计算年龄 参数格式为yyyy-MM-dd
+     */
+    calculateAge: function(strBirthday){
+    	strBirthday = this.changeDate(strBirthday)
+		var returnAge;  
+	    var strBirthdayArr=strBirthday.split("-");  
+	    var birthYear = strBirthdayArr[0];  
+	    var birthMonth = strBirthdayArr[1];  
+	    var birthDay = strBirthdayArr[2];  
+
+	   	var  d = new Date();  
+	    var nowYear = d.getFullYear();  
+	    var nowMonth = d.getMonth() + 1;  
+	    var nowDay = d.getDate();  
+	      
+	    if(nowYear == birthYear){  //同年
+	    	var monthDiff = nowMonth - birthMonth; //月之差
+	    	if(monthDiff == 0){
+	    		var dayDiff = nowDay - birthDay;//日之差  
+	    		returnAge = dayDiff >= 0 ? dayDiff + '天' : -3;	
+	    	}else if(monthDiff > 0){
+	    		returnAge = monthDiff + '个月';
+	    	}else{
+	    		returnAge = -2; //返回-1 表示出生日期输入错误 晚于今天  
+	    	}
+	        
+	    }else{  
+	        var ageDiff = nowYear - birthYear ; //年之差  
+	        if(ageDiff == 1){  
+	            if(nowMonth == birthMonth) {  
+	                var dayDiff = nowDay - birthDay;//日之差  
+	                returnAge = dayDiff < 0 ? '11个月' : ageDiff + '岁';  
+	            }else{  
+	                var monthDiff = nowMonth - birthMonth;//月之差  
+	                returnAge = monthDiff < 0 ? 12 + monthDiff + '个月'  : ageDiff + '岁';
+	            }  
+	        }else if(ageDiff > 1){
+	        	if(nowMonth == birthMonth) {  
+	                var dayDiff = nowDay - birthDay;//日之差  
+	                returnAge = dayDiff < 0 ? ageDiff + '岁' : ageDiff-1 + '岁';  
+	            }else{  
+	                var monthDiff = nowMonth - birthMonth;//月之差  
+	                returnAge = monthDiff < 0 ? ageDiff + '岁' : ageDiff-1 + '岁';
+	            }
+	        }else{
+	            returnAge = -1;//返回-1 表示出生日期输入错误 晚于今天  
+	        }  
+	    }    
+	    return returnAge;//返回周岁年龄  
+    },
+    /**
+     * 获取当前日期
+     */
+    getNowDate: function(){
+    	var  d = new Date();  
+	    var nowYear = d.getFullYear();  
+	    var nowMonth = d.getMonth() + 1;  
+	    var nowDay = d.getDate();  
+	    
+	    var date = nowYear + '-' + nowMonth + '-' + nowDay;
+	    date = this.formatDate(date);
+	    return date;	   	
+    },
+    /**
      * 提示框封装
      */
     alert: function(that, tips, tipTitle){
@@ -92,11 +166,11 @@ export default{
 		}).then(action =>{
 			if(action == 'confirm'){
 				if(hasToast){
-					that.$toast({
-					  	message: actionText,
-					  	iconClass: 'icon icon-success',
-					  	duration:1000
-					});
+					that.$dialog.toast({
+	                    mes: actionText,
+	                    timeout: 1000,
+	                    icon: 'success'
+	                });
 					setTimeout(function(){
 						that.$router.replace(url);
 					},1500)
@@ -107,7 +181,7 @@ export default{
 		});
    },
     
-    confirmCallback: function(that, tips, callback, tipTitle){
+    confirmCallback: function(that, tips, confirmCb, tipTitle){
     	var titleText = tipTitle ? tipTitle : "提示";
 		that.$messagebox({
 			title: titleText, 
@@ -115,11 +189,23 @@ export default{
 			showCancelButton: true,		
 		}).then(action =>{
 			if(action == 'confirm'){
-				callback();
+				confirmCb();
 			}
 			if(action == 'cancel'){
-				callback();
+				//callback();
 			}
 		});
+	},
+	
+	toastCallback: function(that, mesText, url){
+		that.$dialog.toast({
+            mes: mesText,
+            timeout: 1000,
+            icon: 'success'
+        });
+		setTimeout(function(){
+			that.$router.replace(url);
+		},1500)
 	}
+    
 }

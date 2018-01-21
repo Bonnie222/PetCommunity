@@ -30,29 +30,34 @@
 							<span class="yd-radio-text">MM</span>
 						</label>
 					</div>
-					
 				</div>
 				<div class="info-item">
 					<span class="item-name">宠物品种<span class="tip">*</span></span>
 					<span>
-				    
+						<input type="text" class="item-input" :value="petTypeText" placeholder="选择宠物品种" @click="petTypePicker=true"/>
+						<span class="link"><img src="../../assets/images/right.svg"/></span>
 					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">宠物生日<span class="tip">*</span></span>
-					<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth"/>
-					
-					 <!--<yd-cell-item>
-			            <yd-datetime type="date" v-model="datetime4" slot="right"></yd-datetime>
-			        </yd-cell-item>-->
+					<span>
+						<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth"/>
+						<span class="link"><img src="../../assets/images/right.svg"/></span>
+					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">到家时间</span>
-					<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate"/>
+					<span>
+						<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate"/>
+						<span class="link"><img src="../../assets/images/right.svg"/></span>
+					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">绝育状态</span>
-					<input type="text" class="item-input" value="" placeholder="选择绝育状态" @click="aa"/>
+					<span>
+						<input type="text" class="item-input" :value="petStatusText" placeholder="选择绝育状态" @click="petStatusPicker=true"/>
+						<span class="link"><img src="../../assets/images/right.svg"/></span>
+					</span>
 				</div>
 			</div>
 			<!--选择器-->
@@ -60,45 +65,97 @@
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 			<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 			:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+			<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
+    		v-on:confirm="confirmStatusPicker"></vue-pickers>
+    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
+    		v-on:confirm="confirmTypePicker"></vue-pickers>
 			
 		</div>
 		
 		<div class="btn-wrap">
-			<button class="btn-save" >保存</button>
+			<button class="btn-save" @click="savePetInfo">保存</button>
 		</div>
 		
-		 
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
+import VuePickers from 'vue-pickers';
+
 export default{
 	name:"Mypet",
 	components:{
-	    Header
+	    Header,VuePickers
 	},
 	data(){
 		return{
 			headerLeft: true,
+			petTypePicker:false,
+			petStatusPicker: false,
+			petTypeText:'',
+			petStatusText:'',
+			
 			petInfo:{
+				petAvatar:null,
 				petName:'',
-				petSex:'',
+				petSex: '',
+				petType: '',
 				petBirth:'',
-				petArrivedDate:'',
+				petArrivedDate:null,
+				petStatus:null,
+				petBelongId:null,
+				petCreateDate:null
 			},
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
+			
+			petTypeList:{
+				columns: 1, // picker的列数
+				pData1:[{
+					text:'汪星人',
+					value:1
+				},{
+					text:'喵星人',
+					value:2
+				},{
+					text:'兔星人',
+					value:3
+				},{
+					text:'鼠星人',
+					value:4
+				},{
+					text:'鸟星人',
+					value:5
+				},{
+					text:'龟星人',
+					value:6
+				},{
+					text:'鱼星人',
+					value:7
+				},{
+					text:'其它',
+					value:8
+				}]
+			},
+			petStatusList: {
+			  columns: 1, // picker的列数
+			  // 第一列的数据结构
+			  pData1: [{
+				      text: '未绝育',
+				      value: 1
+				   },{
+				      text: '已绝育',
+				      value: 2
+				   },{
+				      text: '不确定',
+				      value: 3
+				   }]
+			}
 		}
 	},
 	methods:{
-		 onValuesChange: function(picker, values) {
-		 	console.log(picker, values);
-	      if (values[0] > values[1]) {
-	        picker.setSlotValue(1, values[0]);
-	      }
-	   	},
 	   	openDatePicker: function(){
 	   		this.$refs.petBirthPicker.open();
 	   	},
@@ -115,22 +172,46 @@ export default{
 	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
 	   		this.petInfo.petArrivedDate = d;
 	   	},
-	   	aa: function(){
-//	   		this.$toast({
-//			  message: '操作成功',
-//			  iconClass: 'icon icon-success'
-//			});
-//this.$messagebox('11','ss');
-	   		this.utils.confirm(this,'aa', '/home', true);
-//	   		console.log(this.$dialog);
-//this.$dialog.confirm({
-//                  title: '选填标题',
-//                  mes: '我有一个小毛驴我从来也不骑！',
-//                  opts: () => {
-//                      this.$dialog.toast({mes: '你点了确定', timeout: 1000});
-//                  }
-//              });
-//
+	   	closeStatusPicker: function(){
+	   		this.petStatusPicker = false;
+    	},
+    	confirmStatusPicker: function(obj){
+    		this.petStatusText = obj.select1.text;
+    		this.petInfo.petStatus = obj.select1.value;
+    		this.petStatusPicker = false;
+    	},
+    	closeTypePicker: function(){
+	   		this.petTypePicker = false;
+    	},
+    	confirmTypePicker: function(obj){
+    		this.petTypeText = obj.select1.text;
+    		this.petInfo.petType = obj.select1.value;
+    		this.petTypePicker = false;
+    	},
+	   	savePetInfo: function(){
+	   		var vm = this;
+			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
+				!vm.petInfo.petType || !vm.petInfo.petBirth){
+					vm.$toast('信息填写不完整');
+					return;
+			}
+			var dt = JSON.parse(window.sessionStorage.userInfo);
+			var url = vm.urls.addPet;
+			var data = vm.petInfo;
+			data.petBelongId = dt.id;
+			data.petCreateDate = vm.utils.getNowDate();
+			
+			var callback = function(r){
+				vm.$dialog.toast({
+					mes: '添加成功',
+  					icon: 'success',
+  					timeout: 1000
+				});	
+				setTimeout(function(){
+					vm.$router.go(-1);
+				},1500);
+			}
+			vm.utils.postData(url, data, callback);
 	   	}
 		 
 	}
@@ -139,6 +220,14 @@ export default{
 
 <style lang="less" scoped>
 #Addpet{
+	.link{
+		width: 15px;
+		height: 26px;
+		img{
+			width: 15px;
+			height: 26px;
+		}
+	}
 	.form{
 		.pic{
 			height: 200px;

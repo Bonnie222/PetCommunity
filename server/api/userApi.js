@@ -62,9 +62,9 @@ router.post('/login', (req, res) => {
 //查询用户个人信息
 router.post('/user/personal',(req,res) => {
 	var sql = $sql.queryById;
-	var params = req.body;    
-    console.log(params);
-    var sqlParams = ['user',params.id];
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = ['user',p.id];
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);
@@ -77,11 +77,68 @@ router.post('/user/personal',(req,res) => {
 /**
  * 宠物
  */
+//获取个人宠物列表
 router.post('/user/petList',(req, res) => {
 	var sql = $sql.pet.userPetList;
-	var params = req.body;
-	console.log(params);
-	var sqlParams = [params.petBelongId];
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.petBelongId];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//增加宠物
+router.post('/pet/add',(req,res)=>{
+	var sql = $sql.pet.add;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.petName, p.petSex, p.petType, p.petBelongId, p.petBirth, p.petCreateDate, p.petStatus, p.petArrivedDate, p.petAvatar];
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+	})
+})
+//获取宠物详情
+router.post('/pet/detail',(req,res)=>{
+	var sql = $sql.queryById;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = ['pet',p.id];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//删除宠物
+router.post('/pet/delete',(req,res)=>{
+	var sql = $sql.deleteById;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = ['pet',p.id];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//更新宠物
+router.post('/pet/update',(req,res)=>{
+	var sql = $sql.pet.update;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = [p.petName, p.petSex, p.petType, p.petBirth, p.petStatus, p.petArrivedDate, p.petAvatar, p.id];
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);

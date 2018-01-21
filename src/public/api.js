@@ -8,5 +8,9 @@ export default {
 	
 	//宠物
 	getMyPetList: host + '/user/petList',
+	addPet: host + '/pet/add',
+	getPetDetail: host + '/pet/detail',
+	delPet: host + '/pet/delete',
+	updatePet: host + '/pet/update',
 	
 }

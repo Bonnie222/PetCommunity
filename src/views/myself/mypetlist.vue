@@ -2,17 +2,18 @@
 	<div id="Mypet">
 		<Header title="我的宠物" :headerLeft="headerLeft"></Header>
 		<div v-for="item in petList">
-			<router-link to="" class="pet-wrap">
+			<router-link :to="{ name: 'Editpet', params: { id: item.id }}" class="pet-wrap">
 				<span class="pet-info">
 					<img src="" />
 					<span class="mess">
 						<span class="name">
 							{{ item.petName}}
-							<i class="iconfont icon-baoji"></i>
+							<i v-if="item.petSex == 1" class="iconfont icon-baoji maleColor"></i>
+							<i v-else class="iconfont icon-baoji femaleColor"></i>
 						</span>
 						<span>
 							<span class="type">{{item.petType}}</span>
-							<span class="age">1个月</span>
+							<span class="age">{{item.petBirth}}</span>
 						</span>
 					</span>
 				</span>
@@ -21,7 +22,7 @@
 				</span>
 			</router-link>
 		</div>
-		<router-link to="/myself/addpet" class="btn-create">
+		<router-link to="/myself/pet/add" class="btn-create">
 			添加宠物
 		</router-link>
 	</div>
@@ -38,7 +39,6 @@ export default{
 		return{
 			headerLeft: true,
 			petList:{},
-			
 		}
 	},
 	created(){
@@ -58,10 +58,9 @@ export default{
 				}
 			}
 			var callback = function(r){
-				console.log(r);
 				var data = r.data.data;
 				if(data.length == 0){
-					vm.$router.replace('/myself/addpet');
+					vm.$router.replace('/myself/pet/add');
 				}else{
 					var petTypeList = {
 						1:'汪星人',
@@ -75,6 +74,7 @@ export default{
 					}
 					$.each(data, function(index, item) {
 						item.petType = petTypeList[item.petType];
+						item.petBirth = vm.utils.calculateAge(item.petBirth);
 					});
 					vm.petList = data;	
 				}
@@ -115,8 +115,11 @@ export default{
 					font-size: 32px;
 					font-weight: bold;
 					margin-bottom: 15px;
-					.iconfont{
-						color: #EB695C;
+					.maleColor{
+						color: #0275d8;
+					}
+					.femaleColor{
+						color: #f00;
 					}
 				}
 			}
@@ -126,6 +129,7 @@ export default{
 				border-radius: 3px;/*no*/
 				padding: 3px 12px;
 				font-size: 16px;
+				margin-right: 10px;
 			}
 			.age{
 				color: #999999;

@@ -3,6 +3,7 @@
 var sqlMap = {
 	queryAll: 'SELECT * FROM ??',
 	queryById: 'SELECT * FROM ?? WHERE id = ?',	
+	deleteById: 'DELETE FROM ?? WHERE id = ?',
 	//登录
 	login: 'SELECT * FROM user WHERE userPhone = ?',
 	
@@ -12,7 +13,9 @@ var sqlMap = {
 	},
 	//宠物
 	pet:{
-		userPetList: 'SELECT * FROM pet WHERE  petBelongId = ?',
+		add: 'INSERT INTO pet(id, petName, petSex, petType, petBelongId, petBirth,petCreateDate, petStatus, petArrivedDate, petAvatar) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+		userPetList: 'SELECT id,petAvatar,petBirth, petName, petSex,petType FROM pet WHERE  petBelongId = ?',
+		update: 'UPDATE pet SET petName=?, petSex=? ,petType=?,petBirth=?, petStatus=?, petArrivedDate=?, petAvatar=? WHERE id = ?', 
 	}
 }
 

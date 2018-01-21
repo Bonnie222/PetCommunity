@@ -69,7 +69,7 @@ export default{
 			manageMenu:[{
 				name: '宠物',
 				icon: 'iconfont icon-baoji',
-				href: '/myself/mypetlist',				
+				href: '/myself/pet',				
 			},{
 				name: '宠友',
 				icon: 'iconfont icon-pengyou',
