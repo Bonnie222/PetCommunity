@@ -2,6 +2,12 @@ const host = "/api";
 
 export default {
 	login: host + '/login',
+	register: host + '/register',
+	
+	//注册
+	queryByPhone: host + '/queryPhone',
+	queryByName: host + '/queryName',
+	queryByEmail: host + '/queryEmail',
 	
 	//我的
 	getPersonal: host + '/user/personal',

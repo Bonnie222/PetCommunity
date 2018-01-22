@@ -9,7 +9,9 @@
 							<img src="../../assets/images/member.png" />
 						</span>
 						<span class="info-mess">
-							<span class="info-name">{{myInfo.userName}}</span>
+							<span class="info-name">{{myInfo.userName}}
+								<i class="iconfont" :class="{ 'icon-nan':myInfo.userSex == 1, 'icon-nv':myInfo.userSex == 2}"></i>
+							</span>
 							<span class="info-phone">{{myInfo.userPhone}}</span>
 						</span>
 					</div>
@@ -65,6 +67,7 @@ export default{
 			headerLeft: false,
 			show1:false,
 			myInfo:{},
+			sex:false,
 			
 			manageMenu:[{
 				name: '宠物',
@@ -114,8 +117,8 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
-				data.userNumber = data.userNumber.replace(/\B(?=(?:\d{4})+\b)/g, ' - ');
 				vm.myInfo = data;
+				//vm.sex = data.userSex;
 			}
 			vm.utils.postData(url, data, callback, options);
 		}
@@ -169,6 +172,12 @@ export default{
 							font-size: 34px;
 							font-weight: bold;
 							margin: 10px 0;
+							.icon-nan{
+								color: #0275D8;
+							}
+							.icon-nv{
+								color: #f00;
+							}
 						}
 						.info-phone{
 							display: block;

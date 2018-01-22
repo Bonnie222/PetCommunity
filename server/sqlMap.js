@@ -6,10 +6,15 @@ var sqlMap = {
 	deleteById: 'DELETE FROM ?? WHERE id = ?',
 	//登录
 	login: 'SELECT * FROM user WHERE userPhone = ?',
+	//注册
+	register: 'INSERT INTO user(id, userPhone, userName, userPsd, userEmail, userSex, userBirth, userProblem, userAnswer, userNumber) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+	
 	
 	//用户
 	user: {
-		add: 'INSERT INTO user(phone, name, password, email, sex, birth) VALUES(?, ?, ?, ?, ?, ?)',
+		queryByPhone: 'SELECT * FROM user WHERE userPhone = ?',
+		queryByName: 'SELECT * FROM user WHERE userName = ?',
+		queryByEmail: 'SELECT * FROM user WHERE userEmail = ?',
 	},
 	//宠物
 	pet:{

@@ -311,9 +311,9 @@ export default{
 			display: flex;
 			display: -webkit-flex;
 			justify-content: space-between;
-			font-size:30px;
+			font-size:32px;
 			color: #666666;
-			padding:20px 5px;
+			padding:25px 5px;
 			border-bottom: 1px solid #E4E4E4; /*no*/
 			&:last-child{
 				border-bottom: none;

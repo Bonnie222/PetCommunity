@@ -55,7 +55,76 @@ router.post('/login', (req, res) => {
         }
 	})
 })
-
+/**
+ * 注册
+ */
+router.post('/queryPhone', (req, res) => {
+	var sql = $sql.user.queryByPhone;
+	var params = req.body;
+	console.log(params);
+	var sqlParams = [params.userPhone]
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+            res.send({'message': '服务器出错', 'code': 0}).end();
+        }else{
+        	if(result.length == 0){
+        		res.send({'message': '该用户未注册', 'code': 1}).end();
+        	}else{
+        		res.send({'message': '该用户已注册', 'code': -1}).end();
+        	}
+        }
+	})
+})
+router.post('/queryName', (req, res) => {
+	var sql = $sql.user.queryByName;
+	var params = req.body;
+	console.log(params);
+	var sqlParams = [params.userName]
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+            res.send({'message': '服务器出错', 'code': 0}).end();
+        }else{
+        	if(result.length == 0){
+        		res.send({'message': '该昵称未注册', 'code': 1}).end();
+        	}else{
+        		res.send({'message': '该昵称已存在', 'code': -1}).end();
+        	}
+        }
+	})
+})
+router.post('/queryEmail', (req, res) => {
+	var sql = $sql.user.queryByName;
+	var params = req.body;
+	console.log(params);
+	var sqlParams = [params.userEmail]
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+            res.send({'message': '服务器出错', 'code': 0}).end();
+        }else{
+        	if(result.length == 0){
+        		res.send({'message': '该邮箱未注册', 'code': 1}).end();
+        	}else{
+        		res.send({'message': '该邮箱已注册', 'code': -1}).end();
+        	}
+        }
+	})
+})
+router.post('/register', (req, res) => {
+	var sql = $sql.register;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.userPhone, p.userName, p.userPsd, p.userEmail, p.userSex, p.userBirth, p.userProblem, p.userAnswer, p.userNumber];
+	conn.query(sql, sqlParams, function(err, result){
+		if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+	})
+})
 /**
  * 用户
  */
@@ -73,7 +142,6 @@ router.post('/user/personal',(req,res) => {
         }
     })
 })
-
 /**
  * 宠物
  */
