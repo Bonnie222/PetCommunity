@@ -32,32 +32,32 @@
 			<div class="info-item">
 				<span class="item-name">宠物品种<span class="tip">*</span></span>
 				<span>
-					<input type="text" class="item-input" v-model="petInfo.petTypeText" placeholder="选择宠物品种" @click="petTypePicker=true" :disabled="isDisabled"/>
+					<span class="item-input"  @click="petTypePicker=true" >{{petInfo.petTypeText}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">宠物生日<span class="tip">*</span></span>
 				<span>
-					<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth" :disabled="isDisabled"/>
+					<span class="item-input" @click="openDatePicker" >{{petInfo.petBirth}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">加入爱宠</span>
-				<input type="text" class="item-input" v-model="petInfo.petCreateDate" disabled/>
+				<span class="item-input">{{petInfo.petCreateDate}}</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">到家时间</span>
 				<span>
-					<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate" :disabled="isDisabled"/>
+					<span  class="item-input" @click="openArrivalPicker" :disabled="isDisabled">{{petInfo.petArrivedDate}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">绝育状态</span>
 				<span>
-					<input type="text" class="item-input" v-model="petInfo.petStatusText" placeholder="选择绝育状态" @click="petStatusPicker=true" :disabled="isDisabled"/>
+					<span class="item-input" @click="petStatusPicker=true" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
@@ -225,6 +225,12 @@ export default{
     	editPetInfo: function(){
     		this.topTitle = '编辑资料';
     		this.isDisabled = false;
+    		if(!this.petInfo.petArrivedDate){
+    			this.petInfo.petArrivedDate = '请选择'
+    		}
+    		if(!this.petInfo.petStatusText){
+    			this.petInfo.petStatusText = '请选择'
+    		}
     	},
     	
     	cancleToUpdate: function(){
@@ -264,6 +270,9 @@ export default{
 					vm.$toast('信息填写不完整');
 					return;
 			}
+			if(vm.petInfo.petArrivedDate == '请选择'){
+    			vm.petInfo.petArrivedDate = null;
+    		}
     		var url = vm.urls.updatePet;
     		var _id = vm.$route.params.id;
     		var data = vm.petInfo;
@@ -278,9 +287,10 @@ export default{
   					icon: 'success',
   					timeout: 1000
 				});	
-				setTimeout(function(){
-					vm.$router.go(-1);
-				},1500);
+//				setTimeout(function(){
+//					vm.$router.go(-1);
+//				},1500);
+				vm.cancleToUpdate();
 			}
 			vm.utils.postData(url, data, callback);
     	}
@@ -322,6 +332,7 @@ export default{
 				
 			}
 			.item-input{
+				display: inline-block;
 				text-align: right;
 			}
 			input::placeholder{

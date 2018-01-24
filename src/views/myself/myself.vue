@@ -16,7 +16,7 @@
 						</span>
 					</div>
 					<div class="card-id">
-						<label>有宠号:</label>
+						<label>爱宠号:</label>
 						<span>{{myInfo.userNumber}}</span>
 					</div>
 				</div>

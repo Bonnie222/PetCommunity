@@ -10,7 +10,7 @@
 		</div>
 		<div class="home-menu-wrap">
 			<div v-for="item in middleMenu">
-				<router-link to="" class="home-menu-list">
+				<router-link :to="item.href" class="home-menu-list">
 					<span class="menu-pic">
 						<img :src="item.src" />
 					</span>
@@ -63,7 +63,7 @@ export default{
 			middleMenu:[{
 				name:'寻宠110',
 				src: require('../../assets/images/xunzhao.svg'),
-				href:''
+				href:'/look/list'
 			},{
 				name:'话题',
 				src: require('../../assets/images/huati.svg'),

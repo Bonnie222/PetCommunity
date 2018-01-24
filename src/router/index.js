@@ -18,6 +18,10 @@ const Myself = _import('myself/myself');
 const MypetList = _import('myself/mypetlist');
 const Addpet = _import('myself/addpet');
 const Editpet = _import('myself/editpet');
+/*寻宠*/
+const LookList = _import('look/list');
+const LookEdit = _import('look/edit');
+
 
 Vue.use(Router)
 
@@ -69,6 +73,14 @@ export default new Router({
   		path: '/myself/pet/detail/:id',
   		name: 'Editpet',
   		component: Editpet
+  	},{
+  		path: '/look/list',
+  		name: 'LookList',
+  		component: LookList
+  	},{
+  		path: '/look/edit',
+  		name: 'LookEdit',
+  		component: LookEdit
   	}
   ]
 })
