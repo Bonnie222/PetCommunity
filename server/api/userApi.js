@@ -235,8 +235,8 @@ router.post('/look/add',(req,res)=>{
 })
 //获取列表
 router.get('/look/list',(req,res)=>{
-	var sql = $sql.queryAll;
-    var sqlParams = ['look'];
+	var sql = $sql.queryDesc;
+    var sqlParams = ['look','createTime'];
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);

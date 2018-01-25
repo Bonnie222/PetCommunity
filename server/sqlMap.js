@@ -2,6 +2,8 @@
 
 var sqlMap = {
 	queryAll: 'SELECT * FROM ??',
+	queryDesc: 'SELECT * FROM ?? ORDER BY ? DESC',
+	queryAsc: 'SELECT * FROM ?? ORDER BY ? ASC',
 	queryById: 'SELECT * FROM ?? WHERE id = ?',	
 	deleteById: 'DELETE FROM ?? WHERE id = ?',
 	//登录
