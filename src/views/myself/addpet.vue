@@ -109,7 +109,7 @@ export default{
 			},
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
-			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
+			endDate:new Date(new Date().getFullYear(),new Date().getMonth()+1, new Date().getDate()),
 			
 			petTypeList:{
 				columns: 1, // picker的列数

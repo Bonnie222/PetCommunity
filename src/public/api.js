@@ -19,4 +19,8 @@ export default {
 	delPet: host + '/pet/delete',
 	updatePet: host + '/pet/update',
 	
+	//寻找
+	addLook: host + '/look/add',
+	getLookList: host + '/look/list',
+	
 }

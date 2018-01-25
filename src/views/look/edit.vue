@@ -3,29 +3,29 @@
 		<Header title="发布寻宠/主信息" :headerLeft="headerLeft"></Header>
 		<div class="form">
 			<div class="form1">
-				<textarea placeholder="丢失宠物说明..."></textarea>
+				<textarea placeholder="丢失宠物说明..." v-model="editList.note"></textarea>
 				<div class="pic"></div>
 			</div>
 			<ul class="form2">
 				<li class="">
 					<label>寻宠寻主</label>
 					<div class="radio-wrap">
-						<label class="yd-radio" @click="showAgeWindow">
-							<input type="radio" value="1" name="type" checked>
+						<label class="yd-radio">
+							<input type="radio" value="1" name="type" v-model="editList.isFindPet">
 							<span class="yd-radio-icon"></span>
 							<span class="yd-radio-text">寻宠</span>
 						</label>
-						<label class="yd-radio" @click="hiddenAgeWindow">
-							<input type="radio" value="2" name="type" >
+						<label class="yd-radio">
+							<input type="radio" value="2" name="type" v-model="editList.isFindPet">
 							<span class="yd-radio-icon"></span>
 							<span class="yd-radio-text">寻主</span>
 						</label>
 					</div>			
 				</li>
 				<li class="">
-					<label>{{region}}</label>
-					<span class="" @click="">
-						请选择
+					<label>{{editList.isFindPet == 1 ? '丢失地区' : '捡宠地区'}}</label>
+					<span class="" @click="showCityselect = true">
+						{{editList.region == '' ? '请选择' : editList.region}}
 						<i class="icon-right">
 							<img src="../../assets/images/right.svg" />
 						</i>
@@ -33,21 +33,21 @@
 				</li>
 				<li class="">
 					<label>详细地址</label>
-					<input type="text"  />
+					<input type="text"  v-model="editList.address"/>
 				</li>
 				<li class="">
-					<label>{{time}}</label>
-					<span class="" @click="">
-						请选择
+					<label>{{editList.isFindPet == 1 ? '丢失时间' : '捡宠时间'}}</label>
+					<span class="" @click="openTimePicker">
+						{{editList.dateTime == '' ? '请选择' : editList.dateTime}}
 						<i class="icon-right">
 							<img src="../../assets/images/right.svg" />
 						</i>
 					</span>
 				</li>
-				<li class="" v-show="showAge">
+				<li class="" v-if="editList.isFindPet == 1">
 					<label>宠物年龄</label>
-					<span class="" @click="">
-						请选择
+					<span class="" @click="petAgePicker=true">
+						{{petAgeText == '' ? '请选择':petAgeText}}
 						<i class="icon-right">
 							<img src="../../assets/images/right.svg" />
 						</i>
@@ -55,8 +55,8 @@
 				</li>
 				<li class="">
 					<label>宠物品种</label>
-					<span class="" @click="">
-						请选择
+					<span class="" @click="petTypePicker=true">
+						{{petTypeText == '' ? '请选择':petTypeText}}
 						<i class="icon-right">
 							<img src="../../assets/images/right.svg" />
 						</i>
@@ -66,17 +66,17 @@
 					<label>宠物性别</label>
 					<div class="radio-wrap">
 						<label class="yd-radio">
-							<input type="radio" value="1" name="sex" checked>
+							<input type="radio" value="1" name="sex" checked v-model="editList.petSex">
 							<span class="yd-radio-icon"></span>
 							<span class="yd-radio-text">GG</span>
 						</label>
 						<label class="yd-radio">
-							<input type="radio" value="2" name="sex" >
+							<input type="radio" value="2" name="sex" v-model="editList.petSex">
 							<span class="yd-radio-icon"></span>
 							<span class="yd-radio-text">MM</span>
 						</label>
 						<label class="yd-radio">
-							<input type="radio" value="3" name="sex" >
+							<input type="radio" value="3" name="sex" v-model="editList.petSex">
 							<span class="yd-radio-icon"></span>
 							<span class="yd-radio-text">未知</span>
 						</label>
@@ -84,44 +84,184 @@
 				</li>
 				<li class="">
 					<label>联系方式</label>
-					<input type="text" placeholder="请输入" />
+					<input type="text" placeholder="请输入" v-model="editList.contact"/>
 				</li>
 			</ul>
+			<!--选择器-->
+			<yd-cityselect v-model="showCityselect" :callback="resultCity" :items="district"></yd-cityselect>
+			<mt-datetime-picker ref="showDatetime" type="datetime" @confirm="handleDatetime"
+				:endDate="endDate"></mt-datetime-picker>
+			<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
+    		v-on:confirm="confirmTypePicker"></vue-pickers>
+    		<vue-pickers :show="petAgePicker" :selectData="petAgeList"  v-on:cancel="closeAgePicker"
+    		v-on:confirm="confirmAgePicker"></vue-pickers>
 		</div>
 		<div class="btn-wrap">
-			<button class="btn-save" @click="">确认发布</button>
+			<button class="btn-save" @click="save">{{saveBtnText}}</button>
 		</div>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
+import District from 'ydui-district/dist/gov_province_city_area_id';
+import VuePickers from 'vue-pickers';
 
 export default{
 	name:"LookEdit",
 	components:{
-	    Header
+	    Header,VuePickers
 	},
 	data(){
 		return{
 			headerLeft:true,
-			region:'丢失地区',
-			time:'丢失时间',
-			showAge:true,
-			
+			isSaving:false,
+			saveBtnText:'确认发布',
+			petTypePicker: false,
+			petTypeText:'',
+			petAgePicker: false,
+			petAgeText:'',
+			showCityselect:false,
+			district:District,
+			editList:{
+				isFindPet:1,
+				region:'',
+				address:'',
+				dateTime:'',
+				petSex:1,
+				petType:'',
+				petAge:null,
+				petAvatar:'',
+				note:'',
+				contact:'',
+				findStatus:1				
+			},
+			endDate:new Date(new Date().getFullYear(),new Date().getMonth()+1, new Date().getDate()),
+			petTypeList:{
+				columns: 1, // picker的列数
+				pData1:[{
+					text:'汪星人',
+					value:1
+				},{
+					text:'喵星人',
+					value:2
+				},{
+					text:'兔星人',
+					value:3
+				},{
+					text:'鼠星人',
+					value:4
+				},{
+					text:'鸟星人',
+					value:5
+				},{
+					text:'龟星人',
+					value:6
+				},{
+					text:'鱼星人',
+					value:7
+				},{
+					text:'其它',
+					value:8
+				}]
+			},
+			petAgeList:{
+				columns: 1,
+				pData1:[{
+					text:'小于1岁',
+					value:1
+				},{
+					text:'1岁',
+					value:2
+				},{
+					text:'2岁',
+					value:3
+				},{
+					text:'3岁',
+					value:4
+				},{
+					text:'4岁',
+					value:5
+				},{
+					text:'5岁',
+					value:6
+				},{
+					text:'6岁',
+					value:7
+				},{
+					text:'7岁',
+					value:8
+				},{
+					text:'8岁',
+					value:9
+				},{
+					text:'9岁',
+					value:10
+				},{
+					text:'10岁以上',
+					value:11
+				}]
+			}
 		}
 	},
 	methods:{
-		showAgeWindow: function(){
-			this.showAge = true;
-			this.region = '丢失地区';
-			this.time = '丢失时间';
-		},
-		hiddenAgeWindow: function(){
-			this.showAge = false;
-			this.region = '捡宠地区';
-			this.time = '捡宠时间';
-		}
+		resultCity: function(ret) {
+            this.editList.region = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
+       	},
+       	openTimePicker:function(){
+       		this.$refs.showDatetime.open();
+       	},
+       	handleDatetime: function(value){
+       		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate() + ' ' + value.getHours() + ':' + value.getMinutes() 
+	   		d = this.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
+	   		this.editList.dateTime = d;
+       	},
+       	closeTypePicker: function(){
+	   		this.petTypePicker = false;
+    	},
+    	confirmTypePicker: function(obj){
+    		this.petTypeText = obj.select1.text;
+    		this.editList.petType = obj.select1.value;
+    		this.petTypePicker = false;
+    	},
+    	closeAgePicker: function(){
+	   		this.petAgePicker = false;
+    	},
+    	confirmAgePicker: function(obj){
+    		this.petAgeText = obj.select1.text;
+    		this.editList.petAge = obj.select1.value;
+    		this.petAgePicker = false;
+    	},
+    	save: function(){
+    		var vm = this;
+    		if(vm.isSaving) return;
+    		var dt = JSON.parse(window.sessionStorage.userInfo);
+			var url = vm.urls.addLook;
+			var data = vm.editList;
+			if(!data.region || !data.address || !data.dateTime ||
+				!data.petType || !data.note || !data.contact){
+					vm.$toast('信息填写不完整');
+					return;
+			}
+			var partten = /^$|^1(3|4|5|7|8)\d{9}$/;
+    		if(!partten.test(data.contact)){
+    			vm.$toast('请输入正确的手机联系方式');
+					return;
+    		}
+			data.userId = dt.id;
+			data.createTime = vm.utils.getNowTime();
+			console.log(data);
+			vm.isSaving = true;
+			vm.saveBtnText = '正在发布中...';
+			
+			var callback = function(r){
+				vm.isSaving = false;
+				vm.saveBtnText = '确认发布';
+				vm.$router.go(-1);
+			}
+			
+			vm.utils.postData(url, data, callback);
+    	}
 	}
 }
 </script>

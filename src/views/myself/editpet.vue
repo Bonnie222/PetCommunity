@@ -32,7 +32,7 @@
 			<div class="info-item">
 				<span class="item-name">宠物品种<span class="tip">*</span></span>
 				<span>
-					<span class="item-input"  @click="petTypePicker=true" >{{petInfo.petTypeText}}</span>
+					<span class="item-input"  @click="showpetTypePicker" >{{petInfo.petTypeText}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
@@ -57,7 +57,7 @@
 			<div class="info-item">
 				<span class="item-name">绝育状态</span>
 				<span>
-					<span class="item-input" @click="petStatusPicker=true" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
+					<span class="item-input" @click="showpetStatusPicker" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
 					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
 				</span>
 			</div>
@@ -189,8 +189,20 @@ export default{
 			}
 			vm.utils.postData(url, data, callback, options);
 		},
+		showpetTypePicker: function(){
+			if(!this.isDisabled){
+				this.petTypePicker = true;
+			}
+		},
+		showpetStatusPicker: function(){
+			if(!this.isDisabled){
+				this.petStatusPicker = true;
+			}
+		},
 		openDatePicker: function(){
-	   		this.$refs.petBirthPicker.open();
+			if(!this.isDisabled){
+				this.$refs.petBirthPicker.open();
+			}
 	   	},
 	   	handlePetBirth: function(value){
 	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
@@ -198,7 +210,9 @@ export default{
 	   		this.petInfo.petBirth = d;
 	   	},
 	   	openArrivalPicker: function(){
-	   		this.$refs.petArrivalPicker.open();
+	   		if(!this.isDisabled){
+				this.$refs.petArrivalPicker.open();
+			}
 	   	},
 	   	handlePetArrival: function(value){
 	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
@@ -228,7 +242,7 @@ export default{
     		if(!this.petInfo.petArrivedDate){
     			this.petInfo.petArrivedDate = '请选择'
     		}
-    		if(!this.petInfo.petStatusText){
+    		if(!this.petInfo.petStatus){
     			this.petInfo.petStatusText = '请选择'
     		}
     	},
@@ -270,9 +284,8 @@ export default{
 					vm.$toast('信息填写不完整');
 					return;
 			}
-			if(vm.petInfo.petArrivedDate == '请选择'){
-    			vm.petInfo.petArrivedDate = null;
-    		}
+			vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
+			vm.petInfo.petStatusText = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatusText;
     		var url = vm.urls.updatePet;
     		var _id = vm.$route.params.id;
     		var data = vm.petInfo;
@@ -404,9 +417,9 @@ export default{
 		margin-top: 80px;
 		text-align: center;
 		.btn-cancel,.btn-save{
-			font-size: 28px;
+			font-size: 30px;
 			width: 220px;
-	    	height: 65px;
+	    	height: 70px;
 		}
 		.btn-save{
 			margin-right: 55px;

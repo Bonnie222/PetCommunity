@@ -145,6 +145,22 @@ export default{
 	    return date;	   	
     },
     /**
+     * 获取当前时间
+     */
+    getNowTime: function(){
+    	var  d = new Date();  
+	    var nowYear = d.getFullYear();  
+	    var nowMonth = d.getMonth() + 1;  
+	    var nowDay = d.getDate();  
+	    var nowHour = d.getHours();
+	    var nowMinutes = d.getMinutes();
+	    var nowSeconds = d.getSeconds();
+	    
+	    var date = nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + nowMinutes + ':' + nowSeconds;
+	    date = this.formatDate(date, "yyyy-MM-dd hh:mm:ss");
+	    return date;
+    },
+    /**
      * 提示框封装
      */
     alert: function(that, tips, tipTitle){

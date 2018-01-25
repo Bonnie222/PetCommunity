@@ -215,6 +215,36 @@ router.post('/pet/update',(req,res)=>{
         }
     })
 })
+
+/**
+ * 寻找宠物
+ */
+//发布信息
+router.post('/look/add',(req,res)=>{
+	var sql = $sql.look.add;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.findStatus, p.createTime];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//获取列表
+router.get('/look/list',(req,res)=>{
+	var sql = $sql.queryAll;
+    var sqlParams = ['look'];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 // 增加用户接口
 //router.post('/addUser', (req, res) => {
 //  var sql = $sql.user.add;    

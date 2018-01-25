@@ -22,6 +22,19 @@ export default{
 		return{
 			headerLeft:true
 		}
+	},
+	created(){
+		this.getLookList();
+	},
+	methods:{
+		getLookList: function(){
+			var vm = this;
+			var url = vm.urls.getLookList;
+			var callback = function(r){
+				console.log(r);
+			}
+			vm.utils.getData(url,callback);
+		}
 	}
 }
 	
