@@ -237,6 +237,7 @@ router.post('/look/add',(req,res)=>{
 router.get('/look/list',(req,res)=>{
 	var sql = $sql.queryDesc;
     var sqlParams = ['look','createTime'];
+    console.log(sql);
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);
