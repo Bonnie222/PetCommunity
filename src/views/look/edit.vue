@@ -3,7 +3,7 @@
 		<Header title="发布寻宠/主信息" :headerLeft="headerLeft"></Header>
 		<div class="form">
 			<div class="form1">
-				<textarea placeholder="丢失宠物说明..." v-model="editList.note"></textarea>
+				<textarea placeholder="宠物说明..." v-model="notes"></textarea>
 				<div class="pic"></div>
 			</div>
 			<ul class="form2">
@@ -123,6 +123,7 @@ export default{
 			petAgeText:'',
 			showCityselect:false,
 			district:District,
+			notes:'',
 			editList:{
 				isFindPet:1,
 				region:'',
@@ -130,13 +131,13 @@ export default{
 				dateTime:'',
 				petSex:1,
 				petType:'',
-				petAge:null,
+				petAge:0,
 				petAvatar:'',
 				note:'',
 				contact:'',
 				findStatus:1				
 			},
-			endDate:new Date(new Date().getFullYear(),new Date().getMonth()+1, new Date().getDate()),
+			endDate:new Date(this.utils.getNowTime()),
 			petTypeList:{
 				columns: 1, // picker的列数
 				pData1:[{
@@ -235,11 +236,11 @@ export default{
     	save: function(){
     		var vm = this;
     		if(vm.isSaving) return;
-    		var dt = JSON.parse(window.sessionStorage.userInfo);
+    		var dt = window.sessionStorage.userInfo;
 			var url = vm.urls.addLook;
 			var data = vm.editList;
 			if(!data.region || !data.address || !data.dateTime ||
-				!data.petType || !data.note || !data.contact){
+				!data.petType || !vm.notes || !data.contact){
 					vm.$toast('信息填写不完整');
 					return;
 			}
@@ -248,16 +249,24 @@ export default{
     			vm.$toast('请输入正确的手机联系方式');
 					return;
     		}
-			data.userId = dt.id;
+    		data.userInfo = dt;
+			data.userId = JSON.parse(dt).id;
 			data.createTime = vm.utils.getNowTime();
-			console.log(data);
+			data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
 			vm.isSaving = true;
 			vm.saveBtnText = '正在发布中...';
 			
 			var callback = function(r){
 				vm.isSaving = false;
 				vm.saveBtnText = '确认发布';
-				vm.$router.go(-1);
+				vm.$dialog.toast({
+					mes: '添加成功',
+  					icon: 'success',
+  					timeout: 1000
+				});	
+				setTimeout(function(){
+					vm.$router.go(-1);
+				},1500);
 			}
 			
 			vm.utils.postData(url, data, callback);

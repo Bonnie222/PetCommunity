@@ -224,7 +224,7 @@ router.post('/look/add',(req,res)=>{
 	var sql = $sql.look.add;
 	var p = req.body;    
     console.log(p);
-    var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.findStatus, p.createTime];
+    var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.userInfo, p.findStatus, p.createTime];
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);
@@ -238,6 +238,20 @@ router.get('/look/list',(req,res)=>{
 	var sql = $sql.queryDesc;
     var sqlParams = ['look','createTime'];
     console.log(sql);
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//获取详情
+router.post('/look/detail',(req,res)=>{
+	var sql = $sql.queryById;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = ['look', p.id];
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);

@@ -22,5 +22,6 @@ export default {
 	//寻找
 	addLook: host + '/look/add',
 	getLookList: host + '/look/list',
+	getLookDetail: host + '/look/detail',
 	
 }

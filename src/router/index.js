@@ -21,6 +21,7 @@ const Editpet = _import('myself/editpet');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
+const LookDetail = _import('look/detail');
 
 
 Vue.use(Router)
@@ -81,6 +82,10 @@ export default new Router({
   		path: '/look/edit',
   		name: 'LookEdit',
   		component: LookEdit
+  	},{
+  		path: '/look/detail/:id',
+  		name: 'LookDetail',
+  		component: LookDetail
   	}
   ]
 })
