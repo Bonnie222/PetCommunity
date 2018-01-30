@@ -1,5 +1,8 @@
+//引入express
 var express = require('express');
 var router = express.Router();
+//引入multer
+var upload = require('../multerUtil');
 //导入MySQL模块
 var mysql = require('mysql');
 var db = require('../db');
@@ -23,6 +26,22 @@ var jsonWrite = function(res, ret) {
     }
 };
 
+
+/**
+ * 单个图片上传
+ */
+router.post('/uploadSingle', upload.single('petAvatar'), function(req, res, next){
+ 	var file = req.file;
+ 	let obj = {};
+ 	let data = {};
+ 	let path = file.path;
+ 	data.fileUrl = path.replace(/\\/g,'/').slice(3);
+   	data.fileName = file.originalname;
+ 	obj.code = 1;
+ 	obj.message = "请求成功";
+ 	obj.data = data;
+ 	res.send(obj);
+})
 /**
  * 登录
  */

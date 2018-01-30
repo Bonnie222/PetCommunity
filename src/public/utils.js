@@ -42,6 +42,31 @@ export default{
 			}			
 		})
 	},	
+	/**
+	 * 文件上传
+	 */
+	upload:function(vm, e, fname, url, cb){
+		var formData = new FormData();
+		var file = e.target.files[0];
+		//将文件信息追加到其中
+		formData.append(fname, file);
+		//利用split切割，拿到上传文件的格式
+		var src = file.name;
+		var formart = src.split(".")[1];
+		var config = {
+        	headers:{'Content-Type':'multipart/form-data'}
+      	};
+		//判断上传文件格式是否符合
+		if(formart == "jpg" || formart == "png" || formart == "jpeg"){
+			axios.post(url, formData, config).then(cb);
+		}else{
+			return  vm.$dialog.toast({
+			            mes: '该格式不支持上传',
+			            timeout: 1000,
+			            icon: 'success'
+			        });
+		}
+	},
 	
 	// 将 字符串格式的日期 转化为指定格式的String
     // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)

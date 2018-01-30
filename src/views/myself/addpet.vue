@@ -3,9 +3,15 @@
 		<Header title="添加宠物" :headerLeft="headerLeft"></Header>
 		<div class="form">
 			<div class="pic">
-				<span class="imgPic">
-					<img src="" />
+				<span class="imgPic" v-if="!petInfo.petAvatar">
+					<img src="../../assets/images/member.png" class="avatar"/>	
+					<input type="file" hidefocus="true" name="petAvatar" accept="image/*" @change="getImg"/>
 				</span>				
+				<span class="imgPic" v-else>
+					<img :src="petInfo.petAvatar.fileUrl" class="avatar"/>
+					<img src="../../assets/images/removeImg.svg" class="remove"/>
+					<!--<input type="file" hidefocus="true" accept="image/*" @change="getImg"/>-->
+				</span>	
 			</div>
 			<div class="info">
 				<div class="info-item">
@@ -29,6 +35,7 @@
 							</span>
 							<span class="yd-radio-text">MM</span>
 						</label>
+						
 					</div>
 				</div>
 				<div class="info-item">
@@ -188,6 +195,16 @@ export default{
     		this.petInfo.petType = obj.select1.value;
     		this.petTypePicker = false;
     	},
+    	getImg: function(e){
+    		var vm = this;
+    		var url = vm.urls.uploadSingle;
+    		var fname = 'petAvatar'
+    		var callback = function(r){
+    			console.log(r.data);
+    			vm.petInfo.petAvatar = r.data.data;
+    		}		
+    		vm.utils.upload(vm, e, fname, url, callback);
+    	},
 	   	savePetInfo: function(){
 	   		var vm = this;
 			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
@@ -235,17 +252,37 @@ export default{
 			text-align: center;
 			.imgPic{
 				display: inline-block;
+				position: relative;
 				background: yellow;
 				height: 130px;
 				width: 130px;
 				margin-top: 30px;
 				border-radius: 50%;
-				overflow:hidden;
-				img{
+				/*overflow:hidden;*/
+				.avatar{
 					height: inherit;
 					width: inherit;
+					
+				}
+				.remove{
+					position: absolute;
+					width: 40px;
+					height: 40px;
+					right: 0;
+					top:0;
+				}
+				input[type=file]{
+					background: green;
+					position: absolute;
+					bottom: 0;
+					z-index: 1;
+					width: 50%;
+					font-size: 28px;
+					opacity: 1;
+					cursor: pointer;
 				}
 			}
+			
 		}
 		.info{
 			background: #FFFFFF;

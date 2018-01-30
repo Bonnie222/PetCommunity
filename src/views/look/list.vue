@@ -2,7 +2,7 @@
 	<div id="LookList">
 		<Header title="寻宠110" :headerLeft="headerLeft"></Header>
 		<div class="list-wrap">
-			<router-link :to="item.url" class="list-item" v-for="item in looklist">
+			<router-link :to="item.url" class="list-item" v-for="item in looklist" :key="item.id">
 				<div class="item-title">
 					<span class="user-pic">
 						<img src="../../assets/images/member.png" v-if="item.userInfo.userAvatar == null"/>
