@@ -111,7 +111,7 @@ export default{
 			avatar:null,
 			files:null,
 			petInfo:{
-				petAvatar:null,
+				petAvatar:'',
 				petName:'',
 				petSex: '',
 				petType: '',
@@ -235,37 +235,36 @@ export default{
       		var url = vm.urls.uploadSingle;
     		var fname = 'avatar'
     		var callback = function(r){
-    			vm.petInfo.petAvatar = r.data.data;
+    			vm.petInfo.petAvatar = JSON.stringify(r.data.data);
     		}		
     		return vm.utils.upload(vm, e, fname, url, callback);
     	},
 	   	savePetInfo: function(){
 	   		var vm = this;
-//			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
-//				!vm.petInfo.petType || !vm.petInfo.petBirth || !vm.avatar){
-//					vm.$toast('信息填写不完整');
-//					return;
-//			}
-			console.log(vm.upload());
-			var dt = JSON.parse(window.sessionStorage.userInfo);
-			var url = vm.urls.addPet;
-			var data = vm.petInfo;
-			data.petBelongId = dt.id;
-			data.petCreateDate = vm.utils.getNowDate();	
-			data.petAvatar = JSON.stringify(vm.petInfo.petAvatar);
-			
-			var callback = function(r){
-				vm.$dialog.toast({
-					mes: '添加成功',
-  					icon: 'success',
-  					timeout: 1000
-				});	
-				setTimeout(function(){
-					vm.$router.go(-1);
-				},1500);
+			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
+				!vm.petInfo.petType || !vm.petInfo.petBirth || !vm.avatar){
+					vm.$toast('信息填写不完整');
+					return;
 			}
-			//vm.utils.postData(url, data, callback);
-
+			if(vm.upload()){
+				var dt = JSON.parse(window.sessionStorage.userInfo);
+				var url = vm.urls.addPet;
+				var data = vm.petInfo;
+				data.petBelongId = dt.id;
+				data.petCreateDate = vm.utils.getNowDate();	
+				var callback = function(r){
+					vm.$dialog.toast({
+						mes: '添加成功',
+	  					icon: 'success',
+	  					timeout: 1000
+					});	
+					setTimeout(function(){
+						vm.$router.replace("/myself/pet");
+					},1500);
+				}
+				
+				vm.utils.postData(url, data, callback);
+			}
 	   }		 
 	}
 }

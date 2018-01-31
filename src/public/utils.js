@@ -29,6 +29,7 @@ export default{
      * @param cb { Function } -必选 成功回调
      */
 	postData: function(url, data, cb, options){
+		console.log(data);
 		axios.post(url, data, options).then(cb).catch(response => {
 			if(response instanceof Error){
 				//一些错误是在设置请求的时候触发
@@ -72,6 +73,7 @@ export default{
 			            icon: 'success'
 			        });
 		}
+		return true;
 	},
 	
 	// 将 字符串格式的日期 转化为指定格式的String
