@@ -8,8 +8,8 @@
 					<span class="mess">
 						<span class="name">
 							{{ item.petName}}
-							<i v-if="item.petSex == 1" class="iconfont icon-baoji maleColor"></i>
-							<i v-else class="iconfont icon-baoji femaleColor"></i>
+							<i v-if="item.petSex == 1" class="iconfont icon-icon-test maleColor"></i>
+							<i v-else class="iconfont icon-icon-test femaleColor"></i>
 						</span>
 						<span>
 							<span class="type">{{item.petType}}</span>

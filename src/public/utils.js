@@ -58,7 +58,13 @@ export default{
       	};
 		//判断上传文件格式是否符合
 		if(formart == "jpg" || formart == "png" || formart == "jpeg"){
-			axios.post(url, formData, config).then(cb);
+			axios.post(url, formData, config).then(cb).catch(response => {
+				if(reponse instanceof Error){
+					console.log('Error',response)
+				}else{
+					
+				}
+			});
 		}else{
 			return  vm.$dialog.toast({
 			            mes: '该格式不支持上传',

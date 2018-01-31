@@ -4,7 +4,19 @@
 		<div class="info" :data="petInfo">
 			<div class="info-item">
 				<span class="item-name">宠物头像<span class="tip">*</span></span>
-				<input type="text" class="item-input" placeholder="设置宠物名称" v-model="petInfo.petName" disabled="isDisabled"/>
+				<div class="pic">
+					<!--<span class="imgPic" v-if="!avatar">
+						<img src="../../assets/images/member.png" class="avatar"/>	
+						<span class="camera">
+							<i class="iconfont icon-shangchuantupian_l"></i>
+						</span>
+						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
+					</span>				-->
+					<span class="imgPic">
+						<img src="" class="avatar"/>
+						<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
+					</span>	
+				</div>
 			</div>
 			<div class="info-item">
 				<span class="item-name">宠物名称<span class="tip">*</span></span>
@@ -334,6 +346,7 @@ export default{
 			display: flex;
 			display: -webkit-flex;
 			justify-content: space-between;
+			align-items: center;
 			font-size:32px;
 			color: #666666;
 			padding:25px 5px;
@@ -351,7 +364,46 @@ export default{
 			input::placeholder{
 				color:#cccccc;
 			}
-				
+			.pic{
+				display: inline-block;
+				height: 110px;
+				width: 110px;
+				border-radius: 50%;
+				overflow:hidden;
+				background: yellow;
+				.imgPic{
+					display: inline-block;
+					position: relative;
+					height: 110px;
+					width: 110px;
+					border-radius: 50%;
+					
+					.avatar{
+						height: inherit;
+						width: inherit;
+						border-radius: 50%;
+						border:1px solid #CCCCCC; /*no*/
+					}
+					.remove{
+						cursor: pointer;
+						position: absolute;
+						width: 40px;
+						height: 40px;
+						right: 0;
+						top:0;
+					}
+					input[type=file]{
+						background: green;
+						position: absolute;
+						bottom: 0;
+						z-index: 1;
+						width: 50%;
+						font-size: 28px;
+						opacity: 0;
+						cursor: pointer;
+					}
+				}
+			}	
 		}
 		.radio-wrap{
 			.yd-radio{

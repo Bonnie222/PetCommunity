@@ -30,7 +30,7 @@ var jsonWrite = function(res, ret) {
 /**
  * 单个图片上传
  */
-router.post('/uploadSingle', upload.single('petAvatar'), function(req, res, next){
+router.post('/uploadSingle', upload.single('avatar'), function(req, res, next){
  	var file = req.file;
  	let obj = {};
  	let data = {};

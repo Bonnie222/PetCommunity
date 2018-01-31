@@ -3,14 +3,16 @@
 		<Header title="添加宠物" :headerLeft="headerLeft"></Header>
 		<div class="form">
 			<div class="pic">
-				<span class="imgPic" v-if="!petInfo.petAvatar">
+				<span class="imgPic" v-if="!avatar">
 					<img src="../../assets/images/member.png" class="avatar"/>	
-					<input type="file" hidefocus="true" name="petAvatar" accept="image/*" @change="getImg"/>
+					<span class="camera">
+						<i class="iconfont icon-shangchuantupian_l"></i>
+					</span>
+					<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
 				</span>				
 				<span class="imgPic" v-else>
-					<img :src="petInfo.petAvatar.fileUrl" class="avatar"/>
-					<img src="../../assets/images/removeImg.svg" class="remove"/>
-					<!--<input type="file" hidefocus="true" accept="image/*" @change="getImg"/>-->
+					<img :src="avatar" class="avatar" @click="previewImg($event)"/>
+					<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
 				</span>	
 			</div>
 			<div class="info">
@@ -75,34 +77,39 @@
 			<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
     		v-on:confirm="confirmStatusPicker"></vue-pickers>
     		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
-    		v-on:confirm="confirmTypePicker"></vue-pickers>
-			
+    		v-on:confirm="confirmTypePicker"></vue-pickers>			
 		</div>
 		
 		<div class="btn-wrap">
 			<button class="btn-save" @click="savePetInfo">保存</button>
 		</div>
-		
+		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
 import VuePickers from 'vue-pickers';
+import ImgView from '@/components/imageView';
 
 export default{
 	name:"Mypet",
 	components:{
-	    Header,VuePickers
+	    Header,VuePickers, ImgView
 	},
+	props: [],
 	data(){
 		return{
 			headerLeft: true,
+			showImgView: false,
+			imgSrc:'',
 			petTypePicker:false,
 			petStatusPicker: false,
 			petTypeText:'',
 			petStatusText:'',
 			
+			avatar:null,
+			files:null,
 			petInfo:{
 				petAvatar:null,
 				petName:'',
@@ -116,7 +123,7 @@ export default{
 			},
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
-			endDate:new Date(new Date().getFullYear(),new Date().getMonth()+1, new Date().getDate()),
+			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
 			
 			petTypeList:{
 				columns: 1, // picker的列数
@@ -197,26 +204,55 @@ export default{
     	},
     	getImg: function(e){
     		var vm = this;
-    		var url = vm.urls.uploadSingle;
-    		var fname = 'petAvatar'
+    		vm.files = e;
+    		var file = e.target.files[0];
+    		if((file.type).indexOf("image/")==-1){
+    			vm.$dialog.toast({
+		            mes: '该文件必须为图片格式',
+		            timeout: 1000,
+		            icon: 'error'
+		        });
+    			return false;
+    		}
+    		var reader = new FileReader();
+    		reader.readAsDataURL(file);
+    		reader.onload = function(e){
+    			vm.avatar = this.result;
+    		}
+    	},
+    	removeImg: function(){
+    		this.avatar = "";
+    	},
+    	previewImg: function(){
+    		this.showImgView = true;
+    	},
+    	closeView: function(){
+    		this.showImgView = false;
+    	},
+    	upload: function(){
+    		var vm = this;
+    		var e = vm.files;
+      		var url = vm.urls.uploadSingle;
+    		var fname = 'avatar'
     		var callback = function(r){
-    			console.log(r.data);
     			vm.petInfo.petAvatar = r.data.data;
     		}		
-    		vm.utils.upload(vm, e, fname, url, callback);
+    		return vm.utils.upload(vm, e, fname, url, callback);
     	},
 	   	savePetInfo: function(){
 	   		var vm = this;
-			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
-				!vm.petInfo.petType || !vm.petInfo.petBirth){
-					vm.$toast('信息填写不完整');
-					return;
-			}
+//			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
+//				!vm.petInfo.petType || !vm.petInfo.petBirth || !vm.avatar){
+//					vm.$toast('信息填写不完整');
+//					return;
+//			}
+			console.log(vm.upload());
 			var dt = JSON.parse(window.sessionStorage.userInfo);
 			var url = vm.urls.addPet;
 			var data = vm.petInfo;
 			data.petBelongId = dt.id;
-			data.petCreateDate = vm.utils.getNowDate();
+			data.petCreateDate = vm.utils.getNowDate();	
+			data.petAvatar = JSON.stringify(vm.petInfo.petAvatar);
 			
 			var callback = function(r){
 				vm.$dialog.toast({
@@ -228,9 +264,9 @@ export default{
 					vm.$router.go(-1);
 				},1500);
 			}
-			vm.utils.postData(url, data, callback);
-	   	}
-		 
+			//vm.utils.postData(url, data, callback);
+
+	   }		 
 	}
 }
 </script>
@@ -253,7 +289,6 @@ export default{
 			.imgPic{
 				display: inline-block;
 				position: relative;
-				background: yellow;
 				height: 130px;
 				width: 130px;
 				margin-top: 30px;
@@ -262,9 +297,11 @@ export default{
 				.avatar{
 					height: inherit;
 					width: inherit;
-					
+					border-radius: 50%;
+					border:1px solid #CCCCCC; /*no*/
 				}
 				.remove{
+					cursor: pointer;
 					position: absolute;
 					width: 40px;
 					height: 40px;
@@ -278,8 +315,21 @@ export default{
 					z-index: 1;
 					width: 50%;
 					font-size: 28px;
-					opacity: 1;
+					opacity: 0;
 					cursor: pointer;
+				}
+				.camera{
+					position: absolute;
+					font-size: 36px;
+					color: #D81E06;
+					right: 0;
+					bottom:10px;
+					display: block;
+					width: 40px;
+					height: 40px;
+					border: 1px solid #CCCCCC;/*no*/
+					border-radius: 50%;
+					background: #FFFFFF;
 				}
 			}
 			
