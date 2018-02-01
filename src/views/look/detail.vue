@@ -21,7 +21,11 @@
 				</div>
 			</div>
 			<div class="detail-info">
-				<div></div>
+				<div class="pet-avatar">
+					<span v-for="item in detailList.petAvatar">
+						<img :src="item.fileUrl" />
+					</span>
+				</div>
 				<div class="pet-info">
 					<span class="info-colum">
 						<span class="colum-item">
@@ -124,6 +128,7 @@ export default{
 				data.petType = petTypeList[data.petType];
 				data.petAge = petAgeList[data.petAge];
 				data.userInfo = JSON.parse(data.userInfo);
+				data.petAvatar = JSON.parse(data.petAvatar);
 				console.log(data);
 				vm.detailList = data;
 				vm.userInfo = data.userInfo;
@@ -195,6 +200,23 @@ export default{
 				font-size: 26px;
 				line-height: 34px;
 				color: #333333;
+			}
+			.pet-avatar{
+				margin-bottom: 20px;
+				span{
+					display: block;
+					width: 100%;
+				/*	height: 110px;*/
+					margin-bottom:10px;
+					overflow:hidden; 
+					&:last-child{
+						margin: 0;
+					}
+					img{
+						width: inherit;
+						height: inherit;
+					}
+				}
 			}
 			.pet-info{
 				display: flex;

@@ -4,7 +4,16 @@
 		<div class="form">
 			<div class="form1">
 				<textarea placeholder="宠物说明..." v-model="notes"></textarea>
-				<div class="pic"></div>
+				<div class="pic">
+					<span class="addBtn" v-for="(item, index) in picList" v-if="picList.length!=0">
+						<img :src="item.picture" @click="previewImg(index)"/>
+						<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg(index)"/>
+					</span>
+					<span class="addBtn" v-show="picList.length != 3">
+						<img src="../../assets/images/tianjia.png" />
+						<input class="file-btn" type="file" hidefocus="true" name="picture" accept="image/*" @change="getImg($event)"/>
+					</span>
+				</div>
 			</div>
 			<ul class="form2">
 				<li class="">
@@ -97,8 +106,9 @@
     		v-on:confirm="confirmAgePicker"></vue-pickers>
 		</div>
 		<div class="btn-wrap">
-			<button class="btn-save" @click="save">{{saveBtnText}}</button>
+			<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
 		</div>
+		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 	</div>
 </template>
 
@@ -106,11 +116,12 @@
 import Header from '@/components/header';
 import District from 'ydui-district/dist/gov_province_city_area_id';
 import VuePickers from 'vue-pickers';
+import ImgView from '@/components/imageView';
 
 export default{
 	name:"LookEdit",
 	components:{
-	    Header,VuePickers
+	    Header,VuePickers, ImgView
 	},
 	data(){
 		return{
@@ -124,6 +135,10 @@ export default{
 			showCityselect:false,
 			district:District,
 			notes:'',
+			files:[],
+			avatar:'',
+			showImgView:false,
+			picList:[],
 			editList:{
 				isFindPet:1,
 				region:'',
@@ -206,6 +221,19 @@ export default{
 		}
 	},
 	methods:{
+		previewImg: function(index){
+			this.avatar = this.picList[index].picture;
+    		this.showImgView = true;
+    	},
+    	closeView: function(){
+    		this.showImgView = false;
+    	},
+    	removeImg: function(index){
+    		let list = this.picList;
+    		let fileslist = this.files;
+    		list = list.splice(index, 1);
+    		fileslist = fileslist.splice(index, 1)
+    	},
 		resultCity: function(ret) {
             this.editList.region = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
        	},
@@ -233,11 +261,32 @@ export default{
     		this.editList.petAge = obj.select1.value;
     		this.petAgePicker = false;
     	},
-    	save: function(){
+    	getImg: function(e){
+    		var vm = this;
+    		var file = e.target.files[0];
+    		let fileslist = vm.files;
+    		fileslist = fileslist.push(file);
+    		if((file.type).indexOf("image/")==-1){
+    			vm.$dialog.toast({
+		            mes: '该文件必须为图片格式',
+		            timeout: 1000,
+		            icon: 'error'
+		        });
+    			return false;
+    		}
+    		var reader = new FileReader();
+    		reader.readAsDataURL(file);
+    		reader.onload = function(e){
+    			let pic = {};
+    			let list = vm.picList;
+    			pic.picture = this.result;
+    			list = list.push(pic);
+    		}
+    	},
+    	saveToPublish: function(){
     		var vm = this;
     		if(vm.isSaving) return;
     		var dt = window.sessionStorage.userInfo;
-			var url = vm.urls.addLook;
 			var data = vm.editList;
 			if(!data.region || !data.address || !data.dateTime ||
 				!data.petType || !vm.notes || !data.contact){
@@ -249,27 +298,40 @@ export default{
     			vm.$toast('请输入正确的手机联系方式');
 					return;
     		}
-    		data.userInfo = dt;
-			data.userId = JSON.parse(dt).id;
-			data.createTime = vm.utils.getNowTime();
-			data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
-			vm.isSaving = true;
+    		
+    		var e = vm.files;
+      		var url = vm.urls.uploadArray;
+    		var fname = 'picture';
+    		vm.isSaving = true;
 			vm.saveBtnText = '正在发布中...';
-			
-			var callback = function(r){
-				vm.isSaving = false;
-				vm.saveBtnText = '确认发布';
-				vm.$dialog.toast({
-					mes: '添加成功',
-  					icon: 'success',
-  					timeout: 1000
-				});	
-				setTimeout(function(){
-					vm.$router.go(-1);
-				},1500);
-			}
-			
-			vm.utils.postData(url, data, callback);
+    		var callback = function(r){
+    			vm.editList.petAvatar = JSON.stringify(r.data.data);
+    			save();
+    		}		
+    		vm.utils.uploadMore(vm, e, fname, url, callback);
+    		
+    		function save(){
+    			var url = vm.urls.addLook;
+    			data.userInfo = dt;
+				data.userId = JSON.parse(dt).id;
+				data.createTime = vm.utils.getNowTime();
+				data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
+
+				var callback = function(r){
+					vm.isSaving = false;
+					vm.saveBtnText = '确认发布';
+					vm.$dialog.toast({
+						mes: '添加成功',
+	  					icon: 'success',
+	  					timeout: 1000
+					});	
+					setTimeout(function(){
+						vm.$router.go(-1);
+					},1500);
+				}
+				vm.utils.postData(url, data, callback);
+    		}
+
     	}
 	}
 }
@@ -296,7 +358,41 @@ export default{
 			}
 			.pic{
 				background: #FFFFFF;
-				height: 100px;
+				height: 130px;
+				padding: 10px;
+				.addBtn{
+					position: relative;
+					display: inline-block;
+					width: 110px;
+					height: 110px;
+					margin-right:10px;
+					&:last-child{
+						margin: 0;
+					}
+					img{
+						width: inherit;
+						height: inherit;
+					}
+					.remove{
+						cursor: pointer;
+						position: absolute;
+						width: 40px;
+						height: 40px;
+						right: 0;
+						top:0;
+					}
+				}
+				input[type=file]{
+					position: absolute;
+					left: 0;
+					top:30%;
+					z-index: 1;
+					width: 100%;
+					height: 100%;
+					font-size: 28px;
+					opacity: 0;
+					cursor: pointer;
+				}
 			}
 		}
 		.form2{

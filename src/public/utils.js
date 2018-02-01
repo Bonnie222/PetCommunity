@@ -29,7 +29,6 @@ export default{
      * @param cb { Function } -必选 成功回调
      */
 	postData: function(url, data, cb, options){
-		console.log(data);
 		axios.post(url, data, options).then(cb).catch(response => {
 			if(response instanceof Error){
 				//一些错误是在设置请求的时候触发
@@ -51,6 +50,7 @@ export default{
 		var file = e.target.files[0];
 		//将文件信息追加到其中
 		formData.append(fname, file);
+		console.log(formData);
 		//利用split切割，拿到上传文件的格式
 		var src = file.name;
 		var formart = src.split(".")[1];
@@ -60,10 +60,10 @@ export default{
 		//判断上传文件格式是否符合
 		if(formart == "jpg" || formart == "png" || formart == "jpeg"){
 			axios.post(url, formData, config).then(cb).catch(response => {
-				if(reponse instanceof Error){
+				if(response instanceof Error){
 					console.log('Error',response)
 				}else{
-					
+
 				}
 			});
 		}else{
@@ -73,7 +73,26 @@ export default{
 			            icon: 'success'
 			        });
 		}
-		return true;
+		
+	},
+	uploadMore:function(vm, e, fname, url, cb){
+		var formData = new FormData();
+		$.each(e, function(index,item) {
+			//将文件信息追加到其中
+			formData.append(fname, item);
+		});
+		console.log(e,formData);
+		var config = {
+        	headers:{'Content-Type':'multipart/form-data'}
+      	};
+		axios.post(url, formData, config).then(cb).catch(response => {
+			if(response instanceof Error){
+				console.log('Error',response)
+			}else{
+
+			}
+		});
+		
 	},
 	
 	// 将 字符串格式的日期 转化为指定格式的String

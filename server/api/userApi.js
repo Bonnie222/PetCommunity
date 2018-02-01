@@ -43,6 +43,24 @@ router.post('/uploadSingle', upload.single('avatar'), function(req, res, next){
  	res.send(obj);
 })
 /**
+ * 多个图片上传
+ */
+router.post('/uploadArray', upload.array('picture',3), function(req, res, next){
+ 	var file = req.files;
+   	var obj = {};
+   	var data = [];
+   	for(var i = 0;i < file.length; i++) {
+   		var preObj = {};
+	   	preObj.fileUrl = file[i].path.replace(/\\/g,'/').slice(3);
+	   	preObj.fileName = file[i].originalname;
+	   	data[i] = preObj;
+   	}
+   	obj.code = 1;
+   	obj.message = "请求成功";
+   	obj.data = data;
+   	res.send(obj);
+})
+/**
  * 登录
  */
 router.post('/login', (req, res) => {
@@ -143,6 +161,19 @@ router.post('/register', (req, res) => {
         	jsonWrite(res, result);
         }
 	})
+})
+/**
+ * 首页
+ */
+router.get('/home/look',(req, res) => {
+	var sql = $sql.look.homePage;
+	conn.query(sql, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
 })
 /**
  * 用户
@@ -256,7 +287,6 @@ router.post('/look/add',(req,res)=>{
 router.get('/look/list',(req,res)=>{
 	var sql = $sql.queryDesc;
     var sqlParams = ['look','createTime'];
-    console.log(sql);
     conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);

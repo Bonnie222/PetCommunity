@@ -5,16 +5,13 @@
 			<div class="info-item">
 				<span class="item-name">宠物头像<span class="tip">*</span></span>
 				<div class="pic">
-					<!--<span class="imgPic" v-if="!avatar">
-						<img src="../../assets/images/member.png" class="avatar"/>	
-						<span class="camera">
-							<i class="iconfont icon-shangchuantupian_l"></i>
-						</span>
-						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-					</span>				-->
 					<span class="imgPic">
-						<img src="" class="avatar"/>
+						<img :src="avatar" class="avatar" @click="previewImg($event)"/>
 						<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
+					</span>	
+					<span class="link" :hidden="isDisabled">
+						<img src="../../assets/images/right.svg"/>
+						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
 					</span>	
 				</div>
 			</div>
@@ -88,18 +85,20 @@
 			<button class="btn-save" @click="editPetInfo" v-show="isDisabled">编辑资料</button>
 			<button class="btn-cancel" @click="delPet" v-show="isDisabled">删除宠物</button>
 			<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">保存</button>	
-			<button class="btn-cancel" :hidden="isDisabled" @click="cancleToUpdate">取消</button>
+			<button class="btn-cancel" @click="cancelToUpdate" :hidden="isDisabled" >取消</button>
 		</div>
+		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
-import VuePickers from 'vue-pickers'
+import VuePickers from 'vue-pickers';
+import ImgView from '@/components/imageView';
 export default{
 	name:"Editpet",
 	components:{
-	    Header,VuePickers
+	    Header,VuePickers, ImgView
 	},
 	data(){
 		return{
@@ -109,6 +108,12 @@ export default{
 			petStatusPicker: false,
 			isDisabled: true,
 			petInfo:{},
+			files:'',
+			avatar:'',
+			showImgView: false,
+			imgSrc:'',
+			isUpload:false,
+			isSaving:false,
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
@@ -196,11 +201,19 @@ export default{
 				data.petArrivedDate = data.petArrivedDate == null ? '': vm.utils.changeDate(data.petArrivedDate);
 				data.petCreateDate = data.petCreateDate == null ? '': vm.utils.changeDate(data.petCreateDate);
 				data.petStatusText = data.petStatus == null ? '': petStatusList[data.petStatus];
+				data.petAvatar = JSON.parse(data.petAvatar);
+				vm.avatar = data.petAvatar.fileUrl;
 				vm.petInfo = data;
 
 			}
 			vm.utils.postData(url, data, callback, options);
 		},
+		previewImg: function(){
+    		this.showImgView = true;
+    	},
+    	closeView: function(){
+    		this.showImgView = false;
+    	},
 		showpetTypePicker: function(){
 			if(!this.isDisabled){
 				this.petTypePicker = true;
@@ -259,9 +272,10 @@ export default{
     		}
     	},
     	
-    	cancleToUpdate: function(){
+    	cancelToUpdate: function(){
     		this.topTitle = '宠物详情';
     		this.isDisabled = true;
+    		this.avatar = this.petInfo.petAvatar.fileUrl;
     	},
     	
     	delPet: function(){
@@ -288,36 +302,67 @@ export default{
 			});
 			
     	},
+    	getImg: function(e){
+    		var vm = this;
+    		vm.files = e;
+    		var file = e.target.files[0];
+    		if((file.type).indexOf("image/")==-1){
+    			vm.$dialog.toast({
+		            mes: '该文件必须为图片格式',
+		            timeout: 1000,
+		            icon: 'error'
+		        });
+    			return false;
+    		}
+    		var reader = new FileReader();
+    		reader.readAsDataURL(file);
+    		reader.onload = function(e){
+    			vm.avatar = this.result;
+    		}
+    	},
     	
     	updatePetInfo: function(){
     		var vm = this;
+    		if(vm.isSaving) return;
     		if(!vm.petInfo.petName || !vm.petInfo.petSex || 
 				!vm.petInfo.petType || !vm.petInfo.petBirth){
 					vm.$toast('信息填写不完整');
 					return;
 			}
-			vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
-			vm.petInfo.petStatusText = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatusText;
-    		var url = vm.urls.updatePet;
-    		var _id = vm.$route.params.id;
-    		var data = vm.petInfo;
-    		var options = {
-				params:{
-					petid: _id
-				}
-			}
+			var e = vm.files;
+      		var url = vm.urls.uploadSingle;
+    		var fname = 'avatar'
     		var callback = function(r){
-				vm.$dialog.toast({
-					mes: '修改成功',
-  					icon: 'success',
-  					timeout: 1000
-				});	
-//				setTimeout(function(){
-//					vm.$router.go(-1);
-//				},1500);
-				vm.cancleToUpdate();
+    			vm.petInfo.petAvatar = JSON.stringify(r.data.data);
+    			save();
+    		}		
+    		vm.utils.upload(vm, e, fname, url, callback);
+			
+			function save(){
+				vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
+				vm.petInfo.petStatusText = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatusText;
+	    		var url = vm.urls.updatePet;
+	    		var _id = vm.$route.params.id;
+	    		var data = vm.petInfo;
+	    		var options = {
+					params:{
+						petid: _id
+					}
+				}
+	    		var callback = function(r){
+	    			vm.isSaving = false;
+					vm.$dialog.toast({
+						mes: '修改成功',
+	  					icon: 'success',
+	  					timeout: 1000
+					});	
+					vm.topTitle = '宠物详情';
+    				vm.isDisabled = true;
+				}
+				vm.isSaving = true;
+				vm.utils.postData(url, data, callback);
 			}
-			vm.utils.postData(url, data, callback);
+
     	}
 	}
 }
@@ -326,8 +371,10 @@ export default{
 <style lang="less" scoped>
 #Editpet{
 	.link{
+		position: relative;
 		width: 15px;
 		height: 26px;
+		margin-left:10px;
 		img{
 			width: 15px;
 			height: 26px;
@@ -365,19 +412,24 @@ export default{
 				color:#cccccc;
 			}
 			.pic{
-				display: inline-block;
-				height: 110px;
+				display: flex;
+				align-items: center;
+				/*height: 110px;
 				width: 110px;
-				border-radius: 50%;
-				overflow:hidden;
-				background: yellow;
+				border-radius: 50%;*/
 				.imgPic{
 					display: inline-block;
 					position: relative;
 					height: 110px;
 					width: 110px;
 					border-radius: 50%;
+					overflow:hidden;
 					
+					img{
+						height:inherit;
+						width: inherit;
+						border-radius: 50%;
+					}
 					.avatar{
 						height: inherit;
 						width: inherit;
@@ -392,16 +444,16 @@ export default{
 						right: 0;
 						top:0;
 					}
-					input[type=file]{
-						background: green;
-						position: absolute;
-						bottom: 0;
-						z-index: 1;
-						width: 50%;
-						font-size: 28px;
-						opacity: 0;
-						cursor: pointer;
-					}
+				}
+				input[type=file]{
+					background: green;
+					position: absolute;
+					bottom: 0;
+					z-index: 1;
+					width: 100%;
+					font-size: 28px;
+					opacity: 0;
+					cursor: pointer;
 				}
 			}	
 		}

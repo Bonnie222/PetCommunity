@@ -10,6 +10,11 @@
 					<span class="user-name">{{item.userInfo.userName}}</span>
 				</div>
 				<div class="item-notes" v-html="item.note"></div>
+				<div class="item-pic">
+					<span v-for="pic in item.petAvatar">
+						<img :src="pic.fileUrl"/>
+					</span>
+				</div>
 				<div class="item-footer">
 					<span></span>
 					<span>{{item.createTime}}</span>
@@ -47,10 +52,12 @@ export default{
 			var url = vm.urls.getLookList;
 			var callback = function(r){
 				var data = r.data.data;
+				console.log(data);
 				$.each(data, function(index, item) {
 					item.url = "/look/detail/" + item.id;
 					item.userInfo = JSON.parse(item.userInfo);
 					item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
+					item.petAvatar = JSON.parse(item.petAvatar);
 				});
 				vm.looklist = data;
 			}
@@ -111,6 +118,25 @@ export default{
 			    -webkit-line-clamp: 6;
 				margin: 10px 0 25px;
 				color: #333333;
+			}
+			.item-pic{
+				margin-bottom: 20px;
+				span{
+					display: inline-block;
+					width: 110px;
+					height: 110px;
+					margin-right:10px;
+					background:red; 
+					border-radius: 20px;
+					overflow:hidden; 
+					&:last-child{
+						margin: 0;
+					}
+					img{
+						width: inherit;
+						height: inherit;
+					}
+				}
 			}
 			.item-footer{
 				display: flex;

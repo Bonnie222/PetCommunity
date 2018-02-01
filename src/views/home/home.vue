@@ -22,10 +22,12 @@
 			<span class="findpet-title">寻宠启示</span>
 			<span class="findpet-list">
 				<yd-rollnotice autoplay="2000" speed="500">
-			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>荣耀V9 3月超级钜惠！</yd-rollnotice-item>
-			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>3.23京东超级品牌日格力盛典</yd-rollnotice-item>
-			        <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>京东服饰 早春新品低至7折</yd-rollnotice-item>
-    			   <yd-rollnotice-item><span style="color:#F00;"> 荐 </span>sss</yd-rollnotice-item>
+			        <yd-rollnotice-item v-for="item in lookList" key="item.id">
+			        	<router-link :to="item.href">
+			        		<span class="tip"> {{item.isFindPet == 1? '寻宠' : '寻主'}} </span>
+			        		<span class="note">{{item.note}}</span>
+			        	</router-link>
+			        </yd-rollnotice-item>
 				</yd-rollnotice>
 			</span>
 		</div>
@@ -59,6 +61,7 @@ export default{
 		return{
 			headerLeft: false,
 			show1:false,
+			lookList:[],
 			
 			middleMenu:[{
 				name:'寻宠110',
@@ -79,10 +82,23 @@ export default{
 			}]
 		}
 	},
-	create:{
-		
+	created(){
+		this.getHomeLook();
 	},
 	methods:{
+		getHomeLook: function(){
+			var vm = this;
+			var url = vm.urls.getHomeLook;
+			var callback = function(r){
+				$.each(r.data.data, function(index,item) {
+					item.href = '/look/detail/' + item.id;
+					item.note = item.note.replace(/<br\/>/g, " ");
+				});
+				vm.lookList = r.data.data;
+				console.log(vm.lookList)
+			}
+			vm.utils.getData(url,callback);
+		}
 	}
 }
 </script>
@@ -126,17 +142,21 @@ export default{
 		height: 130px;
 		background: #FFFFFF;
 		border: 1px solid #e4e4e4;/*no*/
-		border-radius: 10px;		
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		/*overflow: hidden;		*/
 		.findpet-title{
 			margin:20px;
 			vertical-align: middle;
-			display: inline-block;
-			width: 100px;
+			display: block;
+			width: 15%;
 			font-size: 46px;
 			font-weight: bolder;
 			color: #EB695C;
 		}
 		.findpet-list{
+			width: 85%;
 			margin-top: 20px;
 			display: inline-block;
 			vertical-align: middle;
@@ -144,7 +164,28 @@ export default{
 		
 			}
 			.yd-rollnotice-item{
-				font-size: 36px;
+				background: yellow;
+				
+				.tip{
+					font-size:28px;
+					display: inline-block;
+					border: 1px solid #D81E06; /*no*/
+					color: #D81E06;
+					padding: 5px 10px;
+					border-radius: 5px;
+					margin-right: 10px;
+				}
+				.note{
+					font-size: 36px;
+					height: 40px;
+					line-height: 40px;
+					/* 多行文本溢出利用省略号代替,仅用于webkit内核 $line 行数*/
+				    overflow : hidden;
+				    text-overflow: ellipsis;
+				    display: inline-block;
+				    /*-webkit-box-orient: vertical;*/
+				    -webkit-line-clamp: 1;
+				}
 			}
 		}
 	}

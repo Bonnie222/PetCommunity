@@ -5,6 +5,9 @@ export default {
 	register: host + '/register',
 	//文件上传
 	uploadSingle: host + '/uploadSingle',
+	uploadArray: host + '/uploadArray',
+	//首页
+	getHomeLook: host + '/home/look',
 	//注册
 	queryByPhone: host + '/queryPhone',
 	queryByName: host + '/queryName',
