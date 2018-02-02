@@ -22,7 +22,7 @@
 			<span class="findpet-title">寻宠启示</span>
 			<span class="findpet-list">
 				<yd-rollnotice autoplay="2000" speed="500">
-			        <yd-rollnotice-item v-for="item in lookList" key="item.id">
+			        <yd-rollnotice-item v-for="item in lookList" :key="item.id">
 			        	<router-link :to="item.href">
 			        		<span class="tip"> {{item.isFindPet == 1? '寻宠' : '寻主'}} </span>
 			        		<span class="note">{{item.note}}</span>
