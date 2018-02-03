@@ -18,6 +18,7 @@
 			</ul>
 		</div>
 		<div class="validator" v-show="errWindow">
+			<img src="../../assets/images/fail.png" />
 			<span class="err">{{errMsg}}</span>
 		</div>
 		<div class="btn-wrap">
@@ -168,14 +169,6 @@ export default {
 		color: red;
 		display: inline-block;
 		font-size: 36px;
-		.err{ 
-			&::before{
-				content: '×';
-			    font-size: 46px;
-				margin-right: 10px;
-				
-			}
-		}
 	}
 	.btn-wrap{
 		margin-top: 80px;

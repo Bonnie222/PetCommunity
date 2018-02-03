@@ -1,6 +1,6 @@
 <template>
 	<div id="Mypet">
-		<Header title="我的宠物" :headerLeft="headerLeft"></Header>
+		<Header title="我的宠物" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div v-for="item in petList">
 			<router-link :to="{ name: 'Editpet', params: { id: item.id }}" class="pet-wrap">
 				<span class="pet-info">
@@ -18,7 +18,7 @@
 					</span>
 				</span>
 				<span class="right">
-					<img src="../../assets/images/right.svg"/>
+					<img src="../../../assets/images/right.svg"/>
 				</span>
 			</router-link>
 		</div>
@@ -45,6 +45,9 @@ export default{
 		this.getMypetList();
 	},
 	methods:{
+		back:function(){
+			this.$router.go(-1);
+		},
 		getMypetList:function(){
 			var vm = this;
 			var dt = JSON.parse(window.sessionStorage.userInfo);

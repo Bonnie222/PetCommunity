@@ -15,9 +15,10 @@ export default {
 	
 	//我的
 	getPersonal: host + '/user/personal',
+	getMyLookList: host + '/user/looklist',
+	getMyPetList: host + '/user/petList',
 	
 	//宠物
-	getMyPetList: host + '/user/petList',
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',
 	delPet: host + '/pet/delete',

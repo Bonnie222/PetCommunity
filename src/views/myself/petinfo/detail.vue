@@ -1,6 +1,6 @@
 <template>
 	<div id="Editpet">
-		<Header :title="topTitle" :headerLeft="headerLeft"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="info" :data="petInfo">
 			<div class="info-item">
 				<span class="item-name">宠物头像<span class="tip">*</span></span>
@@ -10,7 +10,7 @@
 						<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
 					</span>	
 					<span class="link" :hidden="isDisabled">
-						<img src="../../assets/images/right.svg"/>
+						<img src="../../../assets/images/right.svg"/>
 						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
 					</span>	
 				</div>
@@ -42,14 +42,14 @@
 				<span class="item-name">宠物品种<span class="tip">*</span></span>
 				<span>
 					<span class="item-input"  @click="showpetTypePicker" >{{petInfo.petTypeText}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
+					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">宠物生日<span class="tip">*</span></span>
 				<span>
 					<span class="item-input" @click="openDatePicker" >{{petInfo.petBirth}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
+					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
@@ -60,14 +60,14 @@
 				<span class="item-name">到家时间</span>
 				<span>
 					<span  class="item-input" @click="openArrivalPicker" :disabled="isDisabled">{{petInfo.petArrivedDate}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
+					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			<div class="info-item">
 				<span class="item-name">绝育状态</span>
 				<span>
 					<span class="item-input" @click="showpetStatusPicker" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../assets/images/right.svg"/></span>
+					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 				</span>
 			</div>
 			
@@ -84,7 +84,7 @@
 		<div class="btn-wrap">
 			<button class="btn-save" @click="editPetInfo" v-show="isDisabled">编辑资料</button>
 			<button class="btn-cancel" @click="delPet" v-show="isDisabled">删除宠物</button>
-			<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">保存</button>	
+			<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">{{saveBtnText}}</button>	
 			<button class="btn-cancel" @click="cancelToUpdate" :hidden="isDisabled" >取消</button>
 		</div>
 		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
@@ -112,8 +112,8 @@ export default{
 			avatar:'',
 			showImgView: false,
 			imgSrc:'',
-			isUpload:false,
 			isSaving:false,
+			saveBtnText:'保存',
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
@@ -166,6 +166,9 @@ export default{
 		this.getPetdetail();
 	},
 	methods:{
+		back: function(){
+			this.$router.go(-1);
+		},
 		getPetdetail:function(){
 			var vm = this;
 			var _id = vm.$route.params.id;
@@ -180,7 +183,6 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
-				console.log(data);
 				var petTypeList = {
 					1:'汪星人',
 					2:'喵星人',
@@ -336,7 +338,13 @@ export default{
     			vm.petInfo.petAvatar = JSON.stringify(r.data.data);
     			save();
     		}		
-    		vm.utils.upload(vm, e, fname, url, callback);
+    		vm.saveBtnText = '正在保存中...'
+    		if(e){
+    			vm.utils.upload(vm, e, fname, url, callback);
+    		}else{
+    			vm.petInfo.petAvatar = JSON.stringify(vm.petInfo.petAvatar);
+    			save();
+    		}
 			
 			function save(){
 				vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
@@ -351,6 +359,7 @@ export default{
 				}
 	    		var callback = function(r){
 	    			vm.isSaving = false;
+	    			vm.saveBtnText = '保存';
 					vm.$dialog.toast({
 						mes: '修改成功',
 	  					icon: 'success',

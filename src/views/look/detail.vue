@@ -1,6 +1,6 @@
 <template>
 	<div id="LookDetail">
-		<Header title="寻宠详情" :headerLeft="headerLeft"></Header>
+		<Header title="寻宠详情" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="detail-wrap" >
 			<div class="detail-title">
 				<div class="user-info">
@@ -85,6 +85,9 @@ export default{
 		this.getDetail();
 	},
 	methods:{
+		back:function(){
+			this.$router.go(-1);
+		},
 		getDetail: function(){
 			var vm = this;
 			var url = vm.urls.getLookDetail;

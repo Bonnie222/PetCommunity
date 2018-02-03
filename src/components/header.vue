@@ -18,7 +18,8 @@ export default {
     },
     methods:{
     	gotoRouter: function(){
-    		this.$router.go(-1);
+    		//发送事件
+			this.$emit('clickRouter')
     	}
     }
 }

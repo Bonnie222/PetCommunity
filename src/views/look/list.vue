@@ -1,6 +1,6 @@
 <template>
 	<div id="LookList">
-		<Header title="寻宠110" :headerLeft="headerLeft"></Header>
+		<Header title="寻宠110" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="list-wrap">
 			<router-link :to="item.url" class="list-item" v-for="item in looklist" :key="item.id">
 				<div class="item-title">
@@ -47,6 +47,9 @@ export default{
 		this.getLookList();
 	},
 	methods:{
+		back:function(){
+			this.$router.go(-1);
+		},
 		getLookList: function(){
 			var vm = this;
 			var url = vm.urls.getLookList;

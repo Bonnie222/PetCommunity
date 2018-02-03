@@ -1,6 +1,6 @@
 <template>
 	<div id="LookEdit">
-		<Header title="发布寻宠/主信息" :headerLeft="headerLeft"></Header>
+		<Header title="发布寻宠/主信息" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="form">
 			<div class="form1">
 				<textarea placeholder="宠物说明..." v-model="notes"></textarea>
@@ -221,6 +221,9 @@ export default{
 		}
 	},
 	methods:{
+		back:function(){
+			this.$router.go(-1);
+		},
 		previewImg: function(index){
 			this.avatar = this.picList[index].picture;
     		this.showImgView = true;

@@ -309,6 +309,20 @@ router.post('/look/detail',(req,res)=>{
         }
     })
 })
+//获取个人寻宠/主列表
+router.post('/user/looklist',(req, res) => {
+	var sql = $sql.look.userLookListAll;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.userId];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 // 增加用户接口
 //router.post('/addUser', (req, res) => {
 //  var sql = $sql.user.add;    

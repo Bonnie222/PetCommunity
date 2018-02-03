@@ -15,9 +15,10 @@ const Medical = _import('medical/medical');
 const DiseaseList = _import('medical/diseaselist')
 /*我的*/
 const Myself = _import('myself/myself');
-const MypetList = _import('myself/mypetlist');
-const Addpet = _import('myself/addpet');
-const Editpet = _import('myself/editpet');
+const MypetList = _import('myself/petinfo/list');
+const Addpet = _import('myself/petinfo/edit');
+const Editpet = _import('myself/petinfo/detail');
+const MylookList = _import('myself/petlook/list');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
@@ -27,65 +28,28 @@ const LookDetail = _import('look/detail');
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
-  		path: '/',
-  		redirect: '/signhome'
-  	},{
-  		path: '/signhome',
-  		name: 'Signhome',
-  		component: Signhome,
-  	},{ 
-  		path: '/signhome/login', 
-  		name: 'Login', 
-  		component: Login
-  	},{ 
-  		path: '/signhome/register', 
-  		name: 'Register', 
-  		component: Register 
-  	},{
-  		path: '/home',
-  		name: 'Home',
-  		component: Home
-  	},{
-  		path: '/petshow',
-  		name: 'Petshow',
-  		component: Petshow
-  	},{
-  		path: '/medical',
-  		name: 'Medical',
-  		component: Medical
-  	},{
-  		path: '/medical/list/:type',
-  		name: 'DiseaseList',
-  		component: DiseaseList
-  	},{
-  		path: '/myself',
-  		name: 'Myself',
-  		component: Myself
-  	},{
-  		path: '/myself/pet',
-  		name: 'Mypet',
-  		component: MypetList
-  	},{
-  		path: '/myself/pet/add',
-  		name: 'Addpet',
-  		component: Addpet
-  	},{
-  		path: '/myself/pet/detail/:id',
-  		name: 'Editpet',
-  		component: Editpet
-  	},{
-  		path: '/look/list',
-  		name: 'LookList',
-  		component: LookList
-  	},{
-  		path: '/look/edit',
-  		name: 'LookEdit',
-  		component: LookEdit
-  	},{
-  		path: '/look/detail/:id',
-  		name: 'LookDetail',
-  		component: LookDetail
-  	}
+  routes: [
+  { path: '/', redirect: '/signhome' },
+  /*登录注册*/
+  { path: '/signhome',         					name: 'Signhome',   	component: Signhome 		},
+  { path: '/signhome/login',   					name: 'Login',      	component: Login    		},
+  {	path: '/signhome/register', 				name: 'Register', 		component: Register	 		},
+  /*首页*/
+  {	path: '/home',											name: 'Home',					component: Home					},
+  /*宠物秀*/
+  {	path: '/petshow',										name: 'Petshow',			component: Petshow			},
+  /*医疗*/
+  {	path: '/medical',										name: 'Medical',			component: Medical			},
+  {	path: '/medical/list/:type',				name: 'DiseaseList',	component: DiseaseList	},
+  /*我的*/
+  {	path: '/myself',										name: 'Myself',				component: Myself				},
+  {	path: '/myself/pet/list',						name: 'Mypet',				component: MypetList		},
+  {	path: '/myself/pet/add',						name: 'Addpet',				component: Addpet				},
+  {	path: '/myself/pet/detail/:id',			name: 'Editpet',			component: Editpet			},
+  {	path: '/myself/look/list/:tab',			name: 'Mylooklist',		component: MylookList		},
+  /*寻主/宠*/
+  {	path: '/look/list',							 		name: 'LookList',			component: LookList			},
+  {	path: '/look/edit',									name: 'LookEdit',			component: LookEdit			},
+  {	path: '/look/detail/:id',						name: 'LookDetail',		component: LookDetail		}
   ]
 })

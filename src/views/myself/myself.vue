@@ -41,7 +41,7 @@
 		
 		<div class="other-list">
 			<div v-for="item in otherMenu">
-				<router-link to="" class="other-item">
+				<router-link :to="item.href" class="other-item">
 					<span>
 						<i :class="item.icon"></i>
 						<span class="name">{{item.name}}</span>
@@ -72,7 +72,7 @@ export default{
 			manageMenu:[{
 				name: '宠物',
 				icon: 'iconfont icon-baoji',
-				href: '/myself/pet',				
+				href: '/myself/pet/list',				
 			},{
 				name: '宠友',
 				icon: 'iconfont icon-pengyou',
@@ -90,7 +90,7 @@ export default{
 			},{
 				name:'我的寻宠/主',
 				icon:'iconfont icon-xunzhaochewei',
-				href:''
+				href:'/myself/look/list/0'
 			},{
 				name:'我的活动',
 				icon:'iconfont icon-grade-alt',

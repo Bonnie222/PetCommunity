@@ -1,10 +1,10 @@
 <template>
 	<div id="Addpet">
-		<Header title="添加宠物" :headerLeft="headerLeft"></Header>
+		<Header title="添加宠物" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="form">
 			<div class="pic">
 				<span class="imgPic" v-if="!avatar">
-					<img src="../../assets/images/member.png" class="avatar"/>	
+					<img src="../../../assets/images/member.png" class="avatar"/>	
 					<span class="camera">
 						<i class="iconfont icon-shangchuantupian_l"></i>
 					</span>
@@ -12,7 +12,7 @@
 				</span>				
 				<span class="imgPic" v-else>
 					<img :src="avatar" class="avatar" @click="previewImg($event)"/>
-					<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
+					<img src="../../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
 				</span>	
 			</div>
 			<div class="info">
@@ -44,28 +44,28 @@
 					<span class="item-name">宠物品种<span class="tip">*</span></span>
 					<span>
 						<input type="text" class="item-input" :value="petTypeText" placeholder="选择宠物品种" @click="petTypePicker=true"/>
-						<span class="link"><img src="../../assets/images/right.svg"/></span>
+						<span class="link"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">宠物生日<span class="tip">*</span></span>
 					<span>
 						<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth"/>
-						<span class="link"><img src="../../assets/images/right.svg"/></span>
+						<span class="link"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">到家时间</span>
 					<span>
 						<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate"/>
-						<span class="link"><img src="../../assets/images/right.svg"/></span>
+						<span class="link"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
 				<div class="info-item">
 					<span class="item-name">绝育状态</span>
 					<span>
 						<input type="text" class="item-input" :value="petStatusText" placeholder="选择绝育状态" @click="petStatusPicker=true"/>
-						<span class="link"><img src="../../assets/images/right.svg"/></span>
+						<span class="link"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
 			</div>
@@ -171,6 +171,9 @@ export default{
 		}
 	},
 	methods:{
+		back:function(){
+			this.$router.go(-1);
+		},
 	   	openDatePicker: function(){
 	   		this.$refs.petBirthPicker.open();
 	   	},
