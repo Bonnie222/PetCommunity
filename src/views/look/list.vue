@@ -55,7 +55,6 @@ export default{
 			var url = vm.urls.getLookList;
 			var callback = function(r){
 				var data = r.data.data;
-				console.log(data);
 				$.each(data, function(index, item) {
 					item.url = "/look/detail/" + item.id;
 					item.userInfo = JSON.parse(item.userInfo);

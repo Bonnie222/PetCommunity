@@ -65,18 +65,8 @@ export default{
 				if(data.length == 0){
 					vm.$router.replace('/myself/pet/add');
 				}else{
-					var petTypeList = {
-						1:'汪星人',
-						2:'喵星人',
-						3:'兔星人',
-						4:'鼠星人',
-						5:'鸟星人',
-						6:'龟星人',
-						7:'鱼星人',
-						8:'其他'
-					}
 					$.each(data, function(index, item) {
-						item.petType = petTypeList[item.petType];
+						item.petType = vm.config.petTypeList[item.petType];
 						item.petBirth = vm.utils.calculateAge(item.petBirth);
 					});
 					vm.petList = data;	

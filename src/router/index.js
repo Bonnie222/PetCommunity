@@ -19,6 +19,7 @@ const MypetList = _import('myself/petinfo/list');
 const Addpet = _import('myself/petinfo/edit');
 const Editpet = _import('myself/petinfo/detail');
 const MylookList = _import('myself/petlook/list');
+const MylookDetail = _import('myself/petlook/detail');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
@@ -46,7 +47,8 @@ export default new Router({
   {	path: '/myself/pet/list',						name: 'Mypet',				component: MypetList		},
   {	path: '/myself/pet/add',						name: 'Addpet',				component: Addpet				},
   {	path: '/myself/pet/detail/:id',			name: 'Editpet',			component: Editpet			},
-  {	path: '/myself/look/list/:tab',			name: 'Mylooklist',		component: MylookList		},
+  {	path: '/myself/look/list',					name: 'MylookList',		component: MylookList		},
+  {	path: '/myself/look/detail/:id',		name: 'MylookDetail',	component: MylookDetail	},
   /*寻主/宠*/
   {	path: '/look/list',							 		name: 'LookList',			component: LookList			},
   {	path: '/look/edit',									name: 'LookEdit',			component: LookEdit			},

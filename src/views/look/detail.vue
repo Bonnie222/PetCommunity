@@ -102,16 +102,6 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
-				var petTypeList = {
-					1:'汪星人',
-					2:'喵星人',
-					3:'兔星人',
-					4:'鼠星人',
-					5:'鸟星人',
-					6:'龟星人',
-					7:'鱼星人',
-					8:'其他'
-				}
 				var petAgeList = {
 					0:'无信息',
 					1:'小于1岁',
@@ -128,11 +118,10 @@ export default{
 				}
 				data.dateTime = vm.utils.changeDate(data.dateTime, "yyyy年MM月dd日 hh:mm");
 				data.createTime = vm.utils.changeDate(data.createTime, "yyyy年MM月dd日 hh:mm");
-				data.petType = petTypeList[data.petType];
-				data.petAge = petAgeList[data.petAge];
+				data.petType = vm.config.petTypeList[data.petType];
+				data.petAge = vm.config.petAgeList[data.petAge];
 				data.userInfo = JSON.parse(data.userInfo);
 				data.petAvatar = JSON.parse(data.petAvatar);
-				console.log(data);
 				vm.detailList = data;
 				vm.userInfo = data.userInfo;
 			}

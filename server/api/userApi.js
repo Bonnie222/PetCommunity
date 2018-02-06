@@ -310,11 +310,39 @@ router.post('/look/detail',(req,res)=>{
     })
 })
 //获取个人寻宠/主列表
-router.post('/user/looklist',(req, res) => {
+router.post('/user/looklistAll',(req, res) => {
 	var sql = $sql.look.userLookListAll;
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.userId];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//获取个人寻宠/主列表  按状态
+router.post('/user/looklistByStatus',(req, res) => {
+	var sql = $sql.look.userLookListByStatus;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.userId, p.findStatus];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//获取个人寻宠/主列表  按状态
+router.post('/user/lookdetail',(req, res) => {
+	var sql = $sql.queryById;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = ['look',p.id];
 	conn.query(sql, sqlParams, function(err, result) {    
         if (err) {       
             console.log(err);

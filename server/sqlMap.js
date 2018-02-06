@@ -30,6 +30,7 @@ var sqlMap = {
 		add: 'INSERT INTO look(id, isFindPet, region, address, dateTime, petSex, petType, petAge, petAvatar, note, contact, userId, userInfo, findStatus, createTime) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		homePage: 'SELECT id, isFindPet, note FROM look',
 		userLookListAll: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? ORDER BY createTime DESC',
+		userLookListByStatus: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? AND findStatus = ? ORDER BY createTime DESC',
 	}
 }
 

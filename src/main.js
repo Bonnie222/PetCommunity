@@ -26,8 +26,10 @@ import 'lib-flexible/flexible.js';
 
 import utils from './public/utils';
 import urls from './public/api';
+import config from './public/config';
 Vue.prototype.utils = utils;
 Vue.prototype.urls = urls;
+Vue.prototype.config = config;
 
 Vue.prototype.$axios = axios;
 

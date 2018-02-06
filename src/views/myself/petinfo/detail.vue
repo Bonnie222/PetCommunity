@@ -183,26 +183,11 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
-				var petTypeList = {
-					1:'汪星人',
-					2:'喵星人',
-					3:'兔星人',
-					4:'鼠星人',
-					5:'鸟星人',
-					6:'龟星人',
-					7:'鱼星人',
-					8:'其他'
-				}
-				var petStatusList = {
-					1:'未绝育',
-					2:'已绝育',
-					3:'不确定'
-				}
-				data.petTypeText = petTypeList[data.petType];
+				data.petTypeText = vm.config.petTypeList[data.petType];
 				data.petBirth = vm.utils.changeDate(data.petBirth);
 				data.petArrivedDate = data.petArrivedDate == null ? '': vm.utils.changeDate(data.petArrivedDate);
 				data.petCreateDate = data.petCreateDate == null ? '': vm.utils.changeDate(data.petCreateDate);
-				data.petStatusText = data.petStatus == null ? '': petStatusList[data.petStatus];
+				data.petStatusText = data.petStatus == null ? '': vm.config.petStatusList[data.petStatus];
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.avatar = data.petAvatar.fileUrl;
 				vm.petInfo = data;

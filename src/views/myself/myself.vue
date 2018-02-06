@@ -90,7 +90,7 @@ export default{
 			},{
 				name:'我的寻宠/主',
 				icon:'iconfont icon-xunzhaochewei',
-				href:'/myself/look/list/0'
+				href:'/myself/look/list'
 			},{
 				name:'我的活动',
 				icon:'iconfont icon-grade-alt',
