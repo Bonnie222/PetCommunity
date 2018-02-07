@@ -3,7 +3,8 @@
 		<Header title="发布寻宠/主信息" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="form">
 			<div class="form1">
-				<textarea placeholder="宠物说明..." v-model="notes"></textarea>
+				<textarea placeholder="宠物说明..." v-model="notes" maxlength="255" @input="countWord"></textarea>
+				<p>{{count}}/255</p>
 				<div class="pic">
 					<span class="addBtn" v-for="(item, index) in picList" v-if="picList.length!=0">
 						<img :src="item.picture" @click="previewImg(index)"/>
@@ -135,6 +136,7 @@ export default{
 			showCityselect:false,
 			district:District,
 			notes:'',
+			count:0,
 			files:[],
 			avatar:'',
 			showImgView:false,
@@ -223,6 +225,10 @@ export default{
 	methods:{
 		back:function(){
 			this.$router.go(-1);
+		},
+		countWord: function(){
+			var len = this.notes.length;
+			this.count = len;
 		},
 		previewImg: function(index){
 			this.avatar = this.picList[index].picture;
@@ -352,15 +358,26 @@ export default{
 			font-size: 0px;
 			border-bottom: 1px solid #E4E4E4;/*no*/
 			margin-bottom: 20px;
+			background: #FFFFFF;
 			textarea{
-				font-size: 26px;
-				padding: 5px 25px 0;
+				font-size: 28px;
+				padding: 10px 20px 0;
 				width: 100%;
 				min-height: 300px;
 				border: none;
+				
+			}
+			textarea::placeholder{
+				color:#999999;
+			}
+			p{
+				font-size: 26px;
+				color: #999999;
+				text-align: right;
+				padding: 10px 20px;
 			}
 			.pic{
-				background: #FFFFFF;
+				
 				height: 130px;
 				padding: 10px;
 				.addBtn{

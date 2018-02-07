@@ -337,7 +337,7 @@ router.post('/user/looklistByStatus',(req, res) => {
         }
     })
 })
-//获取个人寻宠/主列表  按状态
+//获取个人寻宠/主 详情
 router.post('/user/lookdetail',(req, res) => {
 	var sql = $sql.queryById;
 	var p = req.body;
@@ -351,46 +351,38 @@ router.post('/user/lookdetail',(req, res) => {
         }
     })
 })
-// 增加用户接口
-//router.post('/addUser', (req, res) => {
-//  var sql = $sql.user.add;    
-//  var params = req.body;    
-//  console.log('params',params);
-//  conn.query(sql, [params.phone, params.name, params.password], function(err, result) {    
-//      if (err) {       
-//          console.log(err);
-//      }        
-//      if (result) {
-//          jsonWrite(res, result);
-//      }
-//  })
-//});
+//更改 个人寻宠/寻主 状态
+router.post('/user/updatelookStatus',(req, res) => {
+	var sql = $sql.look.updateLookStatus;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.id];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
-// 添加用户
-router.get('/addUser', function(req, res, next){
- 	// 从连接池获取连接 
-	pool.getConnection(function(err, connection) { 
-		var sql = $sql.user.add;
-	// 获取前台页面传过来的参数  
-	 var param = req.query || req.params;   
-	// 建立连接 增加一个用户信息 
-	connection.query(sql, [params.phone, params.name, params.password], function(err, result) {
-        if(result) {      
-             result = {   
-                      code: 200,   
-                     	msg:'增加成功'
-             };  
-        }     
-          
-     // 以json形式，把操作结果返回给前台页面     
-       responseJSON(res, result);   
-
-     // 释放连接  
-      connection.release();  
-
-       });
-    });
- });
+/**
+ * 活动接口
+ */
+//获取线上活动列表
+router.post('/activity/list',(req, res) => {
+	var sql = $sql.activity.queryListByType;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.actType];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
 
 module.exports = router;

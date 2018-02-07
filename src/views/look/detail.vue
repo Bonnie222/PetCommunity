@@ -34,17 +34,14 @@
 						</span>
 						<span class="colum-item">
 							<label>性别</label>
-							<span v-if="detailList.petType != 3">
-								{{detailList.petType == 1 ? "GG" : "MM"}}
-							</span>
-							<span v-else>未知</span>
+							<span>{{detailList.petSex}}</span>
 						</span>
 						<span class="colum-item">
-							<label>{{detailList.isFindPet == 1 ? "丢失":"捡宠"}}地点</label>
+							<label>{{detailList.isFindPet}}地点</label>
 							<span>{{detailList.region}} <br/> {{detailList.address}}</span>
 						</span>
 						<span class="colum-item">
-							<label>{{detailList.isFindPet == 1 ? "丢失":"捡宠"}}时间</label>
+							<label>{{detailList.isFindPet}}时间</label>
 							<span>{{detailList.dateTime}}</span>
 						</span>
 						
@@ -102,24 +99,12 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
-				var petAgeList = {
-					0:'无信息',
-					1:'小于1岁',
-					2:'1岁',
-					3:'2岁',
-					4:'3岁',
-					5:'4岁',
-					6:'5岁',
-					7:'6岁',
-					8:'7岁',
-					9:'8岁',
-					10:'9岁',
-					11:'10岁以上',
-				}
 				data.dateTime = vm.utils.changeDate(data.dateTime, "yyyy年MM月dd日 hh:mm");
 				data.createTime = vm.utils.changeDate(data.createTime, "yyyy年MM月dd日 hh:mm");
 				data.petType = vm.config.petTypeList[data.petType];
+				data.petSex = vm.config.petSexList[data.petSex];
 				data.petAge = vm.config.petAgeList[data.petAge];
+				data.isFindPet = vm.config.isFindPet[data.isFindPet];
 				data.userInfo = JSON.parse(data.userInfo);
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.detailList = data;

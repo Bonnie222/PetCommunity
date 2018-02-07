@@ -31,6 +31,12 @@ var sqlMap = {
 		homePage: 'SELECT id, isFindPet, note FROM look',
 		userLookListAll: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? ORDER BY createTime DESC',
 		userLookListByStatus: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? AND findStatus = ? ORDER BY createTime DESC',
+		updateLookStatus: 'UPDATE look SET findStatus = 2 WHERE id = ?',
+	},
+	
+	//活动
+	activity:{
+		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto FROM activity WHERE actType = ? ORDER BY endTime DESC',
 	}
 }
 

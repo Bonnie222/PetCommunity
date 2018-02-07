@@ -213,6 +213,18 @@ export default{
 	    return date;
     },
     /**
+     * 比较两个时间
+     */
+    completeTime: function(start, end){
+	   var s = new Date(start);
+	   var e = new Date(end);
+	   if(s >= e){
+	     return false;
+	   }else{
+	     return true;
+	   }
+	 },
+    /**
      * 提示框封装
      */
     alert: function(that, tips, tipTitle){

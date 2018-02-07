@@ -78,7 +78,7 @@ export default{
 			},{
 				name:'活动',
 				src:require('../../assets/images/huodong.svg'),
-				href:''
+				href:'/activity/list'
 			}]
 		}
 	},

@@ -36,6 +36,14 @@ export default {
 		1:'GG',
 		2:'MM',
 		3:'未知'
+	},
+	findPetType:{
+		1:'寻宠',
+		2:'寻主'
+	},
+	isFindPet:{
+		1:'丢失',
+		2:'捡宠'
 	}
 	
 }

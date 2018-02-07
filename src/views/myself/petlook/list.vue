@@ -66,7 +66,7 @@ export default{
 					}
 				}
 			},
-			lookList:[]
+			lookList:[1]
 		}
 	},
 	created(){
@@ -178,7 +178,7 @@ export default{
 				  flex-direction: column;
 				  padding: 20px 0px;
 				 	.opinion-text{
-					  font-size: 32px;
+					  font-size: 30px;
 					  margin-bottom: 20px;
 					}
 					.opinion-text:last-child{

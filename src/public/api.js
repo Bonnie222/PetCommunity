@@ -19,6 +19,7 @@ export default {
 	getMyLookListByStatus: host + '/user/looklistByStatus',
 	getMyLookDetail: host + '/user/lookdetail',
 	getMyPetList: host + '/user/petList',
+	updateMyLookStatus: host + '/user/updatelookStatus',
 
 	
 	//宠物
@@ -31,5 +32,8 @@ export default {
 	addLook: host + '/look/add',
 	getLookList: host + '/look/list',
 	getLookDetail: host + '/look/detail',
+	
+	//活动
+	getActivityList: host + '/activity/list',
 	
 }
