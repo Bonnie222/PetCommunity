@@ -1,6 +1,6 @@
 <template>
 	<div id="LookEdit">
-		<Header title="发布寻宠/主信息" :headerLeft="headerLeft" @clickRouter="back"></Header>
+		<Header title="发布寻宠/主信息" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
 		<div class="form">
 			<div class="form1">
 				<textarea placeholder="宠物说明..." v-model="notes" maxlength="255" @input="countWord"></textarea>
@@ -126,6 +126,7 @@ export default{
 	},
 	data(){
 		return{
+			isFixed:true,
 			headerLeft:true,
 			isSaving:false,
 			saveBtnText:'确认发布',
@@ -354,6 +355,7 @@ export default{
 		color: #333333;
 	}
 	.form{
+		padding-top: 90px;
 		.form1{
 			font-size: 0px;
 			border-bottom: 1px solid #E4E4E4;/*no*/
@@ -492,7 +494,7 @@ export default{
 		}
 	}
 	.btn-wrap{
-		margin-top: 50px;
+		margin: 50px 0;
 	    .btn-save{
 	    	display: block;
 	    	margin: 0 auto;

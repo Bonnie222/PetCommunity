@@ -35,5 +35,5 @@ export default {
 	
 	//活动
 	getActivityList: host + '/activity/list',
-	
+	getActivityDetail: host + '/activity/detail',
 }

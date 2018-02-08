@@ -1,6 +1,6 @@
 <template>
 	<div id="Mylook-detail">
-		<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
 		<div class="detail-wrap">
 			<div class="detail-list">
 				<div class="detail-item" v-for="(item,prop) in detail">
@@ -38,6 +38,7 @@ export default{
 	},
 	data(){              
 		return{
+			isFixed:true,
 			headerLeft:true,
 			lookid:'',
 			topTitle:'',
@@ -122,6 +123,9 @@ export default{
 
 <style lang="less" scoped>
 #Mylook-detail{
+	.detail-wrap{
+		padding-top:90px ;
+	}
 	.detail-list{
 		background:#FFFFFF;
 		padding:0 25px;

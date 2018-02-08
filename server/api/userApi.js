@@ -383,7 +383,20 @@ router.post('/activity/list',(req, res) => {
         }
     })
 })
-
+//获取活动详情
+router.post('/activity/detail',(req, res) => {
+	var sql = $sql.queryById;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = ['activity', p.id];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
 module.exports = router;
 

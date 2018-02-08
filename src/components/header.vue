@@ -1,5 +1,5 @@
 <template>
-	<mt-header :title="title" id="header">
+	<mt-header :title="title" id="header" :fixed="fixed">
 	    <mt-button icon="back" @click="gotoRouter" slot="left" v-show="headerLeft"></mt-button>
 	    <mt-button icon="more" slot="right" v-show="headerRight"></mt-button>
 	</mt-header>
@@ -10,7 +10,8 @@ export default {
     props:{
     	title:{ type:String, default:"" },
     	headerLeft:{ type:Boolean, default:true },
-    	headerRight:{ type:Boolean, default:false }
+    	headerRight:{ type:Boolean, default:false },
+    	fixed:{ type:Boolean, default:false },
     },
     data(){
     	return{

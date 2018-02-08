@@ -26,6 +26,7 @@ const LookEdit = _import('look/edit');
 const LookDetail = _import('look/detail');
 /*活动*/
 const ActivityList = _import('activity/list');
+const ActivityDetail = _import('activity/detail');
 
 Vue.use(Router)
 
@@ -33,28 +34,29 @@ export default new Router({
   routes: [
 	  { path: '/', redirect: '/signhome' },
 	  /*登录注册*/
-	  { path: '/signhome',         					name: 'Signhome',   	  component: Signhome 		},
-	  { path: '/signhome/login',   					name: 'Login',      		component: Login    		},
-	  {	path: '/signhome/register', 				name: 'Register', 			component: Register	 		},
+	  { path: '/signhome',         									name: 'Signhome',   	  	component: Signhome 			},
+	  { path: '/signhome/login',   									name: 'Login',      			component: Login    			},
+	  {	path: '/signhome/register', 								name: 'Register', 				component: Register	 			},
 	  /*首页*/
-	  {	path: '/home',											name: 'Home',						component: Home					},
+	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
-	  {	path: '/petshow',										name: 'Petshow',				component: Petshow			},
+	  {	path: '/petshow',														name: 'Petshow',					component: Petshow				},
 	  /*医疗*/
-	  {	path: '/medical',										name: 'Medical',				component: Medical			},
-	  {	path: '/medical/list/:type',				name: 'DiseaseList',		component: DiseaseList	},
+	  {	path: '/medical',														name: 'Medical',					component: Medical				},
+	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
 	  /*我的*/
-	  {	path: '/myself',										name: 'Myself',					component: Myself				},
-	  {	path: '/myself/pet/list',						name: 'Mypet',					component: MypetList		},
-	  {	path: '/myself/pet/add',						name: 'Addpet',					component: Addpet				},
-	  {	path: '/myself/pet/detail/:id',			name: 'Editpet',				component: Editpet			},
-	  {	path: '/myself/look/list',					name: 'MylookList',			component: MylookList		},
-	  {	path: '/myself/look/detail/:id',		name: 'MylookDetail',		component: MylookDetail	},
+	  {	path: '/myself',														name: 'Myself',						component: Myself					},
+	  {	path: '/myself/pet/list',										name: 'Mypet',						component: MypetList			},
+	  {	path: '/myself/pet/add',										name: 'Addpet',						component: Addpet					},
+	  {	path: '/myself/pet/detail/:id',							name: 'Editpet',					component: Editpet				},
+	  {	path: '/myself/look/list',									name: 'MylookList',				component: MylookList			},
+	  {	path: '/myself/look/detail/:id',						name: 'MylookDetail',			component: MylookDetail		},
 	  /*寻主/宠*/
-	  {	path: '/look/list',							 		name: 'LookList',				component: LookList			},
-	  {	path: '/look/edit',									name: 'LookEdit',				component: LookEdit			},
-	  {	path: '/look/detail/:id',						name: 'LookDetail',			component: LookDetail		},
+	  {	path: '/look/list',							 						name: 'LookList',					component: LookList				},
+	  {	path: '/look/edit',													name: 'LookEdit',					component: LookEdit				},
+	  {	path: '/look/detail/:id',										name: 'LookDetail',				component: LookDetail			},
 	  /*活动*/
-	 	{	path: '/activity/list',							name: 'ActivityList',		component: ActivityList },
+	 	{	path: '/activity/list',											name: 'ActivityList',			component: ActivityList 	},
+	 	{	path: '/activity/detail/:type/:id',					name: 'ActivityDetail',		component: ActivityDetail	},
   ]
 })

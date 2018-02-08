@@ -36,7 +36,7 @@ var sqlMap = {
 	
 	//活动
 	activity:{
-		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto FROM activity WHERE actType = ? ORDER BY endTime DESC',
+		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
 	}
 }
 

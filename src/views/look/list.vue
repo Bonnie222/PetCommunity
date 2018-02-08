@@ -1,6 +1,6 @@
 <template>
 	<div id="LookList">
-		<Header title="寻宠110" :headerLeft="headerLeft" @clickRouter="back"></Header>
+		<Header title="寻宠110" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
 		<div class="list-wrap">
 			<router-link :to="item.url" class="list-item" v-for="item in looklist" :key="item.id">
 				<div class="item-title">
@@ -23,7 +23,7 @@
 		</div>
 		<div class="link-btn" >
 			<router-link to="/look/edit">
-				<span>我要寻宠/主</span>
+				<span><i class="iconfont icon-tianxie"></i>我要寻宠/主</span>
 			</router-link>	
 		</div>
 	</div>
@@ -39,6 +39,7 @@ export default{
 	},
 	data(){
 		return{
+			isFixed:true,
 			headerLeft:true,
 			looklist:{}
 		}
@@ -77,7 +78,11 @@ export default{
 		border-bottom:1px solid #CCCCCC; /*no*/
 		/*color: #333333;
 	}*/
+	.iconfont{
+		margin-right: 10px;
+	}
 	.list-wrap{
+		padding-top: 100px;
 		.list-item{
 			display: block;
 			background: #FFFFFF;

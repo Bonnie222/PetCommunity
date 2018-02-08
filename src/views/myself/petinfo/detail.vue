@@ -375,7 +375,6 @@ export default{
 		}
 	}
 	.info{
-		margin-top: 50px;
 		background: #FFFFFF;
 		padding: 0 20px;
 		.tip{

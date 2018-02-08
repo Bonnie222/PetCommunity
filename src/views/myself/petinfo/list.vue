@@ -1,26 +1,28 @@
 <template>
 	<div id="Mypet">
-		<Header title="我的宠物" :headerLeft="headerLeft" @clickRouter="back"></Header>
-		<div v-for="item in petList">
-			<router-link :to="{ name: 'Editpet', params: { id: item.id }}" class="pet-wrap">
-				<span class="pet-info">
-					<img src="" />
-					<span class="mess">
-						<span class="name">
-							{{ item.petName}}
-							<i v-if="item.petSex == 1" class="iconfont icon-icon-test maleColor"></i>
-							<i v-else class="iconfont icon-icon-test femaleColor"></i>
-						</span>
-						<span>
-							<span class="type">{{item.petType}}</span>
-							<span class="age">{{item.petBirth}}</span>
+		<Header title="我的宠物" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<div class="petList">
+			<div v-for="item in petList">
+				<router-link :to="{ name: 'Editpet', params: { id: item.id }}" class="pet-wrap">
+					<span class="pet-info">
+						<img src="" />
+						<span class="mess">
+							<span class="name">
+								{{ item.petName}}
+								<i v-if="item.petSex == 1" class="iconfont icon-icon-test maleColor"></i>
+								<i v-else class="iconfont icon-icon-test femaleColor"></i>
+							</span>
+							<span>
+								<span class="type">{{item.petType}}</span>
+								<span class="age">{{item.petBirth}}</span>
+							</span>
 						</span>
 					</span>
-				</span>
-				<span class="right">
-					<img src="../../../assets/images/right.svg"/>
-				</span>
-			</router-link>
+					<span class="right">
+						<img src="../../../assets/images/right.svg"/>
+					</span>
+				</router-link>
+			</div>
 		</div>
 		<router-link to="/myself/pet/add" class="btn-create">
 			添加宠物
@@ -37,6 +39,7 @@ export default{
 	},
 	data(){
 		return{
+			isFixed:true,
 			headerLeft: true,
 			petList:{},
 		}
@@ -80,6 +83,9 @@ export default{
 
 <style lang="less" scoped>
 #Mypet{
+	.petList{
+		padding-top: 90px;
+	}
 	.pet-wrap{
 		background: #FFFFFF;
 		height: 120px;

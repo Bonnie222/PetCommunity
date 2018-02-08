@@ -1,6 +1,6 @@
 <template>
 	<div id="LookDetail">
-		<Header title="寻宠详情" :headerLeft="headerLeft" @clickRouter="back"></Header>
+		<Header title="寻宠详情" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
 		<div class="detail-wrap" >
 			<div class="detail-title">
 				<div class="user-info">
@@ -73,6 +73,7 @@ export default{
 	},
 	data(){
 		return{
+			isFixed:true,
 			headerLeft:true,
 			detailList:{},
 			userInfo:{}
@@ -119,6 +120,7 @@ export default{
 <style lang="less" scoped>
 #LookDetail{
 	.detail-wrap{
+		padding-top: 90px;
 		background: #FFFFFF;
 		border-bottom:1px solid #CCCCCC; /*no*/
 		.detail-title{
@@ -203,7 +205,7 @@ export default{
 					display: flex;
 					flex-direction: column;
 					margin-right: 10px;
-					font-size:22px; 
+					font-size:24px; 
 					&:last-child{
 						margin-right: 0;
 					}

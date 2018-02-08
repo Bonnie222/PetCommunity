@@ -1,6 +1,6 @@
 <template>
 	<div id="Mylook-list">
-		<Header title="我的寻宠/主列表" :headerLeft="headerLeft" @clickRouter="back"></Header>
+		<Header title="我的寻宠/主列表" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back" ></Header>
 		<ul id="lookListTab" class="tab-list">
 			<li v-for="(item, index) in lookTabList.list" >
 				<label>
@@ -47,6 +47,7 @@ export default{
 	},
 	data(){              
 		return{
+			isFixed:true,
 			headerLeft:true,
 			_userId:'',
 			lookTabList:{
@@ -121,12 +122,17 @@ export default{
 		background: #FFFFFF;
 		display: flex;
 		padding: 20px 0;
-		margin-bottom: 20px;
+		position: fixed;
+		top:90px;
+		width: 100%;
+		border-bottom: 1px solid #E4E4E4;/*no*/
 		li{
 			padding:0 30px;
 			flex: 1;
 			border-right: 1px solid #E4E4E4;/*no*/
-			
+			&:last-child{
+				border-right: none;
+			}
 			text-align: center;
 			.tab-name{
 				position: relative;	
@@ -146,6 +152,7 @@ export default{
 		}
 	}
 	.content-wrap{
+		padding-top: 180px;
 		.nodata{
 			text-align: center;
 			margin-top: 50%;
