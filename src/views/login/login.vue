@@ -1,6 +1,6 @@
 <template>
 	<div id="Login">
-		<Header title="登录" ></Header>
+		<Header title="登录" @clickRouter="back"></Header>
 		<div class="loginform">
 			<ul>
 				<li class="">
@@ -50,6 +50,9 @@ export default {
 
     },
     methods:{
+    	back:function(){
+			this.$router.go(-1);
+		},
     	onPhoneFocus: function(){
     		var vm = this;
     		vm.errMsg = '';

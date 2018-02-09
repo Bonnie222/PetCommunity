@@ -242,7 +242,6 @@ export default{
 				border-bottom: 1px solid #E4E4E4;/*no*/
 				.picTure{
 					display: block;
-					background: yellow;
 					width: 100%;
 					height: 350px;
 					margin-bottom: 20px;

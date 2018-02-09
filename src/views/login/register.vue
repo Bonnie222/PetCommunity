@@ -1,6 +1,6 @@
 <template>
 	<div id="Register">
-		<Header :title="topTitle"></Header>
+		<Header :title="topTitle" @clickRouter="back"></Header>
 		<div :hidden="psdProtectWindow">
 			<div class="formlist">
 				<ul>
@@ -116,6 +116,9 @@ export default {
     	}
     },
     methods:{
+    	back:function(){
+			this.$router.go(-1);
+		},
     	onFocus: function(){
     		var vm = this;
     		vm.errMsg = '';
