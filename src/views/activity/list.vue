@@ -51,7 +51,26 @@
 				</router-link>
 			</div>
 		</div>
-		<div v-else>3</div>
+		<div v-else class="tab2">
+			<div class="detail-item" v-for="item in listThree">
+				<router-link :to="item.href">
+					<div class="photo">
+						<span class="picTure">
+							<img :src="item.themePhoto.fileUrl" />
+						</span>
+						<span class="status"></span>
+					</div>
+					<div class="desc">
+						<span class="title">{{item.actTitle}}</span>
+						<span class="deadline"><i class="iconfont icon-59"></i>{{item.startTime}} - {{item.endTime}}</span>
+						<span class="info">
+							<span class="address"><i class="iconfont icon-didian"></i>{{item.address}}</span>
+							<span class="number"><i class="iconfont icon-ren"></i><label>{{item.peopleNum}}</label>人报名</span>
+						</span>
+					</div>
+				</router-link>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -67,53 +86,60 @@ export default{
 			isFixed:true,
 			headerLeft:true,
 			topTitle:'线上活动',
+			_type:null,
 			actTabList:{
 				list:{
 					1:{
 						name:'线上活动',
-						value: 0,
-						check:true
+						value: 1,
 					},
 					2:{
 						name:'官方活动',
-						value: 1,
+						value: 2,
 					},
 					3:{
 						name:'宠友自发',
-						value: 2,
+						value: 3,
 					}
 				}
 			},
 			listOne:[],
 			listTwo:[],
+			listThree:[],
 		}
 	},
 	created(){
-		this.getList(0);
+		let vm = this;
+		vm._type = vm.$route.params.type;
+		vm.changeToTab(vm._type);
+		
 	},
 	methods:{
 		back:function(){
-			this.$router.go(-1);
+			this.$router.replace('/home');
 		},
 		changeToTab: function(value){
+			var value = parseInt(value);
 			$.each(this.actTabList.list, function(index,item){
 				item.check = false;
-				if(index == (value+1)){
+				if(index == value){
 					item.check = true;
 				}
 			})
-			if(value != 0){
-				this.topTitle = value == 1 ? '官方活动':'宠友自发';
+			if(value != 1){
+				this.topTitle = value == 2 ? '官方活动':'宠友自发';
 			}else{
 				this.topTitle = '线上活动';
 			}
+			location.href = location.hash.substring(0,16) + value;
 			this.getList(value);
 		},
 		getList: function(value){
 			var vm = this;
+			var type = parseInt(value);
 			var url = vm.urls.getActivityList;
 			var data = {
-				actType: value+1
+				actType: type
 			}
 			
 			var options = {
@@ -125,8 +151,8 @@ export default{
 				$.each(data,function(index,item){
 					item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);
 					item.themePhoto = JSON.parse(item.themePhoto);
-					item.href = '/activity/detail/' + (value+1) + '/' + item.id;
-					if(value == 0){
+					item.href = '/activity/detail/' + value + '/' + item.id;
+					if(value == 1){
 						item.startTime = vm.utils.changeDate(item.startTime, 'yyyy.MM.dd');
 						item.endTime = vm.utils.changeDate(item.endTime, 'yyyy.MM.dd');
 					}else{
@@ -134,10 +160,12 @@ export default{
 						item.endTime = vm.utils.changeDate(item.endTime, 'yyyy-MM-dd hh:mm');
 					}
 				})
-				if(value == 0){
+				if(value == 1){
 					vm.listOne = data;
-				}else if(value == 1){
+				}else if(value == 2){
 					vm.listTwo = data;
+				}else{
+					vm.listThree = data;
 				}
 			}
 			

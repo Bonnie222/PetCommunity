@@ -224,6 +224,17 @@ export default{
 	     return true;
 	   }
 	 },
+	 /**
+	  * 日期+加时间选择器 返回时间状态
+	  * {vm} this
+	  * {value} 时间值
+	  * {formart} 返回时间的格式
+	  */
+	returnDatetime: function(value, formart){
+		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate() + ' ' + value.getHours() + ':' + value.getMinutes() 
+		d = this.formatDate(d, formart);
+		return d;
+	},
     /**
      * 提示框封装
      */

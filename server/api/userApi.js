@@ -397,6 +397,20 @@ router.post('/activity/detail',(req, res) => {
         }
     })
 })
+//发布活动
+router.post('/activity/add',(req, res) => {
+	var sql = $sql.activity.add;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.actTitle, p.actType, p.publisherId, p.publisher, p.createTime, p.startTime, p.endTime, p.themePhoto, p.notes, p.city, p.address, p.actNum, p.cost, p.contact];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
 module.exports = router;
 

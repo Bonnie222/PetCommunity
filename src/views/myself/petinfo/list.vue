@@ -5,7 +5,7 @@
 			<div v-for="item in petList">
 				<router-link :to="{ name: 'Editpet', params: { id: item.id }}" class="pet-wrap">
 					<span class="pet-info">
-						<img src="" />
+						<img :src="item.avatar" />
 						<span class="mess">
 							<span class="name">
 								{{ item.petName}}
@@ -71,6 +71,7 @@ export default{
 					$.each(data, function(index, item) {
 						item.petType = vm.config.petTypeList[item.petType];
 						item.petBirth = vm.utils.calculateAge(item.petBirth);
+						item.avatar = JSON.parse(item.petAvatar).fileUrl;
 					});
 					vm.petList = data;	
 				}

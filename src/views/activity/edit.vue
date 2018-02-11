@@ -42,7 +42,8 @@
 			</li>-->
 			<li class="input2">
 				<label><i class="iconfont icon-kaishijiuyuan"></i>活动开始时间</label>
-				<span class="" @click="">
+				<span class="" @click="openStartTimePicker">
+					{{editList.startTime == null ? '请选择' : editList.startTime}}
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
@@ -50,7 +51,8 @@
 			</li>
 			<li class="input2">
 				<label><i class="iconfont icon-plus-stop"></i>活动结束时间</label>
-				<span class="" @click="">
+				<span class="" @click="openEndTimePicker">
+					{{editList.endTime == null ? '请选择' : editList.endTime}}
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
@@ -58,7 +60,8 @@
 			</li>
 			<li class="input2">
 				<label><i class="iconfont icon-listzhusu"></i>选择活动城市</label>
-				<span class="" @click="">
+				<span class="" @click="showCityselect = true">
+					{{editList.city == null ? '请选择' : editList.city}}
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
@@ -66,20 +69,20 @@
 			</li>
 			<li class="input1">
 				<label><i class="iconfont icon-weizhib"></i></label>
-				<input type="text"  placeholder="请输入活动地点"/>
+				<input type="text"  placeholder="请输入活动地点" v-model="editList.address"/>
 			</li>
 			<li class="input1">
 				<label><i class="iconfont icon-dianhua bold"></i></label>
-				<input type="text" placeholder="请输入联系方式" />
+				<input type="text" placeholder="请输入联系方式" v-model="editList.contact"/>
 			</li>
 		</ul>
 		<ul class="form2">
 			<li class="input3">
 				<label><i class="iconfont icon-ren2 bold"></i>活动人数:</label>
-				<input type="text" placeholder="请输入人数" />
+				<input type="text" placeholder="请输入人数" name="number"  v-model="editList.actNum" />
 				<div class="radio-wrap">
 					<label class="yd-radio">
-						<input type="radio" value="不限" name="number">
+						<input type="radio" value="不限" name="number" v-model="editList.actNum">
 						<span class="yd-radio-icon"></span>
 						<span class="yd-radio-text">不限</span>
 					</label>
@@ -87,10 +90,10 @@
 			</li>
 			<li class="input3">
 				<label><i class="iconfont icon-qian1"></i>活动费用:</label>
-				<input type="text" placeholder="请输入费用" />
+				<input type="text" placeholder="请输入费用" v-model="editList.cost"/>
 				<div class="radio-wrap">
 					<label class="yd-radio">
-						<input type="radio" value="免费" name="cost">
+						<input type="radio" value="免费" name="cost"  v-model="editList.cost">
 						<span class="yd-radio-icon"></span>
 						<span class="yd-radio-text">免费</span>
 					</label>
@@ -108,17 +111,23 @@
 			</li>
 			<li class="input4">
 				<label><i class="iconfont icon-qian1"></i>活动说明</label>
-				<textarea  placeholder="请输入本次活动的主要说明，注意事项等"></textarea>
+				<textarea  placeholder="请输入本次活动的主要说明，注意事项等"  v-model="notes"></textarea>
 			</li>
 		</ul>
+		<yd-cityselect v-model="showCityselect" :callback="resultCity" :items="district"></yd-cityselect>
+		<mt-datetime-picker ref="showStartTime" type="datetime" @confirm="handleStartTime"
+				:startDate="startDate"></mt-datetime-picker>
+		<mt-datetime-picker ref="showEndTime" type="datetime" @confirm="handleEndTime"
+				:startDate="endDate"></mt-datetime-picker>
 		<div class="btn-wrap">
-			<button class="btn-save" @click="">{{saveBtnText}}</button>
+			<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
 		</div>	
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
+import District from 'ydui-district/dist/gov_province_city_id';
 export default{
 	name:'ActivityDetail',
 	components:{
@@ -128,21 +137,32 @@ export default{
 		return{
 			isFixed:true,
 			headerLeft:true,
+			isSaving:false,
+			showCityselect: false,
 			saveBtnText:'确认发布',
+			startDate:new Date(this.utils.getNowTime()),
+			endDate:new Date(this.utils.getNowTime()),
+			district:District,
 			userInfo:{},
 			avatar:null,
 			files:null,
+			notes:null,
 			editList:{
 				themePhoto:'',
 				actTitle:'',
 				actType:3,
-				
+				startTime:null,
+				endTime:null,
+				city:null,
+				address:null,
+				contact:null,
+				actNum:null,
+				cost:null,
 			},
 		}
 	},
 	created(){
 		this.userInfo = JSON.parse(window.sessionStorage.userInfo);
-		console.log(this.userInfo)
 	},
 	methods:{
 		back:function(){
@@ -166,6 +186,91 @@ export default{
     			vm.avatar = this.result;
     		}
     	},
+    	openStartTimePicker: function(){
+    		this.$refs.showStartTime.open();
+    	},
+    	handleStartTime:function(value){
+    		let vm = this;
+	   		vm.editList.startTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');	   		
+    	},
+    	openEndTimePicker: function(){
+    		let vm = this;
+    		if(vm.editList.startTime){
+    			vm.endTime = new Date(vm.editList.startTime); 
+    			vm.$refs.showEndTime.open();
+    		}else{
+    			vm.$toast('请先选择活动开始时间');
+    		}
+    		
+    	},
+    	handleEndTime:function(value){
+    		let vm = this;
+			vm.editList.endTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');	
+    	},
+    	resultCity: function(ret) {
+    		let vm = this;
+            vm.editList.city = ret.itemName1 + ' ' + ret.itemName2;
+       	},
+       	focusNumeberText: function(){
+       		let vm = this;
+       		$(vm).siblings("input[type='radio']").attr("checked", true);
+       		
+       	},
+    	saveToPublish: function(){
+    		let vm = this;
+    		if(vm.isSaving) return;
+			let data = vm.editList;
+			console.log(data);
+			if(!data.actTitle || !data.address || !data.startTime || !data.endTime || 
+				!vm.notes || !data.contact || !data.city || !data.actNum || !data.cost ){
+					vm.$toast('信息填写不完整');
+					return;
+			}
+			if(!vm.avatar){
+				vm.$toast('请上传活动封面');
+				return;
+			}
+			let partten = /^$|^1(3|4|5|7|8)\d{9}$/;
+    		if(!partten.test(data.contact)){
+    			vm.$toast('请输入正确的手机联系方式');
+					return;
+    		}
+    		
+    		let e = vm.files;
+      		let url = vm.urls.uploadSingle;
+    		let fname = 'avatar';
+    		vm.isSaving = true;
+			vm.saveBtnText = '正在发布中...';
+    		let callback = function(r){
+    			vm.editList.themePhoto = JSON.stringify(r.data.data);
+    			save();
+    		}		
+    		vm.utils.upload(vm, e, fname, url, callback);
+    		
+    		function save(){
+    			let url = vm.urls.addActivity;
+				data.publisherId = vm.userInfo.id;
+				data.publisher = vm.userInfo.userName;
+				data.createTime = vm.utils.getNowTime();
+				data.notes = vm.notes.replace(/\n|\r\n/g,"<br/>");
+
+				let callback = function(r){
+					vm.isSaving = false;
+					vm.saveBtnText = '确认发布';
+					vm.$dialog.toast({
+						mes: '发布成功',
+	  					icon: 'success',
+	  					timeout: 1000
+					});	
+					setTimeout(function(){
+						vm.$router.replace('/activity/list/3');
+					},1500);
+				}
+				console.log(data);
+				vm.utils.postData(url, data, callback);
+    		}
+
+    	}
 	}
 }
 </script>

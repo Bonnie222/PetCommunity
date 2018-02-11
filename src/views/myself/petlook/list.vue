@@ -12,7 +12,7 @@
 			</li>
 		</ul>
 		<div class="content-wrap">
-			<ul class="content-list" v-if="lookList.length !=0">
+			<ul class="content-list" v-if="len !=0">
 				<router-link :to="item.href" v-for="item in lookList" :key="item.id">
 					<li>
 					 	<span class="item-title">
@@ -55,7 +55,6 @@ export default{
 					1:{
 						name:'全部',
 						value: 0,
-						check:true
 					},
 					2:{
 						name:'进行中',
@@ -67,16 +66,30 @@ export default{
 					}
 				}
 			},
-			lookList:[1]
+			len:1,
+			lookList:[]
 		}
 	},
 	created(){
-		this._userId = JSON.parse(window.sessionStorage.userInfo).id;
-		this.getList(0);
+		let vm = this;
+		vm._userId = JSON.parse(window.sessionStorage.userInfo).id;
+		vm._type = vm.$route.params.type;
+		vm.changeToTab(vm._type);
 	},
 	methods:{
 		back:function(){
 			this.$router.replace('/myself');
+		},
+		changeToTab: function(value){
+			var value = parseInt(value);
+			$.each(this.lookTabList.list, function(index,item){
+				item.check = false;
+				if(index == (value+1)){
+					item.check = true;
+				}
+			})
+			location.href = location.hash.substring(0,19) + value;
+			this.getList(value);
 		},
 		getList: function(value){
 			var vm = this;
@@ -92,6 +105,7 @@ export default{
 			
 			var callback = function(r){
 				var data = r.data.data;
+				vm.len = data.length;
 				$.each(data, function(index, item){
 					item.createTime = vm.utils.changeDate(item.createTime);
 					item.dateTime = vm.utils.changeDate(item.dateTime);
@@ -103,15 +117,7 @@ export default{
 			}
 			vm.utils.postData(url, data, callback);
 		},
-		changeToTab: function(value){
-			$.each(this.lookTabList.list, function(index,item){
-				item.check = false;
-				if(index == (value+1)){
-					item.check = true;
-				}
-			})
-			this.getList(value);
-		}
+		
 	}
 }
 </script>

@@ -331,7 +331,7 @@ export default{
 					vm.isSaving = false;
 					vm.saveBtnText = '确认发布';
 					vm.$dialog.toast({
-						mes: '添加成功',
+						mes: '发布成功',
 	  					icon: 'success',
 	  					timeout: 1000
 					});	
