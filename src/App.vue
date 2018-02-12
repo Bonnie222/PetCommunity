@@ -12,6 +12,7 @@ export default {
 
 <style lang="less" rel="stylesheet/less">
 #app {
+	overflow-x: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	.btn-wrap{
 	    .btn-cancel,.btn-save{

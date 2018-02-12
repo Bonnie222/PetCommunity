@@ -67,24 +67,25 @@ export default{
 		}
 	},
 	created(){
-		this.lookid = this.$route.params.id;
-		this.getDetail();
+		let vm = this;
+		vm.lookid = vm.$route.params.id;
+		vm.getDetail();
 	},
 	methods:{
 		back:function(){
 			this.$router.go(-1);
 		},
 		getDetail: function(){
-			var vm = this;
-			var url = vm.urls.getMyLookDetail;
-			var data = {
+			let vm = this;
+			let url = vm.urls.getMyLookDetail;
+			let data = {
 				id : vm.lookid
 			}
-			var options = {
+			let options = {
 				params:data
 			}
-			var callback = function(r){
-				var item = r.data.data[0];
+			let callback = function(r){
+				let item = r.data.data[0];
 				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情'; 
 				vm.status = item.findStatus;
 				item.createTime = vm.utils.changeDate(item.createTime);
@@ -104,14 +105,14 @@ export default{
 			vm.utils.postData(url, data, callback, options);
 		},
 		changeStatus: function(){
-			var vm = this;
+			let vm = this;
 			if(vm.status == 2) return;
 			vm.utils.confirmCallback(vm, '是否更改状态为已结束？确定后不能再更改',function(){
-				var url = vm.urls.updateMyLookStatus;
-				var data = {
+				let url = vm.urls.updateMyLookStatus;
+				let data = {
 					id:vm.lookid
 				}
-				var callback = function(){
+				let callback = function(){
 					vm.status = 2;
 				}
 				vm.utils.postData(url, data, callback);

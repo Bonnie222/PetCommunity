@@ -80,7 +80,7 @@ export default{
 			},{
 				name: '设置',
 				icon: 'iconfont icon-shezhi1',
-				href: ''
+				href: '/myself/setting'
 			}],
 			
 			otherMenu:[{

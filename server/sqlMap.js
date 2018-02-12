@@ -17,6 +17,7 @@ var sqlMap = {
 		queryByPhone: 'SELECT * FROM user WHERE userPhone = ?',
 		queryByName: 'SELECT * FROM user WHERE userName = ?',
 		queryByEmail: 'SELECT * FROM user WHERE userEmail = ?',
+		update: 'UPDATE user SET userAvatar=?, userName=?, userEmail=?, userSex=?, userBirth=?, userCity=?, userStatus=?, userConst=?, userNote=? WHERE id=?',
 	},
 	//宠物
 	pet:{

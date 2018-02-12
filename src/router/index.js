@@ -9,7 +9,8 @@ const Register = _import('login/register');
 /*首页*/
 const Home = _import('home/home');
 /*宠物秀*/
-const Petshow = _import('pet/petshow');
+const PetshowList = _import('petshow/list');
+const PetshowEdit = _import('petshow/edit');
 /*医疗*/
 const Medical = _import('medical/medical');
 const DiseaseList = _import('medical/diseaselist')
@@ -20,6 +21,9 @@ const Addpet = _import('myself/petinfo/edit');
 const Editpet = _import('myself/petinfo/detail');
 const MylookList = _import('myself/petlook/list');
 const MylookDetail = _import('myself/petlook/detail');
+const MySetting = _import('myself/setting/setting');
+const MyInfo = _import('myself/setting/personalInfo');
+const MyPsd = _import('myself/setting/changePsd');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
@@ -41,7 +45,8 @@ export default new Router({
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
-	  {	path: '/petshow',														name: 'Petshow',					component: Petshow				},
+	  {	path: '/petshow/list',											name: 'PetshowList',			component: PetshowList		},
+	  {	path: '/petshow/edit',											name: 'PetshowEdit',			component: PetshowEdit		},
 	  /*医疗*/
 	  {	path: '/medical',														name: 'Medical',					component: Medical				},
 	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
@@ -50,8 +55,11 @@ export default new Router({
 	  {	path: '/myself/pet/list',										name: 'Mypet',						component: MypetList			},
 	  {	path: '/myself/pet/add',										name: 'Addpet',						component: Addpet					},
 	  {	path: '/myself/pet/detail/:id',							name: 'Editpet',					component: Editpet				},
-	  {	path: '/myself/look/list/:type',									name: 'MylookList',				component: MylookList			},
+	  {	path: '/myself/look/list/:type',						name: 'MylookList',				component: MylookList			},
 	  {	path: '/myself/look/detail/:id',						name: 'MylookDetail',			component: MylookDetail		},
+	  {	path: '/myself/setting',        						name: 'MySetting',			  component: MySetting  		},
+	  {	path: '/myself/info',        								name: 'MyInfo',					  component: MyInfo		  		},
+	  {	path: '/myself/psd',        								name: 'MyPsd',					  component: MyPsd		  		},
 	  /*寻主/宠*/
 	  {	path: '/look/list',										 			name: 'LookList',					component: LookList				},
 	  {	path: '/look/edit',													name: 'LookEdit',					component: LookEdit				},

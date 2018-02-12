@@ -52,10 +52,10 @@ export default{
 			this.$router.go(-1);
 		},
 		getLookList: function(){
-			var vm = this;
-			var url = vm.urls.getLookList;
-			var callback = function(r){
-				var data = r.data.data;
+			let vm = this;
+			let url = vm.urls.getLookList;
+			let callback = function(r){
+				let data = r.data.data;
 				$.each(data, function(index, item) {
 					item.url = "/look/detail/" + item.id;
 					item.userInfo = JSON.parse(item.userInfo);

@@ -12,7 +12,7 @@
 				</div>
 				<div class="userInfo">
 					<span class="userPic">
-						<img src="" v-if="userInfo.userAvatar"/>
+						<img :src="userAvatar" v-if="userInfo.userAvatar"/>
 						<img src="../../assets/images/member.png" v-else/>
 					</span>
 					<span class="username">{{userInfo.userName}} 发起</span>
@@ -144,6 +144,7 @@ export default{
 			endDate:new Date(this.utils.getNowTime()),
 			district:District,
 			userInfo:{},
+			userAvatar:null,
 			avatar:null,
 			files:null,
 			notes:null,
@@ -162,7 +163,11 @@ export default{
 		}
 	},
 	created(){
-		this.userInfo = JSON.parse(window.sessionStorage.userInfo);
+		let vm = this;
+		vm.userInfo = JSON.parse(window.sessionStorage.userInfo);
+		if(vm.userInfo.userAvatar){
+			vm.userAvatar = JSON.parse(vm.userInfo.userAvatar).fileUrl;
+		}
 	},
 	methods:{
 		back:function(){

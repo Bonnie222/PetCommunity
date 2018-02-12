@@ -1,164 +1,172 @@
 <template>
 	<div id="Editpet">
-		<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
-		<div class="info" :data="petInfo">
-			<div class="info-item">
-				<span class="item-name">宠物头像<span class="tip">*</span></span>
-				<div class="pic">
-					<span class="imgPic">
-						<img :src="avatar" class="avatar" @click="previewImg($event)"/>
-						<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
-					</span>	
-					<span class="link" :hidden="isDisabled">
-						<img src="../../../assets/images/right.svg"/>
-						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-					</span>	
+		<div v-show="showContentWindow">
+			<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
+			<div class="info" :data="petInfo">
+				<div class="info-item">
+					<span class="item-name">宠物头像<span class="tip">*</span></span>
+					<div class="pic">
+						<span class="imgPic">
+							<img :src="avatar" class="avatar" @click="previewImg($event)"/>
+							<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
+						</span>	
+						<span class="link" :hidden="isDisabled">
+							<img src="../../../assets/images/right.svg"/>
+							<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
+						</span>	
+					</div>
 				</div>
-			</div>
-			<div class="info-item">
-				<span class="item-name">宠物名称<span class="tip">*</span></span>
-				<input type="text" class="item-input" placeholder="设置宠物名称" v-model="petInfo.petName" :disabled="isDisabled"/>
-			</div>
-			<div class="info-item">
-				<span class="item-name">宠物性别<span class="tip">*</span></span>
-				<div class="radio-wrap">
-					<label class="yd-radio">
-						<input type="radio" value="1" name="sex" v-model="petInfo.petSex" :disabled="isDisabled">
-						<span class="yd-radio-icon male">
-							<i class="icon"></i>
-						</span>
-						<span class="yd-radio-text">GG</span>
-					</label>
-					<label class="yd-radio">
-						<input type="radio" value="2" name="sex" v-model="petInfo.petSex" :disabled="isDisabled">
-						<span class="yd-radio-icon female">
-							<i class="icon"></i>
-						</span>
-						<span class="yd-radio-text">MM</span>
-					</label>
+				<div class="info-item">
+					<span class="item-name">宠物名称<span class="tip">*</span></span>
+					<input type="text" class="item-input" placeholder="设置宠物名称" v-model="petInfo.petName" :disabled="isDisabled"/>
 				</div>
-			</div>
-			<div class="info-item">
-				<span class="item-name">宠物品种<span class="tip">*</span></span>
-				<span>
-					<span class="item-input"  @click="showpetTypePicker" >{{petInfo.petTypeText}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
-				</span>
-			</div>
-			<div class="info-item">
-				<span class="item-name">宠物生日<span class="tip">*</span></span>
-				<span>
-					<span class="item-input" @click="openDatePicker" >{{petInfo.petBirth}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
-				</span>
-			</div>
-			<div class="info-item">
-				<span class="item-name">加入爱宠</span>
-				<span class="item-input">{{petInfo.petCreateDate}}</span>
-			</div>
-			<div class="info-item">
-				<span class="item-name">到家时间</span>
-				<span>
-					<span  class="item-input" @click="openArrivalPicker" :disabled="isDisabled">{{petInfo.petArrivedDate}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
-				</span>
-			</div>
-			<div class="info-item">
-				<span class="item-name">绝育状态</span>
-				<span>
-					<span class="item-input" @click="showpetStatusPicker" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
-					<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
-				</span>
-			</div>
-			
-			<!--选择器-->
-			<mt-datetime-picker ref="petBirthPicker" type="date" @confirm="handlePetBirth"
+				<div class="info-item">
+					<span class="item-name">宠物性别<span class="tip">*</span></span>
+					<div class="radio-wrap">
+						<label class="yd-radio">
+							<input type="radio" value="1" name="sex" v-model="petInfo.petSex" :disabled="isDisabled">
+							<span class="yd-radio-icon male">
+								<i class="icon"></i>
+							</span>
+							<span class="yd-radio-text">GG</span>
+						</label>
+						<label class="yd-radio">
+							<input type="radio" value="2" name="sex" v-model="petInfo.petSex" :disabled="isDisabled">
+							<span class="yd-radio-icon female">
+								<i class="icon"></i>
+							</span>
+							<span class="yd-radio-text">MM</span>
+						</label>
+					</div>
+				</div>
+				<div class="info-item">
+					<span class="item-name">宠物品种<span class="tip">*</span></span>
+					<span>
+						<span class="item-input"  @click="showpetTypeWindow" >{{petInfo.petTypeText}}</span>
+						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
+					</span>
+				</div>
+				<div class="info-item">
+					<span class="item-name">宠物生日<span class="tip">*</span></span>
+					<span>
+						<span class="item-input" @click="openDatePicker" >{{petInfo.petBirth}}</span>
+						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
+					</span>
+				</div>
+				<div class="info-item">
+					<span class="item-name">加入爱宠</span>
+					<span class="item-input">{{petInfo.petCreateDate}}</span>
+				</div>
+				<div class="info-item">
+					<span class="item-name">到家时间</span>
+					<span>
+						<span  class="item-input" @click="openArrivalPicker" :disabled="isDisabled">
+							{{petInfo.petArrivedDate}}</span>
+						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
+					</span>
+				</div>
+				<div class="info-item">
+					<span class="item-name">绝育状态</span>
+					<span>
+						<span class="item-input" @click="showpetStatusWindow" :disabled="isDisabled">{{petInfo.petStatusText}}</span>
+						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
+					</span>
+				</div>
+				
+				<!--选择器-->
+				<mt-datetime-picker ref="petBirthPicker" type="date" @confirm="handlePetBirth"
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-			<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
-			:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-			<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
-    		v-on:confirm="confirmStatusPicker"></vue-pickers>
-    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
-    		v-on:confirm="confirmTypePicker"></vue-pickers>
+				
+			</div>
+			<div class="btn-wrap">
+				<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">{{saveBtnText}}</button>
+				<!--<button class="btn-save" @click="editPetInfo" v-show="isDisabled">编辑资料</button>-->
+				<button class="btn-cancel" @click="delPet" :hidden="isDisabled" >删除宠物</button>
+					
+				<!--<button class="btn-cancel" @click="cancelToUpdate" :hidden="isDisabled" >取消</button>-->
+			</div>
+			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 		</div>
-		<div class="btn-wrap">
-			<button class="btn-save" @click="editPetInfo" v-show="isDisabled">编辑资料</button>
-			<button class="btn-cancel" @click="delPet" v-show="isDisabled">删除宠物</button>
-			<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">{{saveBtnText}}</button>	
-			<button class="btn-cancel" @click="cancelToUpdate" :hidden="isDisabled" >取消</button>
+		<div v-show="showTypeWindow">
+			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
+			<ChoiceWindow :dataList="petTypeList" @confirm="confirmType"></ChoiceWindow>
 		</div>
-		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
+		<div v-show="showStatusWindow">
+			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
+			<ChoiceWindow :dataList="petStatusList" @confirm="confirmStatus"></ChoiceWindow>
+		</div>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
-import VuePickers from 'vue-pickers';
+import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
 export default{
 	name:"Editpet",
 	components:{
-	    Header,VuePickers, ImgView
+	    Header,ImgView, ChoiceWindow 
 	},
 	data(){
 		return{
+			//窗口
+			showContentWindow:true,
+			showStatusWindow:false,
+			showTypeWindow:false,
+			/*selectWindow*/
+			windowTitle:'',
+			windowheaderLeft:'',
+			//主页
 			topTitle:'宠物详情',
 			headerLeft:true,
 			petTypePicker:false,
 			petStatusPicker: false,
-			isDisabled: true,
+			isDisabled: false,
 			petInfo:{},
 			files:'',
 			avatar:'',
 			showImgView: false,
 			imgSrc:'',
 			isSaving:false,
-			saveBtnText:'保存',
+			saveBtnText:'保存修改',
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
 			
-			petTypeList:{
-				columns: 1, // picker的列数
-				pData1:[{
-					text:'汪星人',
-					value:1
-				},{
-					text:'喵星人',
-					value:2
-				},{
-					text:'兔星人',
-					value:3
-				},{
-					text:'鼠星人',
-					value:4
-				},{
-					text:'鸟星人',
-					value:5
-				},{
-					text:'龟星人',
-					value:6
-				},{
-					text:'鱼星人',
-					value:7
-				},{
-					text:'其它',
-					value:8
-				}]
-			},
-			petStatusList: {
-			  columns: 1, // picker的列数
-			  // 第一列的数据结构
-			  pData1: [{
-				      text: '未绝育',
-				      value: 1
-				   },{
-				      text: '已绝育',
-				      value: 2
-				   },{
-				      text: '不确定',
-				      value: 3
-				   }]
+			petTypeList:[{
+				text:'汪星人', value:1, isChecked:false
+			},{
+				text:'喵星人', value:2, isChecked:false
+			},{
+				text:'兔星人', value:3, isChecked:false
+			},{
+				text:'鼠星人', value:4, isChecked:false
+			},{
+				text:'鸟星人', value:5, isChecked:false
+			},{
+				text:'龟星人', value:6, isChecked:false
+			},{
+				text:'鱼星人', value:7, isChecked:false
+			},{
+				text:'其它', value:8, isChecked:false
+			}],
+			petStatusList:[{
+				text: '未绝育', value: 1, isChecked:false
+			},{
+				text: '已绝育', value: 2, isChecked:false
+			},{
+				text: '不确定', value: 3, isChecked:false
+			}],
+			formData:{
+				petAvatar:null,
+				petName:null,
+				petSex:null,
+				petType:null,
+				petBirth:null,
+				petArrivedDate:null,
+				petStatus:null,
 			}
 		}
 	},
@@ -168,6 +176,12 @@ export default{
 	methods:{
 		back: function(){
 			this.$router.go(-1);
+		},
+		windowback: function(){
+			let vm = this;
+			vm.showContentWindow = true;
+			vm.showStatusWindow = false;
+			vm.showTypeWindow = false;
 		},
 		getPetdetail:function(){
 			var vm = this;
@@ -185,9 +199,9 @@ export default{
 				var data = r.data.data[0];
 				data.petTypeText = vm.config.petTypeList[data.petType];
 				data.petBirth = vm.utils.changeDate(data.petBirth);
-				data.petArrivedDate = data.petArrivedDate == null ? '': vm.utils.changeDate(data.petArrivedDate);
+				data.petArrivedDate = data.petArrivedDate == null ? '请选择': vm.utils.changeDate(data.petArrivedDate);
 				data.petCreateDate = data.petCreateDate == null ? '': vm.utils.changeDate(data.petCreateDate);
-				data.petStatusText = data.petStatus == null ? '': vm.config.petStatusList[data.petStatus];
+				data.petStatusText = data.petStatus == null ? '请选择': vm.config.petStatusList[data.petStatus];
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.avatar = data.petAvatar.fileUrl;
 				vm.petInfo = data;
@@ -201,70 +215,68 @@ export default{
     	closeView: function(){
     		this.showImgView = false;
     	},
-		showpetTypePicker: function(){
-			if(!this.isDisabled){
-				this.petTypePicker = true;
-			}
+    	//品种
+       	showpetTypeWindow:function(){
+       		let vm = this;
+       		vm.showContentWindow = false;
+       		vm.showTypeWindow = true;
+       		vm.windowTitle = '宠物品种';
+			vm.windowheaderLeft = true;
+       	},
+       	confirmType: function(obj){
+			let vm = this;
+			$.each(vm.petTypeList, function(index, item){
+					item.isChecked = false;
+			})
+			obj.isChecked = true;
+			vm.petInfo.petTypeText = obj.text;
+			vm.petInfo.petType = obj.value;
+			setTimeout(function(){
+				vm.showContentWindow = true;
+				vm.showTypeWindow = false;
+			},500);
 		},
-		showpetStatusPicker: function(){
-			if(!this.isDisabled){
-				this.petStatusPicker = true;
-			}
+		//状态
+		showpetStatusWindow:function(){
+       		let vm = this;
+       		vm.showContentWindow = false;
+       		vm.showStatusWindow = true;
+       		vm.windowTitle = '绝育状态';
+			vm.windowheaderLeft = true;
+       	},
+       	confirmStatus: function(obj){
+			let vm = this;
+			$.each(vm.petStatusList, function(index, item){
+					item.isChecked = false;
+			})
+			obj.isChecked = true;
+			vm.petInfo.petStatusText = obj.text;
+			vm.petInfo.petStatus = obj.value;
+			setTimeout(function(){
+				vm.showContentWindow = true;
+				vm.showStatusWindow = false;
+			},500);
 		},
+		//出生日期
 		openDatePicker: function(){
-			if(!this.isDisabled){
-				this.$refs.petBirthPicker.open();
-			}
+			this.$refs.petBirthPicker.open();
 	   	},
 	   	handlePetBirth: function(value){
-	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
-	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
-	   		this.petInfo.petBirth = d;
+	   		let vm =this;
+	   		let d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
+	   		d = vm.utils.formatDate(d, 'yyyy-MM-dd');
+	   		vm.petInfo.petBirth = d;
 	   	},
+	   	//到家时间
 	   	openArrivalPicker: function(){
-	   		if(!this.isDisabled){
-				this.$refs.petArrivalPicker.open();
-			}
+			this.$refs.petArrivalPicker.open();
 	   	},
 	   	handlePetArrival: function(value){
-	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
-	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
-	   		this.petInfo.petArrivedDate = d;
+	   		let vm = this;
+	   		let d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
+	   		d = vm.utils.formatDate(d, 'yyyy-MM-dd');
+	   		vm.petInfo.petArrivedDate = d;
 	   	},
-	   	closeStatusPicker: function(){
-	   		this.petStatusPicker = false;
-    	},
-    	confirmStatusPicker: function(obj){
-    		this.petInfo.petStatusText = obj.select1.text;
-    		this.petInfo.petStatus = obj.select1.value;
-    		this.petStatusPicker = false;
-    	},
-    	closeTypePicker: function(){
-	   		this.petTypePicker = false;
-    	},
-    	confirmTypePicker: function(obj){
-    		this.petInfo.petTypeText = obj.select1.text;
-    		this.petInfo.petType = obj.select1.value;
-    		this.petTypePicker = false;
-    	},
-    	
-    	editPetInfo: function(){
-    		this.topTitle = '编辑资料';
-    		this.isDisabled = false;
-    		if(!this.petInfo.petArrivedDate){
-    			this.petInfo.petArrivedDate = '请选择'
-    		}
-    		if(!this.petInfo.petStatus){
-    			this.petInfo.petStatusText = '请选择'
-    		}
-    	},
-    	
-    	cancelToUpdate: function(){
-    		this.topTitle = '宠物详情';
-    		this.isDisabled = true;
-    		this.avatar = this.petInfo.petAvatar.fileUrl;
-    	},
-    	
     	delPet: function(){
     		var vm = this;
     		var _id = vm.$route.params.id;
@@ -343,15 +355,13 @@ export default{
 					}
 				}
 	    		var callback = function(r){
-	    			vm.isSaving = false;
-	    			vm.saveBtnText = '保存';
 					vm.$dialog.toast({
 						mes: '修改成功',
 	  					icon: 'success',
 	  					timeout: 1000
 					});	
-					vm.topTitle = '宠物详情';
-    				vm.isDisabled = true;
+					vm.isSaving = false;
+	    			vm.saveBtnText = '保存修改';
 				}
 				vm.isSaving = true;
 				vm.utils.postData(url, data, callback);

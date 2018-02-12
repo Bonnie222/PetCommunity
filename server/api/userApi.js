@@ -192,6 +192,20 @@ router.post('/user/personal',(req,res) => {
         }
     })
 })
+//更新用户个人信息
+router.post('/user/update',(req,res)=>{
+	var sql = $sql.user.update;
+	var p = req.body;    
+    console.log(p);
+    var sqlParams = [p.userAvatar, p.userName, p.userEmail, p.userSex, p.userBirth, p.userCity, p.userStatus, p.userConst, p.userNote, p.id];
+    conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 宠物
  */

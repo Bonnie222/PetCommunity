@@ -133,7 +133,8 @@ export default{
     },
     
     /**
-     * 计算年龄 参数格式为yyyy-MM-dd
+     * 计算年龄 
+     * @param strBirthday {String} -必填 日期 格式为yyyy-MM-dd
      */
     calculateAge: function(strBirthday){
     	strBirthday = this.changeDate(strBirthday)
@@ -226,9 +227,8 @@ export default{
 	 },
 	 /**
 	  * 日期+加时间选择器 返回时间状态
-	  * {vm} this
-	  * {value} 时间值
-	  * {formart} 返回时间的格式
+	  * @param value {String} -必填 时间值 
+	  * @param format {String} -选填 返回时间的格式 默认yyyy-MM-dd hh:mm:ss
 	  */
 	returnDatetime: function(value, formart){
 		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate() + ' ' + value.getHours() + ':' + value.getMinutes() 

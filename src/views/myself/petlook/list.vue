@@ -30,7 +30,7 @@
 			</ul>
 			<div class="nodata" v-else>
 				<img src="../../../assets/images/no-data.png" />
-				<p>oh no!暂时没有数据哦~</p>
+				<p>您暂时还没有发布寻宠/寻主信息哦~</p>
 			</div>
 		</div>
 		
@@ -80,21 +80,22 @@ export default{
 		back:function(){
 			this.$router.replace('/myself');
 		},
-		changeToTab: function(value){
-			var value = parseInt(value);
-			$.each(this.lookTabList.list, function(index,item){
+		changeToTab: function(val){
+			let vm = this;
+			let value = parseInt(val);
+			$.each(vm.lookTabList.list, function(index,item){
 				item.check = false;
 				if(index == (value+1)){
 					item.check = true;
 				}
 			})
 			location.href = location.hash.substring(0,19) + value;
-			this.getList(value);
+			vm.getList(value);
 		},
 		getList: function(value){
-			var vm = this;
-			var url = value == 0 ? vm.urls.getMyLookList : vm.urls.getMyLookListByStatus;
-			var data = {
+			let vm = this;
+			let url = value == 0 ? vm.urls.getMyLookList : vm.urls.getMyLookListByStatus;
+			let data = {
 				userId : vm._userId
 			}
 			if(value == 1){
@@ -103,8 +104,8 @@ export default{
 				data.findStatus = 2;
 			}
 			
-			var callback = function(r){
-				var data = r.data.data;
+			let callback = function(r){
+				let data = r.data.data;
 				vm.len = data.length;
 				$.each(data, function(index, item){
 					item.createTime = vm.utils.changeDate(item.createTime);

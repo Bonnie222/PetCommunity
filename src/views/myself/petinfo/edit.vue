@@ -1,105 +1,123 @@
 <template>
 	<div id="Addpet">
-		<Header title="添加宠物" :headerLeft="headerLeft" @clickRouter="back"></Header>
-		<div class="form">
-			<div class="pic">
-				<span class="imgPic" v-if="!avatar">
-					<img src="../../../assets/images/member.png" class="avatar"/>	
-					<span class="camera">
-						<i class="iconfont icon-shangchuantupian_l"></i>
-					</span>
-					<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-				</span>				
-				<span class="imgPic" v-else>
-					<img :src="avatar" class="avatar" @click="previewImg($event)"/>
-					<img src="../../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
-				</span>	
-			</div>
-			<div class="info">
-				<div class="info-item">
-					<span class="item-name">宠物名称<span class="tip">*</span></span>
-					<input type="text" class="item-input" placeholder="设置宠物名称" v-model="petInfo.petName"/>
+		<div v-show="showContentWindow">
+			<Header title="添加宠物" :headerLeft="headerLeft" @clickRouter="back"></Header>
+			<div class="form">
+				<div class="pic">
+					<span class="imgPic" v-if="!avatar">
+						<img src="../../../assets/images/member.png" class="avatar"/>	
+						<span class="camera">
+							<i class="iconfont icon-shangchuantupian_l"></i>
+						</span>
+						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
+					</span>				
+					<span class="imgPic" v-else>
+						<img :src="avatar" class="avatar" @click="previewImg($event)"/>
+						<img src="../../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
+					</span>	
 				</div>
-				<div class="info-item">
-					<span class="item-name">宠物性别<span class="tip">*</span></span>
-					<div class="radio-wrap">
-						<label class="yd-radio">
-							<input type="radio" value="1" name="sex" v-model="petInfo.petSex">
-							<span class="yd-radio-icon male">
-								<i class="icon"></i>
-							</span>
-							<span class="yd-radio-text">GG</span>
-						</label>
-						<label class="yd-radio">
-							<input type="radio" value="2" name="sex" v-model="petInfo.petSex">
-							<span class="yd-radio-icon female">
-								<i class="icon"></i>
-							</span>
-							<span class="yd-radio-text">MM</span>
-						</label>
-						
+				<div class="info">
+					<div class="info-item">
+						<span class="item-name">宠物名称<span class="tip">*</span></span>
+						<input type="text" class="item-input" placeholder="设置宠物名称" v-model="petInfo.petName"/>
+					</div>
+					<div class="info-item">
+						<span class="item-name">宠物性别<span class="tip">*</span></span>
+						<div class="radio-wrap">
+							<label class="yd-radio">
+								<input type="radio" value="1" name="sex" v-model="petInfo.petSex">
+								<span class="yd-radio-icon male">
+									<i class="icon"></i>
+								</span>
+								<span class="yd-radio-text">GG</span>
+							</label>
+							<label class="yd-radio">
+								<input type="radio" value="2" name="sex" v-model="petInfo.petSex">
+								<span class="yd-radio-icon female">
+									<i class="icon"></i>
+								</span>
+								<span class="yd-radio-text">MM</span>
+							</label>
+							
+						</div>
+					</div>
+					<div class="info-item">
+						<span class="item-name">宠物品种<span class="tip">*</span></span>
+						<span>
+							<input type="text" class="item-input" :value="petTypeText" placeholder="选择宠物品种" @click="showpetTypeWindow"/>
+							<span class="link"><img src="../../../assets/images/right.svg"/></span>
+						</span>
+					</div>
+					<div class="info-item">
+						<span class="item-name">宠物生日<span class="tip">*</span></span>
+						<span>
+							<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth"/>
+							<span class="link"><img src="../../../assets/images/right.svg"/></span>
+						</span>
+					</div>
+					<div class="info-item">
+						<span class="item-name">到家时间</span>
+						<span>
+							<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate"/>
+							<span class="link"><img src="../../../assets/images/right.svg"/></span>
+						</span>
+					</div>
+					<div class="info-item">
+						<span class="item-name">绝育状态</span>
+						<span>
+							<input type="text" class="item-input" :value="petStatusText" placeholder="选择绝育状态" @click="showpetStatusWindow"/>
+							<span class="link"><img src="../../../assets/images/right.svg"/></span>
+						</span>
 					</div>
 				</div>
-				<div class="info-item">
-					<span class="item-name">宠物品种<span class="tip">*</span></span>
-					<span>
-						<input type="text" class="item-input" :value="petTypeText" placeholder="选择宠物品种" @click="petTypePicker=true"/>
-						<span class="link"><img src="../../../assets/images/right.svg"/></span>
-					</span>
-				</div>
-				<div class="info-item">
-					<span class="item-name">宠物生日<span class="tip">*</span></span>
-					<span>
-						<input type="text" class="item-input" placeholder="选择宠物生日" @click="openDatePicker" v-model="petInfo.petBirth"/>
-						<span class="link"><img src="../../../assets/images/right.svg"/></span>
-					</span>
-				</div>
-				<div class="info-item">
-					<span class="item-name">到家时间</span>
-					<span>
-						<input type="text"  class="item-input" placeholder="选择到家日期" @click="openArrivalPicker" v-model="petInfo.petArrivedDate"/>
-						<span class="link"><img src="../../../assets/images/right.svg"/></span>
-					</span>
-				</div>
-				<div class="info-item">
-					<span class="item-name">绝育状态</span>
-					<span>
-						<input type="text" class="item-input" :value="petStatusText" placeholder="选择绝育状态" @click="petStatusPicker=true"/>
-						<span class="link"><img src="../../../assets/images/right.svg"/></span>
-					</span>
-				</div>
-			</div>
-			<!--选择器-->
-			<mt-datetime-picker ref="petBirthPicker" type="date" @confirm="handlePetBirth"
+				<!--选择器-->
+				<mt-datetime-picker ref="petBirthPicker" type="date" @confirm="handlePetBirth"
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-			<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
-			:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-			<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
-    		v-on:confirm="confirmStatusPicker"></vue-pickers>
-    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
-    		v-on:confirm="confirmTypePicker"></vue-pickers>			
+				<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
+	    		v-on:confirm="confirmStatusPicker"></vue-pickers>
+	    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
+	    		v-on:confirm="confirmTypePicker"></vue-pickers>			
+			</div>
+			
+			<div class="btn-wrap">
+				<button class="btn-save" @click="savePetInfo">保存</button>
+			</div>
+			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 		</div>
-		
-		<div class="btn-wrap">
-			<button class="btn-save" @click="savePetInfo">保存</button>
+		<div v-show="showTypeWindow">
+			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
+			<ChoiceWindow :dataList="petTypeList" @confirm="confirmType"></ChoiceWindow>
 		</div>
-		<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
+		<div v-show="showStatusWindow">
+			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
+			<ChoiceWindow :dataList="petTypeList" @confirm="confirmStatus"></ChoiceWindow>
+		</div>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
-import VuePickers from 'vue-pickers';
+import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
 
 export default{
 	name:"Mypet",
 	components:{
-	    Header,VuePickers, ImgView
+	    Header, ImgView, ChoiceWindow
 	},
 	props: [],
 	data(){
 		return{
+			//窗口
+			showContentWindow:true,
+			showAgeWindow:false,
+			showTypeWindow:false,
+			/*selectWindow*/
+			windowTitle:'',
+			windowheaderLeft:'',
+			//主页
 			headerLeft: true,
 			showImgView: false,
 			imgSrc:'',
@@ -126,54 +144,43 @@ export default{
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
 			
-			petTypeList:{
-				columns: 1, // picker的列数
-				pData1:[{
-					text:'汪星人',
-					value:1
-				},{
-					text:'喵星人',
-					value:2
-				},{
-					text:'兔星人',
-					value:3
-				},{
-					text:'鼠星人',
-					value:4
-				},{
-					text:'鸟星人',
-					value:5
-				},{
-					text:'龟星人',
-					value:6
-				},{
-					text:'鱼星人',
-					value:7
-				},{
-					text:'其它',
-					value:8
-				}]
-			},
-			petStatusList: {
-			  columns: 1, // picker的列数
-			  // 第一列的数据结构
-			  pData1: [{
-				      text: '未绝育',
-				      value: 1
-				   },{
-				      text: '已绝育',
-				      value: 2
-				   },{
-				      text: '不确定',
-				      value: 3
-				   }]
-			}
+			petTypeList:[{
+				text:'汪星人', value:1, isChecked:false
+			},{
+				text:'喵星人', value:2, isChecked:false
+			},{
+				text:'兔星人', value:3, isChecked:false
+			},{
+				text:'鼠星人', value:4, isChecked:false
+			},{
+				text:'鸟星人', value:5, isChecked:false
+			},{
+				text:'龟星人', value:6, isChecked:false
+			},{
+				text:'鱼星人', value:7, isChecked:false
+			},{
+				text:'其它', value:8, isChecked:false
+			}],
+			petStatusList:[{
+				text: '未绝育', value: 1, isChecked:false
+			},{
+				text: '已绝育', value: 2, isChecked:false
+			},{
+				text: '不确定', value: 3, isChecked:false
+			}]
 		}
 	},
 	methods:{
 		back:function(){
 			this.$router.go(-1);
 		},
+		windowback: function(){
+			let vm = this;
+			vm.showContentWindow = true;
+			vm.showStatusWindow = false;
+			vm.showTypeWindow = false;
+		},
+		//生日
 	   	openDatePicker: function(){
 	   		this.$refs.petBirthPicker.open();
 	   	},
@@ -182,6 +189,7 @@ export default{
 	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
 	   		this.petInfo.petBirth = d;
 	   	},
+	   	//到家时间
 	   	openArrivalPicker: function(){
 	   		this.$refs.petArrivalPicker.open();
 	   	},
@@ -190,22 +198,48 @@ export default{
 	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
 	   		this.petInfo.petArrivedDate = d;
 	   	},
-	   	closeStatusPicker: function(){
-	   		this.petStatusPicker = false;
-    	},
-    	confirmStatusPicker: function(obj){
-    		this.petStatusText = obj.select1.text;
-    		this.petInfo.petStatus = obj.select1.value;
-    		this.petStatusPicker = false;
-    	},
-    	closeTypePicker: function(){
-	   		this.petTypePicker = false;
-    	},
-    	confirmTypePicker: function(obj){
-    		this.petTypeText = obj.select1.text;
-    		this.petInfo.petType = obj.select1.value;
-    		this.petTypePicker = false;
-    	},
+	   	//品种
+       	showpetTypeWindow:function(){
+       		let vm = this;
+       		vm.showContentWindow = false;
+       		vm.showTypeWindow = true;
+       		vm.windowTitle = '宠物品种';
+			vm.windowheaderLeft = true;
+       	},
+       	confirmType: function(obj){
+			let vm = this;
+			$.each(vm.petTypeList, function(index, item){
+					item.isChecked = false;
+			})
+			obj.isChecked = true;
+			vm.petTypeText = obj.text;
+			vm.petInfo.petType = obj.value;
+			setTimeout(function(){
+				vm.showContentWindow = true;
+				vm.showTypeWindow = false;
+			},500);
+		},
+		//状态
+		showpetStatusWindow:function(){
+       		let vm = this;
+       		vm.showContentWindow = false;
+       		vm.showStatusWindow = true;
+       		vm.windowTitle = '绝育状态';
+			vm.windowheaderLeft = true;
+       	},
+       	confirmStatus: function(obj){
+			let vm = this;
+			$.each(vm.petStatusList, function(index, item){
+					item.isChecked = false;
+			})
+			obj.isChecked = true;
+			vm.petStatusText = obj.text;
+			vm.petInfo.petStatus = obj.value;
+			setTimeout(function(){
+				vm.showContentWindow = true;
+				vm.showStatusWindow = false;
+			},500);
+		},
     	getImg: function(e){
     		var vm = this;
     		vm.files = e;
@@ -436,7 +470,7 @@ export default{
 	    .btn-save{
 	    	display: block;
 	    	margin: 0 auto;
-	    	width: 90%;
+	    	width: 85%;
 	    }
 	}
 	

@@ -58,7 +58,7 @@ export default{
 			},{
 				name:'宠物秀',
 				icon:'iconfont icon-chongwu',
-				href:'/petshow'
+				href:'/petshow/list'
 			}],
 			FootMenu2:[{
 				name: '医疗',
@@ -85,7 +85,7 @@ export default{
 			},{
 				name:'发布图片',
 				icon:'iconfont icon-tupian',
-				href:''
+				href:'/petshow/edit'
 			}],
 			MiddleMenu2:[{
 				name:'发起活动',

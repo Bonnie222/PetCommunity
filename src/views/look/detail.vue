@@ -87,19 +87,19 @@ export default{
 			this.$router.go(-1);
 		},
 		getDetail: function(){
-			var vm = this;
-			var url = vm.urls.getLookDetail;
-			var _id = vm.$route.params.id;
-			var data = {
+			let vm = this;
+			let url = vm.urls.getLookDetail;
+			let _id = vm.$route.params.id;
+			let data = {
 				id : _id
 			}
-			var options = {
+			let options = {
 				params:{
 					lookid: _id
 				}
 			}
-			var callback = function(r){
-				var data = r.data.data[0];
+			let callback = function(r){
+				let data = r.data.data[0];
 				data.dateTime = vm.utils.changeDate(data.dateTime, "yyyy年MM月dd日 hh:mm");
 				data.createTime = vm.utils.changeDate(data.createTime, "yyyy年MM月dd日 hh:mm");
 				data.petType = vm.config.petTypeList[data.petType];

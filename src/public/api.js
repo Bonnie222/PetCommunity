@@ -20,6 +20,7 @@ export default {
 	getMyLookDetail: host + '/user/lookdetail',
 	getMyPetList: host + '/user/petList',
 	updateMyLookStatus: host + '/user/updatelookStatus',
+	updataMyInfo: host + '/user/update',
 
 	
 	//宠物
