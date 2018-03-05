@@ -1,6 +1,7 @@
 <template>
 	<div id="Petshow">
 		<Header title="医疗" :headerLeft="headerLeft"></Header>
+		
 	</div>
 </template>
 

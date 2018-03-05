@@ -9,9 +9,9 @@ import VueResource from 'vue-resource';
 import axios from 'axios';
 import $ from 'jquery';
 /*引入校验*/
-import Validator from 'vue-validator';
-import validator from './public/validator';
-
+import './public/validate.js';
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 /*引入mintUI*/
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
@@ -37,7 +37,6 @@ Vue.use(MintUI);
 Vue.use(YDUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.use(Validator)
 
 Vue.config.productionTip = false;
 

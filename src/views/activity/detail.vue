@@ -69,9 +69,8 @@
 				</span>
 			</div>
 			<div class="link-btn" :class="{'click':status == false}">
-				<router-link to="">
-					<span>{{status == false ? '已结束': '我要报名'}}</span>
-				</router-link>	
+				<span v-if="status==false">已结束</span>
+				<span v-else @click="goApply">我要报名</span>
 			</div>
 		</div>
 	</div>
@@ -104,10 +103,10 @@ export default{
 		vm.getDetail(vm._id);
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getDetail: function(id){
+		getDetail(id){
 			var vm = this;
 			var url = vm.urls.getActivityDetail;
 			var data = {
@@ -133,7 +132,12 @@ export default{
 			}
 			
 			vm.utils.postData(url, data, callback, options);
-		}
+		},
+		goApply(){
+			const vm = this;
+			// const url = 
+			
+		},
 	}
 }
 </script>

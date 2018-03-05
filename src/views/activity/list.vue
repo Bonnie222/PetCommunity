@@ -168,7 +168,6 @@ export default{
 					vm.listThree = data;
 				}
 			}
-			
 			vm.utils.postData(url, data, callback, options)
 		}
 	}

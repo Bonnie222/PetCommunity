@@ -21,9 +21,9 @@
 				<i class="iconfont icon-jibingshaicha"></i>
 				<span>疾病速查</span>
 			</router-link>
-			<router-link to="" class="btn">
+			<router-link to="/medical/edit" class="btn">
 				<i class="iconfont icon-Interrogation"></i>
-				<span>疾病速查</span>
+				<span>快速问诊</span>
 			</router-link>
 		</div>
 		<Navmenu></Navmenu>

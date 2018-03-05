@@ -51,6 +51,9 @@
 			<div class="validator" v-show="errWindow">
 				<span class="err">{{errMsg}}</span>
 			</div>
+			<!--<div class="validator" v-show="errWrap">
+				<span class="err">{{errText}}</span>
+			</div>-->
 			<div class="psdProtect" @click="setAnswer">
 				<label>设置密保(必填)</label>
 				<span class="link">
@@ -113,6 +116,14 @@ export default {
     		/*出生日期范围*/
 			startDate:new Date('1960,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),  	
+    	}
+    },
+    computed:{
+    	errWrap(){
+//  		return 
+    	},
+    	errText(){
+    		
     	}
     },
     methods:{

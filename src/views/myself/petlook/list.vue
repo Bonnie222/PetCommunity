@@ -30,7 +30,7 @@
 			</ul>
 			<div class="nodata" v-else>
 				<img src="../../../assets/images/no-data.png" />
-				<p>您暂时还没有发布寻宠/寻主信息哦~</p>
+				<p>暂时没有数据哦~</p>
 			</div>
 		</div>
 		

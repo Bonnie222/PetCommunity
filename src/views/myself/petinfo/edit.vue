@@ -75,10 +75,10 @@
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 				<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-				<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
+				<!--<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
 	    		v-on:confirm="confirmStatusPicker"></vue-pickers>
 	    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
-	    		v-on:confirm="confirmTypePicker"></vue-pickers>			
+	    		v-on:confirm="confirmTypePicker"></vue-pickers>			-->
 			</div>
 			
 			<div class="btn-wrap">
@@ -92,7 +92,7 @@
 		</div>
 		<div v-show="showStatusWindow">
 			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
-			<ChoiceWindow :dataList="petTypeList" @confirm="confirmStatus"></ChoiceWindow>
+			<ChoiceWindow :dataList="petStatusList" @confirm="confirmStatus"></ChoiceWindow>
 		</div>
 	</div>
 </template>

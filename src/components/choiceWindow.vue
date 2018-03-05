@@ -13,11 +13,12 @@
 export default{
 	name:"choice-window",
 	props:{
-		dataList: { type: Array, default: []}
+		dataList: { type: Array, default: []},
+		type: { type:String, default:'1' }
    	},
 	data(){
 		return{
-			data:[]
+			data:[],
 		}
 	},
 	created(){
