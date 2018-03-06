@@ -425,5 +425,23 @@ router.post('/activity/add',(req, res) => {
         }
     })
 })
+
+/**
+ * 宠物秀
+ */
+//发布
+router.post('/petshow/add',(req, res) => {
+	var sql = $sql.petshow.add;
+	var p = req.body;
+	console.log(p); 
+	var sqlParams = [p.content, p.actId, p.userId, p.userInfo, p.createTime, p.petAvatar];
+	conn.query(sql, sqlParams, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 module.exports = router;
 

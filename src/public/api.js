@@ -38,4 +38,7 @@ export default {
 	getActivityList: host + '/activity/list',
 	getActivityDetail: host + '/activity/detail',
 	addActivity: host + '/activity/add',
+	
+	//宠物秀
+	addPetShow: host + '/petshow/add',
 }

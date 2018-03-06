@@ -23,7 +23,6 @@
 					<li class="" @click="showActListWindow">
 						<label>{{actTitle}}</label>
 						<span class="">
-							<!--{{petTypeText == '' ? '请选择':petTypeText}}-->
 							<i class="icon-right">
 								<img src="../../assets/images/right.svg" />
 							</i>
@@ -49,6 +48,10 @@
 					</span>
 				</li>
 			</ul>
+			<div class="btn-wrap">
+				<button class="btn-save actBtn" @click="save">确认</button>
+				<button class="btn-cancel" @click="cancel">取消</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -83,6 +86,8 @@ export default{
 			showImgView:false,
 			picList:[],
 			ActList:[],
+			checkedTitle:'',
+			checkedId:'',
 			editList:{
 				petAvatar:'',
 				content:'',				
@@ -102,7 +107,6 @@ export default{
 					item.themePhoto = JSON.parse(item.themePhoto);
 			})
 			vm.ActList = data;
-			console.log(data);
 		}
 		vm.utils.postData(url, data, callback);
 	},
@@ -135,7 +139,6 @@ export default{
     		fileslist = fileslist.splice(index, 1)
     	},
 		showActListWindow:function(){
-			console.log(11);
        		let vm = this;
        		vm.showContentWindow = false;
        		vm.showActTitleWindow = true;
@@ -144,16 +147,44 @@ export default{
        	},
        	confirmAct: function(obj){
 			let vm = this;
-			$.each(vm.petTypeList, function(index, item){
-					item.isChecked = false;
-			})
-			obj.isChecked = true;
-			vm.actTitle = `#${obj.actTitle}#`;
-//			vm.editList.petType = obj.value;
-//			setTimeout(function(){
-//				vm.showContentWindow = true;
-//				vm.showTypeWindow = false;
-//			},500);
+			if(!vm.checkedTitle){
+				vm.checkedTitle = obj.actTitle;
+				vm.checkedId = obj.id;
+				obj.isChecked = true;
+			}else{
+				if(vm.checkedTitle == obj.actTitle){
+					vm.checkedId = obj.isChecked == true ? '' : obj.id;
+					vm.checkedTitle = obj.isChecked == true ? '' : obj.actTitle;
+					obj.isChecked = obj.isChecked == true ? false : true;
+				} else {
+					$.each(vm.ActList, function(index, item){
+							item.isChecked = false;
+					})
+					vm.checkedId = obj.id;
+					vm.checkedTitle = obj.actTitle;
+					obj.isChecked = true;
+				}	
+			}
+		},
+		save(){
+			const vm = this;
+			if(!vm.checkedTitle){
+				vm.$toast('未选择活动');
+				return;
+			}
+			vm.notes = vm.actTitle = `#${vm.checkedTitle}#`;
+			const len = vm.notes.length;
+			vm.count = len;
+			vm.showContentWindow = true;
+       		vm.showActTitleWindow = false;
+		},
+		cancel(){
+			const vm = this;
+			vm.actTitle = '同步线上活动';
+			vm.notes = '';
+			vm.count = 0;
+			vm.showContentWindow = true;
+       		vm.showActTitleWindow = false;
 		},
     	getImg: function(e){
     		let vm = this;
@@ -182,16 +213,14 @@ export default{
     		if(vm.isSaving) return;
     		let dt = window.sessionStorage.userInfo;
 			let data = vm.editList;
-			if(!data.region || !data.address || !data.dateTime ||
-				!data.petType || !vm.notes || !data.contact){
-					vm.$toast('信息填写不完整');
-					return;
+			if(!vm.notes){
+				vm.$toast('信息填写不完整');
+				return;
 			}
-			let partten = /^$|^1(3|4|5|7|8)\d{9}$/;
-    		if(!partten.test(data.contact)){
-    			vm.$toast('请输入正确的手机联系方式');
-					return;
-    		}
+			if(vm.picList.length === 0){
+				vm.$toast('未上传图片');
+				return;
+			}
     		
     		let e = vm.files;
       		let url = vm.urls.uploadArray;
@@ -202,14 +231,15 @@ export default{
     			vm.editList.petAvatar = JSON.stringify(r.data.data);
     			save();
     		}		
-    		vm.utils.uploadMore(vm, e, fname, url, callback);
+    		// vm.utils.uploadMore(vm, e, fname, url, callback);
     		
     		function save(){
     			let url = vm.urls.addLook;
     			data.userInfo = dt;
 				data.userId = JSON.parse(dt).id;
 				data.createTime = vm.utils.getNowTime();
-				data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
+				data.content= vm.notes.replace(/\n|\r\n/g,"<br/>");
+				if(vm.checkedId) data.actId = vm.checkedId;
 
 				let callback = function(r){
 					vm.$dialog.toast({
@@ -341,10 +371,18 @@ export default{
 	}
 	.btn-wrap{
 		margin: 50px 0;
+		text-align: center;
 	    .btn-save{
 	    	display: block;
 	    	margin: 0 auto;
 	    	width: 80%;
+	    }
+	    .actBtn{
+	    	margin-right: 20px;
+	    }
+	    .actBtn, .btn-cancel{
+	    	display: inline-block;
+	    	width: 220px;
 	    }
 	}
 	.store-list{
@@ -367,20 +405,19 @@ export default{
             &:last-child{
                 border-bottom: none;
             }
-           /* &.active{*/
+            &.active{
                 &:after{
                     display: block;
                     content: "";
-                    background-image: url(/assets/images/icon-check.png);
+                    background-image: url(../../assets/images/icon-check.png);
                     background-size: 36px 26px;
                     float: right;
                     width: 36px;
                     height: 26px;
                 }
-           /* }*/
+            }
             .store-wrap{
-            	background: yellow;
-            	max-width:75%;
+            	width:78%;
             }
             .store-name{
             	display: block;

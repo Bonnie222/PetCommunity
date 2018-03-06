@@ -39,6 +39,11 @@ var sqlMap = {
 	activity:{
 		add: 'INSERT INTO activity(id, actTitle, actType, publisherId, publisher, createTime, startTime, endTime, themePhoto, notes, city, address, actNum, cost, contact) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
+	},
+	
+	//宠物秀
+	petshow: {
+		add: 'INSERT INTO petshow(id, content, actId, userId, userInfo, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?, ?)',
 	}
 }
 
