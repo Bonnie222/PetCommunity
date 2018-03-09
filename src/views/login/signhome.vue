@@ -8,27 +8,23 @@
 		</div>
 	</div>
 </template>
-
 <script>
 export default{
 	name: 'Signhome',
     data(){
     	return{
-    	
     	}
     },
     methods:{
-    	goRegister: function() {
+    	goRegister() {
     		this.$router.push('/signhome/register');
     	},
-    	goLogin: function() {
+    	goLogin() {
     		this.$router.push('/signhome/login');
     	}
-    	
     }
 }
 </script>
-
 <style lang="less" scoped>
 @commonColor:#eb695c;
 #Signhome{

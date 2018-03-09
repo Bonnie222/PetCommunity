@@ -1,21 +1,26 @@
 <template>
 	<div id="LookEdit">
 		<div v-show="showContentWindow" id="content">
-			<Header title="发布信息" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+			<Header title="发布信息" :headerLeft="headerLeft" :fixed="isFixed"
+				@clickRouter="back"></Header>
 			<div class="form">
 				<div class="form1">
-					<textarea placeholder="说点什么吧？" v-model="notes" maxlength="255" @input="countWord"></textarea>
+					<textarea placeholder="说点什么吧？" v-model="notes"
+						maxlength="255" @input="countWord"></textarea>
 					<p>{{count}}/255</p>
 				</div>
 				<div class="form1 form2">
 					<div class="pic">
-						<span class="addBtn" v-for="(item, index) in picList" v-if="picList.length!=0">
+						<span class="addBtn" v-for="(item, index) in picList"
+							v-if="picList.length!=0">
 							<img :src="item.picture" @click="previewImg(index)"/>
-							<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg(index)"/>
+							<img src="../../assets/images/removeImg.svg" class="remove"
+								@click="removeImg(index)"/>
 						</span>
 						<span class="addBtn" v-show="picList.length != 3">
 							<img src="../../assets/images/tianjia.png" />
-							<input class="file-btn" type="file" hidefocus="true" name="picture" accept="image/*" @change="getImg($event)"/>
+							<input class="file-btn" type="file" hidefocus="true" name="picture"
+								accept="image/*" @change="getImg($event)"/>
 						</span>
 					</div>
 				</div>
@@ -31,7 +36,9 @@
 				</ul>
 			</div>
 			<div class="btn-wrap">
-				<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
+				<button class="btn-save" @click="saveToPublish">
+					{{saveBtnText}}
+				</button>
 			</div>
 			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 		</div>
@@ -90,7 +97,7 @@ export default{
 			checkedId:'',
 			editList:{
 				petAvatar:'',
-				content:'',				
+				content:'',
 			},
 		}
 	},
@@ -111,41 +118,41 @@ export default{
 		vm.utils.postData(url, data, callback);
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		windowback: function(){
+		windowback(){
 			let vm = this;
 			vm.showContentWindow = true;
 			vm.showActTitleWindow = false;
 		},
-		countWord: function(){
+		countWord(){
 			let vm = this;
 			let len = vm.notes.length;
 			vm.count = len;
 		},
-		previewImg: function(index){
+		previewImg(index){
 			let vm = this;
 			vm.avatar = vm.picList[index].picture;
-    		vm.showImgView = true;
-    	},
-    	closeView: function(){
-    		this.showImgView = false;
-    	},
-    	removeImg: function(index){
-    		let list = this.picList;
-    		let fileslist = this.files;
-    		list = list.splice(index, 1);
-    		fileslist = fileslist.splice(index, 1)
-    	},
-		showActListWindow:function(){
-       		let vm = this;
-       		vm.showContentWindow = false;
-       		vm.showActTitleWindow = true;
-       		vm.windowTitle = '选择线上活动';
+  		vm.showImgView = true;
+  	},
+  	closeView(){
+  		this.showImgView = false;
+  	},
+  	removeImg(index){
+  		let list = this.picList;
+  		let fileslist = this.files;
+  		list = list.splice(index, 1);
+  		fileslist = fileslist.splice(index, 1)
+  	},
+		showActListWindow(){
+   		let vm = this;
+   		vm.showContentWindow = false;
+   		vm.showActTitleWindow = true;
+   		vm.windowTitle = '选择线上活动';
 			vm.windowheaderLeft = true;
-       	},
-       	confirmAct: function(obj){
+   	},
+   	confirmAct(obj){
 			let vm = this;
 			if(!vm.checkedTitle){
 				vm.checkedTitle = obj.actTitle;
@@ -163,7 +170,7 @@ export default{
 					vm.checkedId = obj.id;
 					vm.checkedTitle = obj.actTitle;
 					obj.isChecked = true;
-				}	
+				}
 			}
 		},
 		save(){
@@ -172,90 +179,106 @@ export default{
 				vm.$toast('未选择活动');
 				return;
 			}
-			vm.notes = vm.actTitle = `#${vm.checkedTitle}#`;
+			const title = `#${vm.checkedTitle}#`
+			vm.actTitle = title;
+			if(vm.notes) {
+				const index = vm.notes.indexOf('#');
+				if(index === -1) {
+					vm.notes = `${title}${vm.notes}`;
+				} else {
+					const content = vm.notes.split('#')[2];
+					vm.notes = `${title}${content}`;
+				}
+			} else {
+				vm.notes = title;
+			}
+
+			// console.log(index);
+			// vm.notes =
 			const len = vm.notes.length;
 			vm.count = len;
 			vm.showContentWindow = true;
-       		vm.showActTitleWindow = false;
+      vm.showActTitleWindow = false;
 		},
 		cancel(){
 			const vm = this;
 			vm.actTitle = '同步线上活动';
-			vm.notes = '';
-			vm.count = 0;
+			const index = vm.notes.indexOf('#');
+			vm.notes = index === -1 ? '' : vm.notes.split('#')[2]
+			const len = vm.notes.length;
+			vm.count = len;
 			vm.showContentWindow = true;
-       		vm.showActTitleWindow = false;
+      vm.showActTitleWindow = false;
 		},
-    	getImg: function(e){
-    		let vm = this;
-    		let file = e.target.files[0];
-    		let fileslist = vm.files;
-    		fileslist = fileslist.push(file);
-    		if((file.type).indexOf("image/")==-1){
-    			vm.$dialog.toast({
-		            mes: '该文件必须为图片格式',
-		            timeout: 1000,
-		            icon: 'error'
-		        });
-    			return false;
-    		}
-    		let reader = new FileReader();
-    		reader.readAsDataURL(file);
-    		reader.onload = function(e){
-    			let pic = {};
-    			let list = vm.picList;
-    			pic.picture = this.result;
-    			list = list.push(pic);
-    		}
+    getImg: function(e){
+  		let vm = this;
+  		let file = e.target.files[0];
+  		let fileslist = vm.files;
+  		fileslist = fileslist.push(file);
+  		if((file.type).indexOf("image/")==-1){
+  			vm.$dialog.toast({
+	            mes: '该文件必须为图片格式',
+	            timeout: 1000,
+	            icon: 'error'
+	        });
+  			return false;
+	  		}
+	  		let reader = new FileReader();
+	  		reader.readAsDataURL(file);
+	  		reader.onload = function(e){
+	  			let pic = {};
+	  			let list = vm.picList;
+	  			pic.picture = this.result;
+	  			list = list.push(pic);
+	  		}
     	},
     	saveToPublish: function(){
     		let vm = this;
     		if(vm.isSaving) return;
     		let dt = window.sessionStorage.userInfo;
-			let data = vm.editList;
-			if(!vm.notes){
-				vm.$toast('信息填写不完整');
-				return;
-			}
-			if(vm.picList.length === 0){
-				vm.$toast('未上传图片');
-				return;
-			}
-    		
+				let data = vm.editList;
+				if(!vm.notes){
+					vm.$toast('信息填写不完整');
+					return;
+				}
+				if(vm.picList.length === 0){
+					vm.$toast('未上传图片');
+					return;
+				}
+
     		let e = vm.files;
-      		let url = vm.urls.uploadArray;
+      	let url = vm.urls.uploadArray;
     		let fname = 'picture';
     		vm.isSaving = true;
-			vm.saveBtnText = '正在发布中...';
-    		let callback = function(r){
+				vm.saveBtnText = '正在发布中...';
+    		const callback = (r) => {
     			vm.editList.petAvatar = JSON.stringify(r.data.data);
     			save();
-    		}		
-    		// vm.utils.uploadMore(vm, e, fname, url, callback);
-    		
-    		function save(){
-    			let url = vm.urls.addLook;
-    			data.userInfo = dt;
-				data.userId = JSON.parse(dt).id;
-				data.createTime = vm.utils.getNowTime();
-				data.content= vm.notes.replace(/\n|\r\n/g,"<br/>");
-				if(vm.checkedId) data.actId = vm.checkedId;
-
-				let callback = function(r){
-					vm.$dialog.toast({
-						mes: '发布成功',
-	  					icon: 'success',
-	  					timeout: 1000
-					});	
-					vm.isSaving = false;
-					vm.saveBtnText = '确认发布';
-					setTimeout(function(){
-						vm.$router.go(-1);
-					},1500);
-				}
-				vm.utils.postData(url, data, callback);
     		}
+    		vm.utils.uploadMore(vm, e, fname, url, callback);
 
+    		const save = () => {
+    			let url = vm.urls.addPetShow;
+    			data.userInfo = dt;
+					data.userId = JSON.parse(dt).id;
+					data.createTime = vm.utils.getNowTime();
+					data.content= vm.notes.replace(/\n|\r\n/g,"<br/>");
+					if(vm.checkedId) data.actId = vm.checkedId;
+
+					const callback = (r) => {
+						vm.$dialog.toast({
+							mes: '发布成功',
+		  					icon: 'success',
+		  					timeout: 1000
+						});
+						vm.isSaving = false;
+						vm.saveBtnText = '确认发布';
+						setTimeout(function(){
+							vm.$router.go(-1);
+						},1500);
+					}
+					vm.utils.postData(url, data, callback);
+    		}
     	}
 	}
 }
@@ -283,7 +306,7 @@ export default{
 				width: 100%;
 				min-height: 300px;
 				border: none;
-				
+
 			}
 			textarea::placeholder{
 				color:#999999;
@@ -295,7 +318,7 @@ export default{
 				padding: 10px 20px;
 			}
 			.pic{
-				
+
 				height: 130px;
 				padding: 10px;
 				.addBtn{
@@ -337,7 +360,7 @@ export default{
 			background: #ffffff;
 			padding: 0 25px;
 			border-top: 1px solid #E4E4E4;/*no*/
-			border-bottom: 1px solid #E4E4E4;/*no*/	
+			border-bottom: 1px solid #E4E4E4;/*no*/
 			font-size: 30px;
 			color: #333333;
 			& li{
@@ -351,7 +374,7 @@ export default{
 				input{
 					width: 500px;
 					text-align: right;
-					
+
 				}
 				input::placeholder{
 					color:#cccccc;
@@ -365,8 +388,8 @@ export default{
 						height: 26px;
 					}
 				}
-			}	
-	
+			}
+
 		}
 	}
 	.btn-wrap{

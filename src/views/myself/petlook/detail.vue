@@ -1,24 +1,28 @@
 <template>
 	<div id="Mylook-detail">
-		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed"
+			@clickRouter="back"></Header>
 		<div class="detail-wrap">
 			<div class="detail-list">
 				<div class="detail-item" v-for="(item,prop) in detail">
 					<span class="item-label">{{item.label}}</span>
 					<span class="item-text" v-if="prop == 'loacation'" v-html="item.val"></span>
-					<span class="item-text" v-else-if="prop == 'findStatus'">{{status == 1 ? '进行中':'已结束'}}</span>
+					<span class="item-text" v-else-if="prop == 'findStatus'">
+						{{status == 1 ? '进行中':'已结束'}}
+					</span>
 					<span class="item-text" v-else>{{item.val}}</span>
 				</div>
 				<div class="detail-area">
 					<span class="item-label">备注</span>
-					<div class="item-area" v-html="detailOthers.note"></div>
+					<div class="item-area" v-html="detailNotes"></div>
 				</div>
 				<div class="detail-area">
 					<span class="item-label">图片</span>
 					<div class="item-pic">
-						<span v-for="pic in detailOthers.pic">
-							<img :src="pic.fileUrl"/>
-						</span>
+						<yd-lightbox :num="detailPic.length">
+			        <yd-lightbox-img v-for="pic, index in detailPic"
+							:key="index" :src="pic.fileUrl"></yd-lightbox-img>
+			    	</yd-lightbox>
 					</div>
 				</div>
 			</div>
@@ -36,8 +40,16 @@ export default{
 	components:{
 	    Header
 	},
-	data(){              
+	data(){
 		return{
+			list: [
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s1.jpg'},
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s2.jpg'},
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s3.jpg'},
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s4.jpg'},
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s5.jpg'},
+          {src: 'http://static.ydcss.com/uploads/lightbox/meizu_s6.jpg'}
+      ],
 			isFixed:true,
 			headerLeft:true,
 			lookid:'',
@@ -63,7 +75,8 @@ export default{
 					label:'状态'
 				}
 			},
-			detailOthers:{}
+			detailPic:[],
+			detailNotes:'',
 		}
 	},
 	created(){
@@ -86,7 +99,7 @@ export default{
 			}
 			let callback = function(r){
 				let item = r.data.data[0];
-				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情'; 
+				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情';
 				vm.status = item.findStatus;
 				item.createTime = vm.utils.changeDate(item.createTime);
 				item.dateTime = vm.utils.changeDate(item.dateTime);
@@ -96,8 +109,8 @@ export default{
 				item.isFindPet = vm.config.findPetType[item.isFindPet];
 				item.findStatus = vm.config.lookStatus[item.findStatus];
 				item.loacation = item.region+'<br/>'+ item.address;
-				vm.detailOthers.pic = JSON.parse(item.petAvatar);
-				vm.detailOthers.note = item.note;
+				vm.detailPic = JSON.parse(item.petAvatar);
+				vm.detailNotes = item.note;
 				$.each(vm.detail, function(prop, data) {
 					data.val = item[prop];
 				});
@@ -133,9 +146,9 @@ export default{
 		font-size: 30px;
 		.detail-item{
 			border-bottom: 1px solid #e4e4e4; /*no*/
-			padding: 30px 0; 
+			padding: 30px 0;
 			display: flex;
-			justify-content: space-between;	
+			justify-content: space-between;
 			align-items: center;
 			line-height: 36px;
 			.item-text{
@@ -145,7 +158,7 @@ export default{
 		}
 		.detail-area{
 			border-bottom: 1px solid #e4e4e4; /*no*/
-			padding: 30px 0; 
+			padding: 30px 0;
 			display: flex;
 			flex-direction: column;
 			.item-area{
@@ -153,27 +166,21 @@ export default{
 			  border: 1px solid #e4e4e4;/*no*/
 			  width: 100%;
 			  min-height: 200px;
-			  padding: 10px; 
+			  padding: 10px;
 			  font-size: 28px;
 			  color: #333333;
 			  line-height: 36px;
 			}
-			.item-pic{
-				margin-top: 20px;
-				span{
-					display: inline-block;
-					width: 110px;
-					height: 110px;
-					margin-right:10px;
-					border-radius: 20px;
-					overflow:hidden; 
-					&:last-child{
-						margin: 0;
-					}
-					img{
-						width: inherit;
-						height: inherit;
-					}
+			img{
+				display: inline-block;
+				width: 110px;
+				height: 110px;
+				margin-right:15px;
+				border-radius: 20px;
+				overflow:hidden;
+				margin-top: 10px;
+				&:last-child{
+					margin: 0;
 				}
 			}
 		}

@@ -6,47 +6,55 @@
 				<ul>
 					<li class="">
 						<label>手机<span class="tip">*</span></label>
-						<input type="tel"  v-model="userInfo.userPhone" @focus="onFocus" @blur="onPhoneBlur"/>
+						<input type="tel"  v-model="userInfo.userPhone"
+							@focus="onFocus" @blur="onPhoneBlur"/>
 					</li>
 					<li class="">
 						<label>昵称<span class="tip">*</span></label>
-						<input type="text"  v-model="userInfo.userName" @focus="onFocus" @blur="onNameBlur"/>
+						<input type="text"  v-model="userInfo.userName"
+							@focus="onFocus" @blur="onNameBlur"/>
 					</li>
 					<li class="">
 						<label>密码<span class="tip">*</span></label>
-						<input type="password" placeholder="请设置密码(最小6位数)" v-model="userInfo.userPsd" @focus="onFocus" @blur="onPsdBlur"/>
+						<input type="password" placeholder="请设置密码(最小6位数)"
+							v-model="userInfo.userPsd" @focus="onFocus" @blur="onPsdBlur"/>
 					</li>
 					<li class="">
 						<label>性别<span class="tip">*</span></label>
 						<div class="radio-wrap">
 							<label class="yd-radio">
-								<input type="radio" value="1" name="sex" v-model="userInfo.userSex">
+								<input type="radio" value="1" name="sex"
+									v-model="userInfo.userSex">
 								<span class="yd-radio-icon male">
 									<i class="icon"></i>
 								</span>
 								<span class="yd-radio-text">男</span>
 							</label>
 							<label class="yd-radio">
-								<input type="radio" value="2" name="sex" v-model="userInfo.userSex">
+								<input type="radio" value="2" name="sex"
+									v-model="userInfo.userSex">
 								<span class="yd-radio-icon female">
 									<i class="icon"></i>
 								</span>
 								<span class="yd-radio-text">女</span>
 							</label>
-						</div>			
+						</div>
 					</li>
 					<li class="">
 						<label>邮箱</label>
-						<input type="email" v-model="userInfo.userEmail" @blur="onEmailBlur"/>
+						<input type="email" v-model="userInfo.userEmail"
+							@blur="onEmailBlur"/>
 					</li>
 					<li class="">
 						<label>生日</label>
-						<input type="text" v-model="userInfo.userBirth" @click="openDatePicker"/>
+						<input type="text" v-model="userInfo.userBirth"
+							@click="openDatePicker"/>
 					</li>
 				</ul>
 				<!--选择器-->
-				<mt-datetime-picker ref="userBirthPicker" type="date" @confirm="handleUserBirth"
-					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="userBirthPicker" type="date"
+				 :startDate="startDate" :endDate="endDate"
+				 @confirm="handleUserBirth"></mt-datetime-picker>
 			</div>
 			<div class="validator" v-show="errWindow">
 				<span class="err">{{errMsg}}</span>
@@ -66,7 +74,8 @@
 				</yd-checkbox>
 			</div>
 			<div class="btn-wrap">
-				<button class="btn-save" :class="{read:!checkbox}" @click="goRegister">注册</button>
+				<button class="btn-save" :class="{read:!checkbox}"
+					@click="goRegister">注册</button>
 			</div>
 		</div>
 		<div v-show="psdProtectWindow">
@@ -114,29 +123,29 @@ export default {
     		},
     		checkbox:false,
     		/*出生日期范围*/
-			startDate:new Date('1960,1,1'),
-			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),  	
+				startDate:new Date('1960,1,1'),
+				endDate:new Date(new Date().getFullYear(),new Date().getMonth(),
+				 	new Date().getDate()),
     	}
     },
     computed:{
     	errWrap(){
-//  		return 
+//  		return
     	},
     	errText(){
-    		
+
     	}
     },
     methods:{
-    	back:function(){
-			this.$router.go(-1);
-		},
-    	onFocus: function(){
+    	back()  {
+				this.$router.go(-1);
+			},
+    	onFocus() {
     		var vm = this;
     		vm.errMsg = '';
     		vm.errWindow = false;
     	},
-    	   	
-    	onPhoneBlur: function(){
+    	onPhoneBlur() {
     		var vm = this;
     		var phone = vm.userInfo.userPhone == null ? '' : vm.userInfo.userPhone.trim();
     		var partten = /^$|^1(3|4|5|7|8)\d{9}$/;
@@ -151,10 +160,10 @@ export default {
 	    		var data = {
 	    			userPhone:phone
 	    		};
-	    		var options = { 
+	    		var options = {
 	    			params:{
 	    				phone: phone
-	    			}	
+	    			}
 	    		}
 				vm.$axios.post(url, data, options).then((res) =>{
 					if(res.status == 200){
@@ -167,7 +176,7 @@ export default {
 								console.log(data.message);
 							}
 						}
-		
+
 					}else{
 						console.log('请求出现错误')
 					}
@@ -177,8 +186,7 @@ export default {
 				});
     		}
     	},
-    	
-    	onNameBlur: function(){
+    	onNameBlur() {
     		var vm = this;
     		var name = vm.userInfo.userName == null ? '': vm.userInfo.userName.trim();
     		if(!name){
@@ -189,10 +197,10 @@ export default {
 	    		var data = {
 	    			userName:name
 	    		};
-	    		var options = { 
+	    		var options = {
 	    			params:{
 	    				name: name
-	    			}	
+	    			}
 	    		}
 				vm.$axios.post(url, data, options).then((res) =>{
 					if(res.status == 200){
@@ -205,7 +213,7 @@ export default {
 								console.log(data.message);
 							}
 						}
-		
+
 					}else{
 						console.log('请求出现错误')
 					}
@@ -215,8 +223,7 @@ export default {
 				});
     		}
     	},
-    	
-    	onPsdBlur:function(){
+    	onPsdBlur(){
     		var vm = this;
     		var psd = vm.userInfo.userPsd;
     		if(!psd){
@@ -227,7 +234,7 @@ export default {
     			vm.errWindow = true;
     		}
     	},
-    	onEmailBlur: function(){
+    	onEmailBlur(){
     		var vm = this;
     		var email = vm.userInfo.userEmail == null ? '' : vm.userInfo.userEmail.trim();
     		var partten = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
@@ -239,10 +246,10 @@ export default {
 	    		var data = {
 	    			userEmail:email
 	    		};
-	    		var options = { 
+	    		var options = {
 	    			params:{
 	    				email: email
-	    			}	
+	    			}
 	    		}
 				vm.$axios.post(url, data, options).then((res) =>{
 					if(res.status == 200){
@@ -255,7 +262,7 @@ export default {
 								console.log(data.message);
 							}
 						}
-		
+
 					}else{
 						console.log('请求出现错误')
 					}
@@ -265,19 +272,19 @@ export default {
 				});
 			}
     	},
-    	openDatePicker: function(){
+    	openDatePicker() {
 	   		this.$refs.userBirthPicker.open();
 	   	},
-	   	handleUserBirth: function(value){
+	   	handleUserBirth(value) {
 	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
 	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
 	   		this.userInfo.userBirth = d;
 	   	},
-	   	setAnswer:function(){
+	   	setAnswer()  {
 	   		this.topTitle = '密保设置'
 	   		this.psdProtectWindow = true;
 	   	},
-	   	saveProtect: function(){
+	   	saveProtect() {
 	   		var vm = this;
 	   		if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
 	   			vm.$toast('密保问题未填写完整');
@@ -286,9 +293,8 @@ export default {
 	   			vm.topTitle = '注册'
 	   			vm.psdProtectWindow = false;
 	   		}
-	   		
 	   	},
-    	goRegister: function(){
+    	goRegister() {
     		var vm = this;
     		if(!vm.checkbox){
     			return;
@@ -308,17 +314,17 @@ export default {
 					vm.$toast('密保信息未填写');
 					return;
 			}
-    		
-			var  d = new Date();
+				var  d = new Date();
     		var url = vm.urls.register;
     		var data = vm.userInfo;
-    		data.userNumber = d.getFullYear() +''+(d.getMonth() + 1) +''+ d.getDate() +''+ d.getHours() +''+ d.getMinutes() +''+ d.getSeconds();
+    		data.userNumber = d.getFullYear() +''+(d.getMonth() + 1) +''+
+					d.getDate() +''+ d.getHours() +''+ d.getMinutes() +''+ d.getSeconds();
     		var callback = function(r){
 				vm.$dialog.toast({
 					mes: '注册成功',
   					icon: 'success',
   					timeout: 1000
-				});	
+				});
 				setTimeout(function(){
 					vm.$router.replace('/signhome/login');
 				},1500);
@@ -326,7 +332,6 @@ export default {
 			vm.utils.postData(url, data, callback);
     	}
     }
-    
 }
 </script>
 
@@ -337,11 +342,11 @@ export default {
 		color: red;
 		display: inline-block;
 		font-size: 30px;
-		.err{ 
+		.err{
 			&::before{
 				content: '×';
 			    font-size: 36px;
-				margin-right: 10px;	
+				margin-right: 10px;
 			}
 		}
 	}
@@ -350,8 +355,8 @@ export default {
 		margin-top: 40px;
 		color: #666666;
 		font-size: 32px;
-		& ul{	
-			padding: 0 20px;		
+		& ul{
+			padding: 0 20px;
 			& li{
 				display: flex;
 				justify-content: space-between;
@@ -381,7 +386,7 @@ export default {
 						}
 						&>input[type=radio]{
 							position: absolute;
-							left: -9999em;		
+							left: -9999em;
 						}
 						&>input[type=radio]:checked+.yd-radio-icon{
 							border-color: currentcolor;
@@ -400,7 +405,7 @@ export default {
 							vertical-align: bottom;
 							pointer-events: none;
 							/*color: rgb(76, 216, 100); */
-							width: 40px; 
+							width: 40px;
 							height: 40px;
 							.icon{
 								display: inline-block;
@@ -415,7 +420,7 @@ export default {
 								opacity: 0;
 								transform: translate(-50%, -50%) scale(.1);
 							}
-							
+
 						}
 						.male{
 							color: #0275d8;
@@ -489,7 +494,7 @@ export default {
 			background: #FFFFFF;
 			padding:20px;
 			input{
-		
+
 			}
 			textarea{
 				width: 100%;
