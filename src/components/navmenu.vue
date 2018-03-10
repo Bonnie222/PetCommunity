@@ -69,15 +69,6 @@ export default{
 				icon:'iconfont icon-wo2',
 				href:'/myself'
 			}],
-			MiddleMenu2:[{
-				name:'发起活动',
-				icon:'iconfont icon-huodong2',
-				href: ''
-			},{
-				name:'发起寻主/宠',
-				icon:'iconfont icon-chazhao',
-				href:''
-			}],
 			MiddleMenu1:[{
 				name: '发帖',
 				icon:'iconfont icon-float_fatie',
@@ -96,7 +87,7 @@ export default{
 				icon:'iconfont icon-chazhao',
 				href:'/look/edit'
 			}]
-			
+
 		}
 	},
 	methods:{
@@ -126,30 +117,31 @@ export default{
 	.menu-list{
 		display: inline-block;
 		position: relative;
-		font-size: 28px;
+		font-size: 22px;
 		.menu-item{
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			color: #666666;
+			margin-top: 10px;
 		}
 		.iconfont{
 			display: block;
-			font-size: 36px;
-			margin-bottom: 10px;
+			font-size: 46px;
+			margin-bottom: 5px;
 		}
 		.middlemenu{
 			background: #eb695c;
 			width: 80px;
 			height: 80px;
 			border-radius: 100%;
-			text-align:center; 
+			text-align:center;
 			line-height: 80px;
 			&::after{
 				content: "+";
-				color:#ffffff;				
+				color:#ffffff;
 				font-size: 88px;
-			}			
+			}
 		}
 		.router-link-active{
 			color: #EB695C;
@@ -172,13 +164,13 @@ export default{
 	    margin-left: -300px;
 	    z-index: 999;
 		.center-wrap{
-			display: flex;	
+			display: flex;
 			justify-content: space-between;
 			margin-bottom: 60px;
 		}
 		.route-item{
 			width:300px;
-			display: flex;	
+			display: flex;
 			flex-direction: column;
 			text-align: center;
 			margin-right: 20px;
@@ -218,6 +210,6 @@ export default{
 			color: #30a595;
 		}
 	}
-	
+
 }
 </style>

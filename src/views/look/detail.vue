@@ -27,8 +27,8 @@
 					<!-- <span v-for="item in detailList.petAvatar">
 						<img :src="item.fileUrl" />
 					</span> -->
-					<yd-lightbox :num="detailList.petAvatar.length">
-						 <yd-lightbox-img v-for="(item, index) in detailList.petAvatar"
+					<yd-lightbox :num="picList.length">
+						 <yd-lightbox-img v-for="(item, index) in picList"
 						 :key="index" :src="item.fileUrl"></yd-lightbox-img>
 				 </yd-lightbox>
 				</div>
@@ -82,7 +82,8 @@ export default{
 			isFixed:true,
 			headerLeft:true,
 			detailList:{},
-			userInfo:{}
+			userInfo:{},
+			picList:[],
 		}
 	},
 	created(){
@@ -115,6 +116,7 @@ export default{
 				data.userInfo = JSON.parse(data.userInfo);
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.detailList = data;
+				vm.picList = data.petAvatar;
 				vm.userInfo = data.userInfo;
 			}
 			vm.utils.postData(url, data, callback);

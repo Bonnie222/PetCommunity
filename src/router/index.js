@@ -11,6 +11,7 @@ const Home = _import('home/home');
 /*宠物秀*/
 const PetshowList = _import('petshow/list');
 const PetshowEdit = _import('petshow/edit');
+const PetshowDetail = _import('petshow/detail');
 /*医疗*/
 const Medical = _import('medical/medical');
 const DiseaseList = _import('medical/diseaselist');
@@ -48,6 +49,7 @@ export default new Router({
 	  /*宠物秀*/
 	  {	path: '/petshow/list',											name: 'PetshowList',			component: PetshowList		},
 	  {	path: '/petshow/edit',											name: 'PetshowEdit',			component: PetshowEdit		},
+    {	path: '/petshow/detail/:id',							  name: 'PetshowDetail',  	component: PetshowDetail	},
 	  /*医疗*/
 	  {	path: '/medical',														name: 'Medical',					component: Medical				},
 	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
