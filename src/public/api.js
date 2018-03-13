@@ -21,6 +21,7 @@ export default {
 	getMyPetList: host + '/user/petList',
 	updateMyLookStatus: host + '/user/updatelookStatus',
 	updataMyInfo: host + '/user/update',
+	deleteMyLook: host + '/user/deletelook',
 
 
 	//宠物
@@ -43,4 +44,7 @@ export default {
 	addPetShow: host + '/petshow/add',
 	getPetshowList: host + '/petshow/list',
 	getPetshowDetail: host + '/petshow/detail',
+
+	//认证号
+	getUserList: host + '/user/list',
 }

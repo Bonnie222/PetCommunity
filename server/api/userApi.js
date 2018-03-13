@@ -206,6 +206,20 @@ router.post('/user/update',(req,res)=>{
         }
     })
 })
+// 查询出自己以外的所有用户
+router.post('/user/list',(req,res)=>{
+	var sql = $sql.user.queryOther;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 宠物
  */
@@ -379,7 +393,20 @@ router.post('/user/updatelookStatus',(req, res) => {
         }
     })
 })
-
+//删除寻宠/主信息
+router.post('/user/deletelook',(req,res)=>{
+	var sql = $sql.deleteById;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = ['look',p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 活动接口
  */

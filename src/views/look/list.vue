@@ -54,10 +54,10 @@ export default{
 		this.getLookList();
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getLookList: function(){
+		getLookList(){
 			let vm = this;
 			vm.loading = true;
 			let url = vm.urls.getLookList;

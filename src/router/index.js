@@ -34,6 +34,8 @@ const LookDetail = _import('look/detail');
 const ActivityList = _import('activity/list');
 const ActivityDetail = _import('activity/detail');
 const ActivityEdit = _import('activity/edit');
+/*认证号*/
+const UserList = _import('user/list');
 
 Vue.use(Router)
 
@@ -72,5 +74,7 @@ export default new Router({
 	 	{	path: '/activity/list/:type',								name: 'ActivityList',			component: ActivityList 	},
 	 	{	path: '/activity/edit',											name: 'ActivityEdit',			component: ActivityEdit 	},
 	 	{	path: '/activity/detail/:type/:id',					name: 'ActivityDetail',		component: ActivityDetail	},
+    /*认证号*/
+	 	{	path: '/user/list',								          name: 'UserList',			    component: UserList     	},
   ]
 })

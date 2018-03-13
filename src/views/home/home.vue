@@ -73,9 +73,9 @@ export default{
 				src: require('../../assets/images/huati.svg'),
 				href:''
 			},{
-				name:'咨询',
+				name:'认证号',
 				src:require('../../assets/images/zixun.svg'),
-				href:''
+				href:'/user/list'
 			},{
 				name:'活动',
 				src:require('../../assets/images/huodong.svg'),

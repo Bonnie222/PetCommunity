@@ -38,8 +38,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="link-btn" >
-				<router-link to="">
+			<div class="link-btn" :class="{'click':status == false}">
+				<span v-if="status==false">已结束</span>
+				<router-link to="" v-else>
 					<span>我要参与</span>
 				</router-link>
 			</div>
