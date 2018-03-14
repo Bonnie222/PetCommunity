@@ -7,13 +7,16 @@
 					<span class="labellogo">
 						<img src="../../assets/images/phone.png" />
 					</span>
-					<input type="text" placeholder="请输入手机号" v-model="loginForm.userPhone" @focus="onPhoneFocus" @blur="onPhoneBlur"/>
+					<input type="text" placeholder="请输入手机号"
+						v-model="loginForm.userPhone"
+						@focus="onPhoneFocus" @blur="onPhoneBlur"/>
 				</li>
 				<li class="">
 					<span class="labellogo">
 						<img src="../../assets/images/psw.png" />
 					</span>
-					<input type="password" placeholder="请输入密码" v-model="loginForm.userPsd" @focus="onPsdFocus"/>
+					<input type="password" placeholder="请输入密码"
+					v-model="loginForm.userPsd" @focus="onPsdFocus"/>
 				</li>
 			</ul>
 		</div>
@@ -43,23 +46,22 @@ export default {
     			userPhone: '',
     			userPsd: '',
     		},
-    		userInfo:{}	
+    		userInfo:{}
     	}
     },
     created(){
 
     },
     methods:{
-    	back:function(){
-			this.$router.go(-1);
-		},
-    	onPhoneFocus: function(){
+    	back() {
+				this.$router.go(-1);
+			},
+    	onPhoneFocus() {
     		var vm = this;
     		vm.errMsg = '';
     		vm.errWindow = false;
     	},
-    	   	
-    	onPhoneBlur: function(){
+    	onPhoneBlur() {
     		var vm = this;
     		var partten = /^$|^1(3|4|5|7|8)\d{9}$/;
     		if(!vm.loginForm.userPhone){
@@ -70,13 +72,11 @@ export default {
     			vm.errWindow = true;
     		}
     	},
-    	
-    	onPsdFocus: function(){
+    	onPsdFocus() {
     		var vm = this;
     		vm.onPhoneBlur();
     	},
- 
-    	login: function(){
+    	login() {
     		var vm = this;
     		var partten = /^$|^1(3|4|5|7|8)\d{9}$/;
     		if(!vm.loginForm.userPhone){
@@ -91,40 +91,41 @@ export default {
     			vm.errMsg = '密码不能为空';
     			vm.errWindow = true;
     			return;
-    		}	
-    		
+    		}
     		vm.loginForm.userPhone = vm.loginForm.userPhone.trim();
     		vm.loginForm.userPsd = vm.loginForm.userPsd.trim();
-    		
     		var url = vm.urls.login;
     		var data = vm.loginForm;
-			vm.$axios.post(url, data).then((res) =>{
-				if(res.status == 200){
-					let data = res.data;
-					vm.userInfo = data.data;
-					if(data.code == 1){
-						//LOGIN success
-						console.log('LOGIN success!');
-						window.sessionStorage.userInfo = JSON.stringify(vm.userInfo);
-						vm.$store.dispatch('setUserInfo', vm.userInfo);
-						vm.$router.push('/home');
-					}else{
-						console.log(data.message);
-						if(data.code == -2){
-							vm.errMsg = '密码不正确';
-    						vm.errWindow = true;
-						}else if(data.code == -1){
-							vm.errMsg = '该用户不存在';
-    						vm.errWindow = true;
-						}	
-					}
-				}else{
-					console.log('请求出现错误')
-				}
-				console.log(res);
-			}, (err) => {
-				console.log('Login err',err);
-			});
+				vm.$store.dispatch('LoginByPhone', data).then((res) => {
+					console.log('登录成功');
+				});
+				// vm.$axios.post(url, data).then((res) =>{
+				// 	if(res.status == 200){
+				// 		let data = res.data;
+				// 		vm.userInfo = data.data;
+				// 		if(data.code == 1){
+				// 			//LOGIN success
+				// 			console.log('LOGIN success!');
+				// 			window.sessionStorage.userInfo = JSON.stringify(vm.userInfo);
+				// 			vm.$store.dispatch('setUserInfo', vm.userInfo);
+				// 			vm.$router.push('/home');
+				// 		}else{
+				// 			console.log(data.message);
+				// 			if(data.code == -2){
+				// 				vm.errMsg = '密码不正确';
+	    	// 					vm.errWindow = true;
+				// 			}else if(data.code == -1){
+				// 				vm.errMsg = '该用户不存在';
+	    	// 					vm.errWindow = true;
+				// 			}
+				// 		}
+				// 	}else{
+				// 		console.log('请求出现错误')
+				// 	}
+				// 	console.log(res);
+				// }, (err) => {
+				// 	console.log('Login err',err);
+				// });
     	}
     }
 }
@@ -154,14 +155,14 @@ export default {
 					height: 70px;
 					vertical-align: middle;
 					img{
-						width: 100%;	
-						height: 100%;					
+						width: 100%;
+						height: 100%;
 					}
 				}
 				input{
 					display: inline-block;
 					width: 500px;
-					height: 125px;					
+					height: 125px;
 					text-align: left;
 				}
 		    }

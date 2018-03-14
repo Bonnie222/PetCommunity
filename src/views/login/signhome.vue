@@ -3,32 +3,29 @@
 		<div class="title">爱宠社区</div>
 		<span class="pic"></span>
 		<div class="btn-wrap">
-			<button class="btn-save" @click="goRegister">注册</button>
-			<button class="btn-cancel" @click="goLogin">登录</button>
+			<router-link to="/register" class="btn-save">注册</router-link>
+			<router-link to="/login" class="btn-cancel">登录</router-link>
 		</div>
 	</div>
 </template>
-
 <script>
 export default{
 	name: 'Signhome',
     data(){
     	return{
-    	
     	}
     },
     methods:{
-    	goRegister: function() {
+    	goRegister() {
     		this.$router.push('/signhome/register');
     	},
-    	goLogin: function() {
-    		this.$router.push('/signhome/login');
+    	goLogin() {
+				console.log(111);
+    		// this.$router.push('/signhome/login');
     	}
-    	
     }
 }
 </script>
-
 <style lang="less" scoped>
 @commonColor:#eb695c;
 #Signhome{
@@ -52,7 +49,9 @@ export default{
 	    	display: block;
 	    	margin: 0 auto;
 	    	width: 475px;
+				line-height: 80px;
 	    	margin-bottom: 40px;
+				text-align: center;
 	    }
 	}
 }

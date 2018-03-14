@@ -11,6 +11,7 @@ const Home = _import('home/home');
 /*宠物秀*/
 const PetshowList = _import('petshow/list');
 const PetshowEdit = _import('petshow/edit');
+const PetshowDetail = _import('petshow/detail');
 /*医疗*/
 const Medical = _import('medical/medical');
 const DiseaseList = _import('medical/diseaselist');
@@ -33,21 +34,24 @@ const LookDetail = _import('look/detail');
 const ActivityList = _import('activity/list');
 const ActivityDetail = _import('activity/detail');
 const ActivityEdit = _import('activity/edit');
+/*认证号*/
+const UserList = _import('user/list');
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-	  { path: '/', redirect: '/signhome' },
+	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
 	  { path: '/signhome',         									name: 'Signhome',   	  	component: Signhome 			},
-	  { path: '/signhome/login',   									name: 'Login',      			component: Login    			},
-	  {	path: '/signhome/register', 								name: 'Register', 				component: Register	 			},
+	  { path: '/login',   									name: 'Login',      			component: Login    			},
+	  {	path: '/register', 								name: 'Register', 				component: Register	 			},
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
 	  {	path: '/petshow/list',											name: 'PetshowList',			component: PetshowList		},
 	  {	path: '/petshow/edit',											name: 'PetshowEdit',			component: PetshowEdit		},
+    {	path: '/petshow/detail/:id',							  name: 'PetshowDetail',  	component: PetshowDetail	},
 	  /*医疗*/
 	  {	path: '/medical',														name: 'Medical',					component: Medical				},
 	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
@@ -70,5 +74,7 @@ export default new Router({
 	 	{	path: '/activity/list/:type',								name: 'ActivityList',			component: ActivityList 	},
 	 	{	path: '/activity/edit',											name: 'ActivityEdit',			component: ActivityEdit 	},
 	 	{	path: '/activity/detail/:type/:id',					name: 'ActivityDetail',		component: ActivityDetail	},
+    /*认证号*/
+	 	{	path: '/user/list',								          name: 'UserList',			    component: UserList     	},
   ]
 })

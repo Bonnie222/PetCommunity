@@ -1,10 +1,12 @@
 <template>
 	<div id="Mylook-list">
-		<Header title="我的寻宠/主列表" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back" ></Header>
+		<Header title="我的寻宠/主列表" :headerLeft="headerLeft"
+			:fixed="isFixed" @clickRouter="back" ></Header>
 		<ul id="lookListTab" class="tab-list">
 			<li v-for="(item, index) in lookTabList.list" >
 				<label>
-					<input type="radio" name="topTabList" :value="item.value" :checked="item.check" @click="changeToTab(item.value)"/>
+					<input type="radio" name="topTabList" :value="item.value"
+						:checked="item.check" @click="changeToTab(item.value)"/>
 					<span class="tab-name">
 						{{item.name}}
 					</span>
@@ -33,8 +35,8 @@
 				<p>暂时没有数据哦~</p>
 			</div>
 		</div>
-		
-		
+
+
 	</div>
 </template>
 
@@ -45,7 +47,7 @@ export default{
 	components:{
 	    Header
 	},
-	data(){              
+	data(){
 		return{
 			isFixed:true,
 			headerLeft:true,
@@ -103,7 +105,7 @@ export default{
 			}else if(value == 2){
 				data.findStatus = 2;
 			}
-			
+
 			let callback = function(r){
 				let data = r.data.data;
 				vm.len = data.length;
@@ -118,7 +120,7 @@ export default{
 			}
 			vm.utils.postData(url, data, callback);
 		},
-		
+
 	}
 }
 </script>
@@ -142,7 +144,7 @@ export default{
 			}
 			text-align: center;
 			.tab-name{
-				position: relative;	
+				position: relative;
 				color: #999999;
 				font-size: 30px;
 				padding: 0 30px 14px;

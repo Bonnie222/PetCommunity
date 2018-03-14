@@ -1,10 +1,12 @@
 <template>
 	<div id="ActivityList">
-		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft"
+			:fixed="isFixed" @clickRouter="back"></Header>
 		<ul class="tab-list">
 			<li v-for="(item, index) in actTabList.list" >
 				<label>
-					<input type="radio" name="topTabList" :value="item.value" :checked="item.check" @click="changeToTab(item.value)"/>
+					<input type="radio" name="topTabList" :value="item.value"
+						:checked="item.check" @click="changeToTab(item.value)"/>
 					<span class="tab-name">
 						{{item.name}}
 					</span>
@@ -16,16 +18,24 @@
 				<router-link :to="item.href">
 					<div class="title">
 						<span class="name">#{{item.actTitle}}#</span>
-						<span class="status">{{item.status == false? '已结束':'进行中'}}</span>
-					</div> 
+						<span class="status">
+							{{item.status == false? '已结束':'进行中'}}
+						</span>
+					</div>
 					<div class="wrap">
 						<span class="picTure">
 							<img :src="item.themePhoto.fileUrl" />
 						</span>
 						<span class="desc">
-							<span class="deadline"><i class="iconfont icon-59"></i><label>{{item.startTime}}~{{item.endTime}}</label></span>
+							<span class="deadline">
+								<i class="iconfont icon-59"></i>
+								<label>{{item.startTime}}~{{item.endTime}}</label>
+							</span>
 							<span class="notes">{{item.notes}}</span>
-							<span class="number"><i class="iconfont icon-ren"></i>已有<label>{{item.peopleNum}}</label>人参与</span>
+							<span class="number">
+								<i class="iconfont icon-ren"></i>已有
+								<label>{{item.peopleNum}}</label>人参与
+							</span>
 						</span>
 					</div>
 				</router-link>
@@ -42,10 +52,19 @@
 					</div>
 					<div class="desc">
 						<span class="title">{{item.actTitle}}</span>
-						<span class="deadline"><i class="iconfont icon-59"></i>{{item.startTime}} - {{item.endTime}}</span>
+						<span class="deadline">
+							<i class="iconfont icon-59"></i>
+							{{item.startTime}} - {{item.endTime}}
+						</span>
 						<span class="info">
-							<span class="address"><i class="iconfont icon-didian"></i>{{item.address}}</span>
-							<span class="number"><i class="iconfont icon-ren"></i><label>{{item.peopleNum}}</label>人报名</span>
+							<span class="address">
+								<i class="iconfont icon-didian"></i>
+								{{item.address}}
+							</span>
+							<span class="number">
+								<i class="iconfont icon-ren"></i>
+								<label>{{item.peopleNum}}</label>人报名
+							</span>
 						</span>
 					</div>
 				</router-link>
@@ -62,10 +81,19 @@
 					</div>
 					<div class="desc">
 						<span class="title">{{item.actTitle}}</span>
-						<span class="deadline"><i class="iconfont icon-59"></i>{{item.startTime}} - {{item.endTime}}</span>
+						<span class="deadline">
+							<i class="iconfont icon-59"></i>
+							{{item.startTime}} - {{item.endTime}}
+						</span>
 						<span class="info">
-							<span class="address"><i class="iconfont icon-didian"></i>{{item.address}}</span>
-							<span class="number"><i class="iconfont icon-ren"></i><label>{{item.peopleNum}}</label>人报名</span>
+							<span class="address">
+								<i class="iconfont icon-didian"></i>
+								{{item.address}}
+							</span>
+							<span class="number">
+								<i class="iconfont icon-ren"></i>
+								<label>{{item.peopleNum}}</label>人报名
+							</span>
 						</span>
 					</div>
 				</router-link>
@@ -112,14 +140,13 @@ export default{
 		let vm = this;
 		vm._type = vm.$route.params.type;
 		vm.changeToTab(vm._type);
-		
 	},
 	methods:{
-		back:function(){
+		back() {
 			this.$router.replace('/home');
 		},
-		changeToTab: function(value){
-			var value = parseInt(value);
+		changeToTab(val) {
+			const value = parseInt(val);
 			$.each(this.actTabList.list, function(index,item){
 				item.check = false;
 				if(index == value){
@@ -134,18 +161,15 @@ export default{
 			location.href = location.hash.substring(0,16) + value;
 			this.getList(value);
 		},
-		getList: function(value){
+		getList(value) {
 			var vm = this;
-			var type = parseInt(value);
 			var url = vm.urls.getActivityList;
 			var data = {
-				actType: type
+				actType: value
 			}
-			
 			var options = {
 				params: data
 			}
-			
 			var callback = function(r){
 				var data = r.data.data;
 				$.each(data,function(index,item){
@@ -196,7 +220,7 @@ export default{
 			border-right: 1px solid #E4E4E4;/*no*/
 			text-align: center;
 			.tab-name{
-				position: relative;	
+				position: relative;
 				color: #999999;
 				font-size: 30px;
 				padding: 0 15px 14px;
@@ -331,7 +355,7 @@ export default{
 					}
 				}
 			}
-		} 
+		}
 	}
 }
 </style>

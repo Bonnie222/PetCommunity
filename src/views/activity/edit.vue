@@ -1,13 +1,15 @@
 <template>
 	<div id="ActivityAdd">
-		<Header title="发布活动" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<Header title="发布活动" :headerLeft="headerLeft" :fixed="isFixed"
+			@clickRouter="back"></Header>
 		<div class="header-wrap">
 			<div class="pic-wrap">
 				<div class="actPhoto">
 					<img :src="avatar" v-if="avatar"/>
 					<span>
 						<button class="uploadBtn" v-if="!avatar">点击上传活动封面</button>
-						<input class="file-btn" type="file" hidefocus="true" name="picture" accept="image/*" @change="getImg($event)"/>
+						<input class="file-btn" type="file" hidefocus="true" name="picture"
+							accept="image/*" @change="getImg($event)"/>
 					</span>
 				</div>
 				<div class="userInfo">
@@ -21,8 +23,9 @@
 		</div>
 		<ul class="form2">
 			<li class="input1">
-				<label><i class="iconfont icon-listziyouhuodong bold"></i></label>	
-				<input type="text" placeholder="请输入活动名称(15字以内)" v-model="editList.actTitle"/>
+				<label><i class="iconfont icon-listziyouhuodong bold"></i></label>
+				<input type="text" placeholder="请输入活动名称(15字以内)"
+					v-model="editList.actTitle"/>
 			</li>
 			<!--<li class="input2">
 				<label><i class="iconfont icon-kaishijiuyuan"></i>报名开始时间</label>
@@ -86,7 +89,7 @@
 						<span class="yd-radio-icon"></span>
 						<span class="yd-radio-text">不限</span>
 					</label>
-				</div>	
+				</div>
 			</li>
 			<li class="input3">
 				<label><i class="iconfont icon-qian1"></i>活动费用:</label>
@@ -107,7 +110,7 @@
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
-				</span	
+				</span
 			</li>
 			<li class="input4">
 				<label><i class="iconfont icon-qian1"></i>活动说明</label>
@@ -115,13 +118,13 @@
 			</li>
 		</ul>
 		<yd-cityselect v-model="showCityselect" :callback="resultCity" :items="district"></yd-cityselect>
-		<mt-datetime-picker ref="showStartTime" type="datetime" @confirm="handleStartTime"
-				:startDate="startDate"></mt-datetime-picker>
-		<mt-datetime-picker ref="showEndTime" type="datetime" @confirm="handleEndTime"
-				:startDate="endDate"></mt-datetime-picker>
+		<mt-datetime-picker ref="showStartTime" type="datetime"
+			@confirm="handleStartTime" :startDate="startDate"></mt-datetime-picker>
+		<mt-datetime-picker ref="showEndTime" type="datetime"
+			@confirm="handleEndTime" :startDate="endDate"></mt-datetime-picker>
 		<div class="btn-wrap">
 			<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
-		</div>	
+		</div>
 	</div>
 </template>
 
@@ -162,7 +165,7 @@ export default{
 			},
 		}
 	},
-	created(){
+	mounted(){
 		let vm = this;
 		vm.userInfo = JSON.parse(window.sessionStorage.userInfo);
 		if(vm.userInfo.userAvatar){
@@ -170,10 +173,10 @@ export default{
 		}
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getImg: function(e){
+		getImg(e){
     		var vm = this;
     		vm.files = e;
     		var file = e.target.files[0];
@@ -191,90 +194,89 @@ export default{
     			vm.avatar = this.result;
     		}
     	},
-    	openStartTimePicker: function(){
+    	openStartTimePicker() {
     		this.$refs.showStartTime.open();
     	},
-    	handleStartTime:function(value){
+    	handleStartTime(value) {
     		let vm = this;
-	   		vm.editList.startTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');	   		
+	   		vm.editList.startTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');
     	},
-    	openEndTimePicker: function(){
+    	openEndTimePicker() {
     		let vm = this;
     		if(vm.editList.startTime){
-    			vm.endTime = new Date(vm.editList.startTime); 
+    			vm.endTime = new Date(vm.editList.startTime);
     			vm.$refs.showEndTime.open();
     		}else{
     			vm.$toast('请先选择活动开始时间');
     		}
-    		
+
     	},
-    	handleEndTime:function(value){
+    	handleEndTime(value){
     		let vm = this;
-			vm.editList.endTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');	
+			vm.editList.endTime = vm.utils.returnDatetime(value, 'yyyy-MM-dd hh:mm');
     	},
-    	resultCity: function(ret) {
-    		let vm = this;
-            vm.editList.city = ret.itemName1 + ' ' + ret.itemName2;
-       	},
-       	focusNumeberText: function(){
-       		let vm = this;
-       		$(vm).siblings("input[type='radio']").attr("checked", true);
-       		
-       	},
-    	saveToPublish: function(){
+    	resultCity(ret) {
+  			let vm = this;
+        vm.editList.city = ret.itemName1 + ' ' + ret.itemName2;
+     	},
+     	focusNumeberText(){
+     		let vm = this;
+     		$(vm).siblings("input[type='radio']").attr("checked", true);
+
+     	},
+    	saveToPublish() {
     		let vm = this;
     		if(vm.isSaving) return;
-			let data = vm.editList;
-			console.log(data);
-			if(!data.actTitle || !data.address || !data.startTime || !data.endTime || 
-				!vm.notes || !data.contact || !data.city || !data.actNum || !data.cost ){
-					vm.$toast('信息填写不完整');
-					return;
-			}
-			if(!vm.avatar){
-				vm.$toast('请上传活动封面');
-				return;
-			}
-			let partten = /^$|^1(3|4|5|7|8)\d{9}$/;
-    		if(!partten.test(data.contact)){
-    			vm.$toast('请输入正确的手机联系方式');
-					return;
-    		}
-    		
-    		let e = vm.files;
-      		let url = vm.urls.uploadSingle;
-    		let fname = 'avatar';
-    		vm.isSaving = true;
-			vm.saveBtnText = '正在发布中...';
-    		let callback = function(r){
-    			vm.editList.themePhoto = JSON.stringify(r.data.data);
-    			save();
-    		}		
-    		vm.utils.upload(vm, e, fname, url, callback);
-    		
-    		function save(){
-    			let url = vm.urls.addActivity;
-				data.publisherId = vm.userInfo.id;
-				data.publisher = vm.userInfo.userName;
-				data.createTime = vm.utils.getNowTime();
-				data.notes = vm.notes.replace(/\n|\r\n/g,"<br/>");
-
-				let callback = function(r){
-					vm.isSaving = false;
-					vm.saveBtnText = '确认发布';
-					vm.$dialog.toast({
-						mes: '发布成功',
-	  					icon: 'success',
-	  					timeout: 1000
-					});	
-					setTimeout(function(){
-						vm.$router.replace('/activity/list/3');
-					},1500);
-				}
+				let data = vm.editList;
 				console.log(data);
-				vm.utils.postData(url, data, callback);
-    		}
+				if(!data.actTitle || !data.address || !data.startTime || !data.endTime ||
+					!vm.notes || !data.contact || !data.city || !data.actNum || !data.cost ){
+						vm.$toast('信息填写不完整');
+						return;
+				}
+				if(!vm.avatar){
+					vm.$toast('请上传活动封面');
+					return;
+				}
+				let partten = /^$|^1(3|4|5|7|8)\d{9}$/;
+	    		if(!partten.test(data.contact)){
+	    			vm.$toast('请输入正确的手机联系方式');
+						return;
+	    		}
 
+	    		let e = vm.files;
+	      		let url = vm.urls.uploadSingle;
+	    		let fname = 'avatar';
+	    		vm.isSaving = true;
+					vm.saveBtnText = '正在发布中...';
+	    		let callback = function(r){
+	    			vm.editList.themePhoto = JSON.stringify(r.data.data);
+	    			save();
+	    		}
+	    		vm.utils.upload(vm, e, fname, url, callback);
+
+	    		const save = () => {
+	    			let url = vm.urls.addActivity;
+						data.publisherId = vm.userInfo.id;
+						data.publisher = vm.userInfo.userName;
+						data.createTime = vm.utils.getNowTime();
+						data.notes = vm.notes.replace(/\n|\r\n/g,"<br/>");
+
+						let callback = function(r){
+							vm.isSaving = false;
+							vm.saveBtnText = '确认发布';
+							vm.$dialog.toast({
+								mes: '发布成功',
+			  					icon: 'success',
+			  					timeout: 1000
+							});
+							setTimeout(function(){
+								vm.$router.replace('/activity/list/3');
+							},1500);
+						}
+						console.log(data);
+						vm.utils.postData(url, data, callback);
+	    		}
     	}
 	}
 }
@@ -358,7 +360,7 @@ export default{
 	.form2{
 			background: #ffffff;
 			padding: 0 20px;
-			border-bottom: 1px solid #E4E4E4;/*no*/	
+			border-bottom: 1px solid #E4E4E4;/*no*/
 			font-size: 30px;
 			color: #333333;
 			margin-bottom: 20px;
@@ -397,7 +399,7 @@ export default{
 				}
 			}
 			& li{
-				
+
 				padding: 30px 5px;
 				border-bottom: 1px solid #e4e4e4; /*no*/
 				&:last-child{
@@ -409,7 +411,7 @@ export default{
 					text-align: left;
 					color: #666666;
 				}
-				
+
 				input::placeholder{
 					color:#cccccc;
 				}
@@ -422,8 +424,8 @@ export default{
 						height: 26px;
 					}
 				}
-			}	
-	
+			}
+
 		}
 		.radio-wrap{
 			.yd-radio{
@@ -434,7 +436,7 @@ export default{
 			}
 			.yd-radio-icon{
 				position: absolute;
-				width: 40px; 
+				width: 40px;
 				height: 40px;
 				margin-right: 2px;
 
@@ -442,10 +444,10 @@ export default{
 			& input[type=radio]{
 				display: inline-block;
 				/*margin-right: 15px;*/
-				opacity: 0;	
+				opacity: 0;
 			}
-				
-				
+
+
 			& input[type=radio]:checked+.yd-radio-icon{
 				background: url(../../assets/images/radioChecked.png);
 				background-size: cover;
@@ -456,7 +458,7 @@ export default{
 				font-size: 30px;
 				color: #666;
 			}
-			
+
 		}
 	.iconfont{
 		color: red;

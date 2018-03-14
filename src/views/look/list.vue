@@ -1,44 +1,50 @@
 <template>
 	<div id="LookList">
+		<Loading :showLoading="loading"></loading>
 		<Header title="寻宠110" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
-		<div class="list-wrap">
-			<router-link :to="item.url" class="list-item" v-for="item in looklist" :key="item.id">
-				<div class="item-title">
-					<span class="user-pic">
-						<img src="../../assets/images/member.png" v-if="item.userInfo.userAvatar == null"/>
-					</span>
-					<span class="user-name">{{item.userInfo.userName}}</span>
-				</div>
-				<div class="item-notes" v-html="item.note"></div>
-				<div class="item-pic">
-					<span v-for="pic in item.petAvatar">
-						<img :src="pic.fileUrl"/>
-					</span>
-				</div>
-				<div class="item-footer">
-					<span></span>
-					<span>{{item.createTime}}</span>
-				</div>
-			</router-link>
-		</div>
-		<div class="link-btn" >
-			<router-link to="/look/edit">
-				<span><i class="iconfont icon-tianxie"></i>我要寻宠/主</span>
-			</router-link>	
+		<div v-show="!loading">
+			<div class="list-wrap">
+				<router-link :to="{name:'LookDetail', params:{id: item.id}}"
+					class="list-item" v-for="(item, index) in looklist" :key="index">
+					<div class="item-title">
+						<span class="user-pic">
+							<img src="../../assets/images/member.png" v-if="item.userInfo.userAvatar == null"/>
+						</span>
+						<span class="user-name">{{item.userInfo.userName}}</span>
+					</div>
+					<div class="item-notes" v-html="item.note"></div>
+					<div class="item-pic">
+						<span v-for="pic in item.petAvatar">
+							<img :src="pic.fileUrl"/>
+						</span>
+					</div>
+					<div class="item-footer">
+						<span></span>
+						<span>{{item.createTime}}</span>
+					</div>
+				</router-link>
+			</div>
+			<div class="link-btn" >
+				<router-link to="/look/edit">
+					<span><i class="iconfont icon-tianxie"></i>我要寻宠/主</span>
+				</router-link>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
+import Loading from '@/components/loading';
 
 export default{
 	name:"LookList",
 	components:{
-	    Header
+	    Header, Loading,
 	},
 	data(){
 		return{
+			loading: false,
 			isFixed:true,
 			headerLeft:true,
 			looklist:{}
@@ -48,27 +54,28 @@ export default{
 		this.getLookList();
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getLookList: function(){
+		getLookList(){
 			let vm = this;
+			vm.loading = true;
 			let url = vm.urls.getLookList;
 			let callback = function(r){
 				let data = r.data.data;
 				$.each(data, function(index, item) {
-					item.url = "/look/detail/" + item.id;
 					item.userInfo = JSON.parse(item.userInfo);
 					item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
 					item.petAvatar = JSON.parse(item.petAvatar);
 				});
+				vm.loading = false;
 				vm.looklist = data;
 			}
 			vm.utils.getData(url,callback);
 		}
 	}
 }
-	
+
 </script>
 
 <style lang="less" scoped>
@@ -82,7 +89,7 @@ export default{
 		margin-right: 10px;
 	}
 	.list-wrap{
-		padding-top: 100px;
+		padding: 100px 0;
 		.list-item{
 			display: block;
 			background: #FFFFFF;
@@ -130,12 +137,11 @@ export default{
 				margin-bottom: 20px;
 				span{
 					display: inline-block;
-					width: 110px;
-					height: 110px;
+					width: 150px;
+					height: 150px;
 					margin-right:10px;
-					background:red; 
 					border-radius: 20px;
-					overflow:hidden; 
+					overflow:hidden;
 					&:last-child{
 						margin: 0;
 					}

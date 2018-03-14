@@ -6,7 +6,8 @@
 				<div class="mymessage-card">
 					<div class="card-info">
 						<span class="info-pic">
-							<img src="../../assets/images/member.png" />
+							<img src="../../assets/images/member.png" v-if="!myInfo.userAvatar"/>
+							<img :src="myInfo.userAvatar.fileUrl" v-else/>
 						</span>
 						<span class="info-mess">
 							<span class="info-name">{{myInfo.userName}}
@@ -22,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="management">
 			<div class="manage-title">
 				日常管理
@@ -38,7 +39,7 @@
 				</span>
 			</div>
 		</div>
-		
+
 		<div class="other-list">
 			<div v-for="item in otherMenu">
 				<router-link :to="item.href" class="other-item">
@@ -68,11 +69,11 @@ export default{
 			show1:false,
 			myInfo:{},
 			sex:false,
-			
+
 			manageMenu:[{
 				name: '宠物',
 				icon: 'iconfont icon-baoji',
-				href: '/myself/pet/list',				
+				href: '/myself/pet/list',
 			},{
 				name: '宠友',
 				icon: 'iconfont icon-pengyou',
@@ -82,7 +83,7 @@ export default{
 				icon: 'iconfont icon-shezhi1',
 				href: '/myself/setting'
 			}],
-			
+
 			otherMenu:[{
 				name:'我的问诊',
 				icon: 'iconfont icon-shouye',
@@ -96,7 +97,7 @@ export default{
 				icon:'iconfont icon-grade-alt',
 				href:''
 			}]
-		    
+
 		}
 	},
 	created(){
@@ -117,6 +118,9 @@ export default{
 			}
 			var callback = function(r){
 				var data = r.data.data[0];
+				if(data.userAvatar) {
+					data.userAvatar = JSON.parse(data.userAvatar);
+				}
 				vm.myInfo = data;
 				//vm.sex = data.userSex;
 			}
@@ -220,7 +224,7 @@ export default{
 				width: 249px;
 				height: inherit;
 				display: flex;
-				display: -webkit-flex;				
+				display: -webkit-flex;
 				flex-direction: column;
 				justify-content: space-around;
 				align-items: center;
@@ -235,7 +239,7 @@ export default{
 			}
 		}
 	}
-	
+
 	.other-list{
 		background: #FFFFFF;
 		.other-item{

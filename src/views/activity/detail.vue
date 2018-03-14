@@ -1,6 +1,7 @@
 <template>
 	<div id="ActivityDetail">
-		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft"
+			:fixed="isFixed" @clickRouter="back"></Header>
 		<div v-if="_type==1" class="detailOne">
 			<div class="title">
 				<img :src="detailOne.photo" class="imgbg"/>
@@ -37,10 +38,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="link-btn" >
-				<router-link to="">
+			<div class="link-btn" :class="{'click':status == false}">
+				<span v-if="status==false">已结束</span>
+				<router-link to="" v-else>
 					<span>我要参与</span>
-				</router-link>	
+				</router-link>
 			</div>
 		</div>
 		<div v-else-if="_type!=1" class="detailTwo">
@@ -50,14 +52,22 @@
 						<img :src="detailOne.photo"/>
 					</span>
 					<span class="title">{{detailOne.actTitle}}</span>
-					<span class="deadline">{{detailOne.startTime}} - {{detailOne.endTime}}</span>
+					<span class="deadline">
+						{{detailOne.startTime}} - {{detailOne.endTime}}
+					</span>
 				</div>
 				<div class="second-wrap">
-					<span class="cost"><i class="iconfont icon-qian1"></i>{{detailOne.cost}}</span>
+					<span class="cost">
+						<i class="iconfont icon-qian1"></i>
+						{{detailOne.cost}}
+					</span>
 					<span class="number">{{detailOne.peopleNum}}人报名</span>
 				</div>
 			</div>
-			<div class="address"><i class="iconfont icon-didian"></i>{{detailOne.address}}</div>
+			<div class="address">
+				<i class="iconfont icon-didian"></i>
+				{{detailOne.address}}
+			</div>
 			<div class="desc-wrap">
 				<span class="publisher">
 					<span class=""><i class="iconfont icon-ren"></i>发起人</span>
@@ -100,10 +110,11 @@ export default{
 		vm._type = vm.$route.params.type;
 		vm.topTitle = vm._type == 1 ? '线上活动' : '活动详情';
 		vm._id = vm.$route.params.id;
+		console.log(vm._type,vm._id);
 		vm.getDetail(vm._id);
 	},
 	methods:{
-		back(){
+		back() {
 			this.$router.go(-1);
 		},
 		getDetail(id){
@@ -115,7 +126,7 @@ export default{
 			var options = {
 				params: data
 			}
-			
+
 			var callback = function(r){
 				var dt = r.data.data[0];
 				dt.photo = JSON.parse(dt.themePhoto).fileUrl;
@@ -130,13 +141,12 @@ export default{
 				console.log(dt);
 				vm.detailOne = dt;
 			}
-			
 			vm.utils.postData(url, data, callback, options);
 		},
 		goApply(){
 			const vm = this;
-			// const url = 
-			
+			// const url =
+
 		},
 	}
 }
@@ -166,8 +176,8 @@ export default{
 				width: inherit;
 				height: inherit;
 				filter: blur(6px);
-				-webkit-filter: blur(6px);  /* chrome, opera */			
-				-ms-filter: blur(6px);				
+				-webkit-filter: blur(6px);  /* chrome, opera */
+				-ms-filter: blur(6px);
 				-moz-filter: blur(6px);
 			}
 			.info-wrap{

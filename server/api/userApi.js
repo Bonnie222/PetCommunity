@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
 	console.log(params);
 	var sqlParams = [params.userPhone]
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
             res.send({'message': '服务器出错', 'code': 0}).end();
         }else{
@@ -101,7 +101,7 @@ router.post('/queryPhone', (req, res) => {
 	console.log(params);
 	var sqlParams = [params.userPhone]
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
             res.send({'message': '服务器出错', 'code': 0}).end();
         }else{
@@ -119,7 +119,7 @@ router.post('/queryName', (req, res) => {
 	console.log(params);
 	var sqlParams = [params.userName]
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
             res.send({'message': '服务器出错', 'code': 0}).end();
         }else{
@@ -137,7 +137,7 @@ router.post('/queryEmail', (req, res) => {
 	console.log(params);
 	var sqlParams = [params.userEmail]
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
             res.send({'message': '服务器出错', 'code': 0}).end();
         }else{
@@ -155,7 +155,7 @@ router.post('/register', (req, res) => {
 	console.log(p);
 	var sqlParams = [p.userPhone, p.userName, p.userPsd, p.userEmail, p.userSex, p.userBirth, p.userProblem, p.userAnswer, p.userNumber];
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -167,8 +167,8 @@ router.post('/register', (req, res) => {
  */
 router.get('/home/look',(req, res) => {
 	var sql = $sql.look.homePage;
-	conn.query(sql, function(err, result) {    
-        if (err) {       
+	conn.query(sql, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -181,11 +181,11 @@ router.get('/home/look',(req, res) => {
 //查询用户个人信息
 router.post('/user/personal',(req,res) => {
 	var sql = $sql.queryById;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = ['user',p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -195,11 +195,25 @@ router.post('/user/personal',(req,res) => {
 //更新用户个人信息
 router.post('/user/update',(req,res)=>{
 	var sql = $sql.user.update;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = [p.userAvatar, p.userName, p.userEmail, p.userSex, p.userBirth, p.userCity, p.userStatus, p.userConst, p.userNote, p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 查询出自己以外的所有用户
+router.post('/user/list',(req,res)=>{
+	var sql = $sql.user.queryOther;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -215,8 +229,8 @@ router.post('/user/petList',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.petBelongId];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -230,7 +244,7 @@ router.post('/pet/add',(req,res)=>{
 	console.log(p);
 	var sqlParams = [p.petName, p.petSex, p.petType, p.petBelongId, p.petBirth, p.petCreateDate, p.petStatus, p.petArrivedDate, p.petAvatar];
 	conn.query(sql, sqlParams, function(err, result){
-		if (err) {       
+		if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -240,11 +254,11 @@ router.post('/pet/add',(req,res)=>{
 //获取宠物详情
 router.post('/pet/detail',(req,res)=>{
 	var sql = $sql.queryById;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = ['pet',p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -254,11 +268,11 @@ router.post('/pet/detail',(req,res)=>{
 //删除宠物
 router.post('/pet/delete',(req,res)=>{
 	var sql = $sql.deleteById;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = ['pet',p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -268,11 +282,11 @@ router.post('/pet/delete',(req,res)=>{
 //更新宠物
 router.post('/pet/update',(req,res)=>{
 	var sql = $sql.pet.update;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = [p.petName, p.petSex, p.petType, p.petBirth, p.petStatus, p.petArrivedDate, p.petAvatar, p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -286,11 +300,11 @@ router.post('/pet/update',(req,res)=>{
 //发布信息
 router.post('/look/add',(req,res)=>{
 	var sql = $sql.look.add;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.userInfo, p.findStatus, p.createTime];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -301,8 +315,8 @@ router.post('/look/add',(req,res)=>{
 router.get('/look/list',(req,res)=>{
 	var sql = $sql.queryDesc;
     var sqlParams = ['look','createTime'];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -312,11 +326,11 @@ router.get('/look/list',(req,res)=>{
 //获取详情
 router.post('/look/detail',(req,res)=>{
 	var sql = $sql.queryById;
-	var p = req.body;    
+	var p = req.body;
     console.log(p);
     var sqlParams = ['look', p.id];
-    conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -329,8 +343,8 @@ router.post('/user/looklistAll',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.userId];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -343,8 +357,8 @@ router.post('/user/looklistByStatus',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.userId, p.findStatus];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -357,8 +371,8 @@ router.post('/user/lookdetail',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = ['look',p.id];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -371,15 +385,28 @@ router.post('/user/updatelookStatus',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.id];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
         }
     })
 })
-
+//删除寻宠/主信息
+router.post('/user/deletelook',(req,res)=>{
+	var sql = $sql.deleteById;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = ['look',p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 活动接口
  */
@@ -389,8 +416,8 @@ router.post('/activity/list',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.actType];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -403,8 +430,8 @@ router.post('/activity/detail',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = ['activity', p.id];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -417,8 +444,8 @@ router.post('/activity/add',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = [p.actTitle, p.actType, p.publisherId, p.publisher, p.createTime, p.startTime, p.endTime, p.themePhoto, p.notes, p.city, p.address, p.actNum, p.cost, p.contact];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -433,10 +460,38 @@ router.post('/activity/add',(req, res) => {
 router.post('/petshow/add',(req, res) => {
 	var sql = $sql.petshow.add;
 	var p = req.body;
-	console.log(p); 
+	console.log(p);
 	var sqlParams = [p.content, p.actId, p.userId, p.userInfo, p.createTime, p.petAvatar];
-	conn.query(sql, sqlParams, function(err, result) {    
-        if (err) {       
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//列表
+router.get('/petshow/list',(req, res) => {
+	var sql = $sql.queryAll;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = ['petshow'];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+//详情
+router.post('/petshow/detail',(req, res) => {
+  var sql = $sql.queryById;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = ['petshow', p.id];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
             console.log(err);
         }else{
         	jsonWrite(res, result);
@@ -444,4 +499,3 @@ router.post('/petshow/add',(req, res) => {
     })
 })
 module.exports = router;
-

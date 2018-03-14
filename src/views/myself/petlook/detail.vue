@@ -1,30 +1,37 @@
 <template>
 	<div id="Mylook-detail">
-		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+		<Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed"
+			@clickRouter="back"></Header>
 		<div class="detail-wrap">
 			<div class="detail-list">
 				<div class="detail-item" v-for="(item,prop) in detail">
 					<span class="item-label">{{item.label}}</span>
-					<span class="item-text" v-if="prop == 'loacation'" v-html="item.val"></span>
-					<span class="item-text" v-else-if="prop == 'findStatus'">{{status == 1 ? '进行中':'已结束'}}</span>
+					<span class="item-text" v-if="prop == 'loacation'"
+						v-html="item.val"></span>
+					<span class="item-text" v-else-if="prop == 'findStatus'">
+						{{status == 1 ? '进行中':'已结束'}}
+					</span>
 					<span class="item-text" v-else>{{item.val}}</span>
 				</div>
 				<div class="detail-area">
 					<span class="item-label">备注</span>
-					<div class="item-area" v-html="detailOthers.note"></div>
+					<div class="item-area" v-html="detailNotes"></div>
 				</div>
 				<div class="detail-area">
 					<span class="item-label">图片</span>
 					<div class="item-pic">
-						<span v-for="pic in detailOthers.pic">
-							<img :src="pic.fileUrl"/>
-						</span>
+						<yd-lightbox :num="detailPic.length">
+			        <yd-lightbox-img v-for="(pic, index) in detailPic"
+							:key="index" :src="pic.fileUrl"></yd-lightbox-img>
+			    	</yd-lightbox>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="btn-wrap">
-			<button class="btn-save" @click="changeStatus" :class="{'click':status == 2}">更改状态</button>
+			<button class="btn-save" @click="changeStatus"
+				:class="{'click':status == 2}">更改状态</button>
+			<button class="btn-cancel" @click="delLook">删除</button>
 		</div>
 	</div>
 </template>
@@ -36,7 +43,7 @@ export default{
 	components:{
 	    Header
 	},
-	data(){              
+	data(){
 		return{
 			isFixed:true,
 			headerLeft:true,
@@ -63,7 +70,8 @@ export default{
 					label:'状态'
 				}
 			},
-			detailOthers:{}
+			detailPic:[],
+			detailNotes:'',
 		}
 	},
 	created(){
@@ -72,10 +80,10 @@ export default{
 		vm.getDetail();
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getDetail: function(){
+		getDetail(){
 			let vm = this;
 			let url = vm.urls.getMyLookDetail;
 			let data = {
@@ -86,7 +94,7 @@ export default{
 			}
 			let callback = function(r){
 				let item = r.data.data[0];
-				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情'; 
+				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情';
 				vm.status = item.findStatus;
 				item.createTime = vm.utils.changeDate(item.createTime);
 				item.dateTime = vm.utils.changeDate(item.dateTime);
@@ -96,15 +104,15 @@ export default{
 				item.isFindPet = vm.config.findPetType[item.isFindPet];
 				item.findStatus = vm.config.lookStatus[item.findStatus];
 				item.loacation = item.region+'<br/>'+ item.address;
-				vm.detailOthers.pic = JSON.parse(item.petAvatar);
-				vm.detailOthers.note = item.note;
+				vm.detailPic = JSON.parse(item.petAvatar);
+				vm.detailNotes = item.note;
 				$.each(vm.detail, function(prop, data) {
 					data.val = item[prop];
 				});
 			}
 			vm.utils.postData(url, data, callback, options);
 		},
-		changeStatus: function(){
+		changeStatus(){
 			let vm = this;
 			if(vm.status == 2) return;
 			vm.utils.confirmCallback(vm, '是否更改状态为已结束？确定后不能再更改',function(){
@@ -117,7 +125,22 @@ export default{
 				}
 				vm.utils.postData(url, data, callback);
 			})
-		}
+		},
+		delLook(){
+			const vm = this;
+			vm.utils.confirmCallback(vm, '是否确定删除该寻宠/寻主信息？',function(){
+				const url = vm.urls.deleteMyLook;
+				const data = {
+					id:vm.lookid
+				}
+				const callback = (r) => {
+						var routeUrl = '/myself/look/list/0';
+						var mesText = '删除成功';
+						vm.utils.toastCallback(vm,mesText,routeUrl);
+				}
+				vm.utils.postData(url, data, callback);
+			})
+		},
 	}
 }
 </script>
@@ -133,9 +156,9 @@ export default{
 		font-size: 30px;
 		.detail-item{
 			border-bottom: 1px solid #e4e4e4; /*no*/
-			padding: 30px 0; 
+			padding: 30px 0;
 			display: flex;
-			justify-content: space-between;	
+			justify-content: space-between;
 			align-items: center;
 			line-height: 36px;
 			.item-text{
@@ -145,7 +168,7 @@ export default{
 		}
 		.detail-area{
 			border-bottom: 1px solid #e4e4e4; /*no*/
-			padding: 30px 0; 
+			padding: 30px 0;
 			display: flex;
 			flex-direction: column;
 			.item-area{
@@ -153,27 +176,21 @@ export default{
 			  border: 1px solid #e4e4e4;/*no*/
 			  width: 100%;
 			  min-height: 200px;
-			  padding: 10px; 
+			  padding: 10px;
 			  font-size: 28px;
 			  color: #333333;
 			  line-height: 36px;
 			}
-			.item-pic{
-				margin-top: 20px;
-				span{
-					display: inline-block;
-					width: 110px;
-					height: 110px;
-					margin-right:10px;
-					border-radius: 20px;
-					overflow:hidden; 
-					&:last-child{
-						margin: 0;
-					}
-					img{
-						width: inherit;
-						height: inherit;
-					}
+			img{
+				display: inline-block;
+				width: 110px;
+				height: 110px;
+				margin-right:15px;
+				border-radius: 20px;
+				overflow:hidden;
+				margin-top: 10px;
+				&:last-child{
+					margin: 0;
 				}
 			}
 		}
@@ -185,10 +202,13 @@ export default{
 	.btn-wrap{
 		margin: 20px;
 		text-align: center;
-		.btn-save{
+		.btn-save,.btn-cancel{
 			width: 200px;
 			height: 75px;
 			font-size: 28px;
+		}
+		.btn-save{
+			margin-right:20px;
 		}
 		.click{
 			background: #CCCCCC;

@@ -24,7 +24,9 @@
 				<yd-rollnotice autoplay="2000" speed="500">
 			        <yd-rollnotice-item v-for="item in lookList" :key="item.id">
 			        	<router-link :to="item.href">
-			        		<span class="tip"> {{item.isFindPet == 1? '寻宠' : '寻主'}} </span>
+			        		<span class="tip">
+											{{item.isFindPet == 1? '寻宠' : '寻主'}}
+									</span>
 			        		<span class="note">{{item.note}}</span>
 			        	</router-link>
 			        </yd-rollnotice-item>
@@ -44,7 +46,7 @@
 				<li>s</li>
 			</ul>
 		</div>
-		
+
 		<Navmenu></Navmenu>
 	</div>
 </template>
@@ -55,14 +57,13 @@ import Navmenu from '@/components/navmenu'
 export default{
 	name:"Home",
 	components:{
-	    Header,Navmenu
+	    Header, Navmenu
 	},
 	data(){
 		return{
 			headerLeft: false,
 			show1:false,
 			lookList:[],
-			
 			middleMenu:[{
 				name:'寻宠110',
 				src: require('../../assets/images/xunzhao.svg'),
@@ -72,9 +73,9 @@ export default{
 				src: require('../../assets/images/huati.svg'),
 				href:''
 			},{
-				name:'咨询',
+				name:'认证号',
 				src:require('../../assets/images/zixun.svg'),
-				href:''
+				href:'/user/list'
 			},{
 				name:'活动',
 				src:require('../../assets/images/huodong.svg'),
@@ -82,11 +83,11 @@ export default{
 			}]
 		}
 	},
-	created(){
+	mounted(){
 		this.getHomeLook();
 	},
 	methods:{
-		getHomeLook: function(){
+		getHomeLook() {
 			var vm = this;
 			var url = vm.urls.getHomeLook;
 			var callback = function(r){
@@ -161,11 +162,11 @@ export default{
 			display: inline-block;
 			vertical-align: middle;
 			.yd-rollnotice{
-		
+
 			}
 			.yd-rollnotice-item{
 				background: yellow;
-				
+
 				.tip{
 					font-size:28px;
 					display: inline-block;
@@ -204,7 +205,7 @@ export default{
 				float: right;
 				font-size: 28px;
 				color: #999999;
-			}			
+			}
 		}
 		& ul{
 			display: flex;
