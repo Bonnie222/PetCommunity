@@ -11,7 +11,8 @@
 						</span>
 						<span class="info-mess">
 							<span class="info-name">{{myInfo.userName}}
-								<i class="iconfont" :class="{ 'icon-nan':myInfo.userSex == 1, 'icon-nv':myInfo.userSex == 2}"></i>
+								<i class="iconfont" :class="{ 'icon-nan':myInfo.userSex == 1,
+									'icon-nv':myInfo.userSex == 2}"></i>
 							</span>
 							<span class="info-phone">{{myInfo.userPhone}}</span>
 						</span>
@@ -58,6 +59,8 @@
 <script>
 import Header from '@/components/header';
 import Navmenu from '@/components/navmenu';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:"Myself",
 	components:{
@@ -69,7 +72,6 @@ export default{
 			show1:false,
 			myInfo:{},
 			sex:false,
-
 			manageMenu:[{
 				name: '宠物',
 				icon: 'iconfont icon-baoji',
@@ -97,35 +99,18 @@ export default{
 				icon:'iconfont icon-grade-alt',
 				href:''
 			}]
-
 		}
+	},
+	computed:{
+		...mapGetters([
+			'userInfo',
+		])
 	},
 	created(){
-		this.getMyself();
+		let info = this.userInfo;
+		this.myInfo = info;
 	},
 	methods:{
-		getMyself: function(){
-			var vm = this;
-			var dt = JSON.parse(window.sessionStorage.userInfo);
-			var url = vm.urls.getPersonal;
-			var data = {
-				id: dt.id
-			}
-			var options = {
-				params:{
-					id: dt.id
-				}
-			}
-			var callback = function(r){
-				var data = r.data.data[0];
-				if(data.userAvatar) {
-					data.userAvatar = JSON.parse(data.userAvatar);
-				}
-				vm.myInfo = data;
-				//vm.sex = data.userSex;
-			}
-			vm.utils.postData(url, data, callback, options);
-		}
 	}
 }
 </script>

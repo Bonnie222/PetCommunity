@@ -15,7 +15,7 @@ conn.connect();
 
 var jsonWrite = function(res, ret) {
     if(typeof ret === 'undefined') {
-        res.send({code: '1', message: '操作失败'}).end();
+        res.send({code: '-1', message: '操作失败'}).end();
     } else {
     	let obj = {};
     	let data = ret;
@@ -81,6 +81,7 @@ router.post('/login', (req, res) => {
         		if(data.userPsd === params.userPsd){
         			//console.log(req.session)
         			//req.session.userId = data.id;
+              data.token = new Date().getTime();
         			obj.data = data;
         			obj.message = '登录成功';
         			obj.code = 1;

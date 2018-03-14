@@ -42,6 +42,8 @@
 
 <script>
 import Header from '@/components/header';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:'Mylook-list',
 	components:{
@@ -72,9 +74,14 @@ export default{
 			lookList:[]
 		}
 	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
+	},
 	created(){
 		let vm = this;
-		vm._userId = JSON.parse(window.sessionStorage.userInfo).id;
+		vm._userId = vm.id;
 		vm._type = vm.$route.params.type;
 		vm.changeToTab(vm._type);
 	},

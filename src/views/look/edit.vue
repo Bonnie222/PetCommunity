@@ -135,6 +135,7 @@ import Header from '@/components/header';
 import District from 'ydui-district/dist/gov_province_city_area_id';
 import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
+import { mapGetters } from 'vuex';
 
 export default{
 	name:"LookEdit",
@@ -220,6 +221,12 @@ export default{
 				text:'10岁以上',	value:11, isChecked:false
 			}]
 		}
+	},
+	computed:{
+		...mapGetters([
+			'userInfo',
+			'id',
+		])
 	},
 	methods:{
 		back(){
@@ -331,7 +338,6 @@ export default{
 	    	saveToPublish(){
 	    		let vm = this;
 	    		if(vm.isSaving) return;
-	    		let dt = window.sessionStorage.userInfo;
 					let data = vm.editList;
 					if(!data.region || !data.address || !data.dateTime ||
 						!data.petType || !vm.notes || !data.contact){
@@ -357,8 +363,8 @@ export default{
 
 	    		function save(){
 	    			let url = vm.urls.addLook;
-	    			data.userInfo = dt;
-						data.userId = JSON.parse(dt).id;
+	    			data.userInfo = vm.userInfo;
+						data.userId = vm.id;
 						data.createTime = vm.utils.getNowTime();
 						data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
 

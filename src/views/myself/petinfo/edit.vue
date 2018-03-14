@@ -5,16 +5,16 @@
 			<div class="form">
 				<div class="pic">
 					<span class="imgPic" v-if="!avatar">
-						<img src="../../../assets/images/member.png" class="avatar"/>	
+						<img src="../../../assets/images/member.png" class="avatar"/>
 						<span class="camera">
 							<i class="iconfont icon-shangchuantupian_l"></i>
 						</span>
 						<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-					</span>				
+					</span>
 					<span class="imgPic" v-else>
 						<img :src="avatar" class="avatar" @click="previewImg($event)"/>
 						<img src="../../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>
-					</span>	
+					</span>
 				</div>
 				<div class="info">
 					<div class="info-item">
@@ -38,7 +38,7 @@
 								</span>
 								<span class="yd-radio-text">MM</span>
 							</label>
-							
+
 						</div>
 					</div>
 					<div class="info-item">
@@ -75,12 +75,8 @@
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 				<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-				<!--<vue-pickers :show="petStatusPicker" :selectData="petStatusList"  v-on:cancel="closeStatusPicker"
-	    		v-on:confirm="confirmStatusPicker"></vue-pickers>
-	    		<vue-pickers :show="petTypePicker" :selectData="petTypeList"  v-on:cancel="closeTypePicker"
-	    		v-on:confirm="confirmTypePicker"></vue-pickers>			-->
 			</div>
-			
+
 			<div class="btn-wrap">
 				<button class="btn-save" @click="savePetInfo">保存</button>
 			</div>
@@ -101,6 +97,7 @@
 import Header from '@/components/header';
 import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
+import { mapGetters } from 'vuex';
 
 export default{
 	name:"Mypet",
@@ -126,7 +123,7 @@ export default{
 			petTypeText:'',
 			petStatusText:'',
 			isSaving:false,
-			
+
 			avatar:null,
 			files:null,
 			petInfo:{
@@ -143,7 +140,7 @@ export default{
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
-			
+
 			petTypeList:[{
 				text:'汪星人', value:1, isChecked:false
 			},{
@@ -169,6 +166,11 @@ export default{
 				text: '不确定', value: 3, isChecked:false
 			}]
 		}
+	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
 	},
 	methods:{
 		back:function(){
@@ -270,43 +272,42 @@ export default{
 	   	savePetInfo: function(){
 	   		var vm = this;
 	   		if(vm.isSaving) return;
-			if(!vm.petInfo.petName || !vm.petInfo.petSex || 
-				!vm.petInfo.petType || !vm.petInfo.petBirth || !vm.avatar){
-					vm.$toast('信息填写不完整');
-					return;
-			}
-			var e = vm.files;
-      		var url = vm.urls.uploadSingle;
+				if(!vm.petInfo.petName || !vm.petInfo.petSex ||
+					!vm.petInfo.petType || !vm.petInfo.petBirth || !vm.avatar){
+						vm.$toast('信息填写不完整');
+						return;
+					}
+				var e = vm.files;
+      	var url = vm.urls.uploadSingle;
     		var fname = 'avatar'
     		var callback = function(r){
     			vm.petInfo.petAvatar = JSON.stringify(r.data.data);
     			save();
-    		}		
+    		}
     		vm.utils.upload(vm, e, fname, url, callback);
-			
+
 			function save(){
 				vm.isSaving = true;
-				var dt = JSON.parse(window.sessionStorage.userInfo);
 				var url = vm.urls.addPet;
 				var data = vm.petInfo;
-				data.petBelongId = dt.id;
-				data.petCreateDate = vm.utils.getNowDate();	
+				data.petBelongId = vm.id;
+				data.petCreateDate = vm.utils.getNowDate();
 				var callback = function(r){
 					vm.isSaving = false;
 					vm.$dialog.toast({
 						mes: '添加成功',
 	  					icon: 'success',
 	  					timeout: 1000
-					});	
+					});
 					setTimeout(function(){
 						vm.$router.replace("/myself/pet");
 					},1500);
-				}			
+				}
 				vm.utils.postData(url, data, callback);
 			}
-			
-	   },	
-	   
+
+	   },
+
 	}
 }
 </script>
@@ -372,7 +373,7 @@ export default{
 					background: #FFFFFF;
 				}
 			}
-			
+
 		}
 		.info{
 			background: #FFFFFF;
@@ -394,7 +395,7 @@ export default{
 					border-bottom: none;
 				}
 				.item-name{
-					
+
 				}
 				.item-input{
 					text-align: right;
@@ -402,7 +403,7 @@ export default{
 				input::placeholder{
 					color:#cccccc;
 				}
-					
+
 			}
 			.radio-wrap{
 				.yd-radio{
@@ -413,7 +414,7 @@ export default{
 					}
 					&>input[type=radio]{
 						position: absolute;
-						left: -9999em;		
+						left: -9999em;
 					}
 					&>input[type=radio]:checked+.yd-radio-icon{
 						border-color: currentcolor;
@@ -432,7 +433,7 @@ export default{
 						vertical-align: bottom;
 						pointer-events: none;
 						/*color: rgb(76, 216, 100); */
-						width: 40px; 
+						width: 40px;
 						height: 40px;
 						.icon{
 							display: inline-block;
@@ -447,7 +448,7 @@ export default{
 							opacity: 0;
 							transform: translate(-50%, -50%) scale(.1);
 						}
-						
+
 					}
 					.male{
 						color: #0275d8;
@@ -473,6 +474,6 @@ export default{
 	    	width: 85%;
 	    }
 	}
-	
+
 }
 </style>

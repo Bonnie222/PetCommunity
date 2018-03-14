@@ -32,6 +32,8 @@
 
 <script>
 import Header from '@/components/header';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:"Mypet",
 	components:{
@@ -44,36 +46,40 @@ export default{
 			petList:{},
 		}
 	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
+	},
 	created(){
-		this.getMypetList();
+		this.getMypetList(this.id);
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.go(-1);
 		},
-		getMypetList:function(){
+		getMypetList(_id){
 			var vm = this;
-			var dt = JSON.parse(window.sessionStorage.userInfo);
 			var url = vm.urls.getMyPetList;
 			var data = {
-				petBelongId : dt.id
+				petBelongId :_id
 			}
 			var options = {
 				params:{
-					userid: dt.id
+					userid: _id
 				}
 			}
-			var callback = function(r){
+			const callback = (r) => {
 				var data = r.data.data;
 				if(data.length == 0){
 					vm.$router.replace('/myself/pet/add');
 				}else{
-					$.each(data, function(index, item) {
+					data.forEach((item) => {
 						item.petType = vm.config.petTypeList[item.petType];
 						item.petBirth = vm.utils.calculateAge(item.petBirth);
 						item.avatar = JSON.parse(item.petAvatar).fileUrl;
 					});
-					vm.petList = data;	
+					vm.petList = data;
 				}
 			}
 			vm.utils.postData(url, data, callback, options);
@@ -124,7 +130,7 @@ export default{
 				}
 			}
 			.type{
-				color: #666666;				
+				color: #666666;
 				border: 1px solid #666666;/*no*/
 				border-radius: 3px;/*no*/
 				padding: 3px 12px;
@@ -153,5 +159,5 @@ export default{
 		color: #999999;
 		font-size: 32px;
 	}
-}	
+}
 </style>

@@ -131,6 +131,8 @@
 <script>
 import Header from '@/components/header';
 import District from 'ydui-district/dist/gov_province_city_id';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:'ActivityDetail',
 	components:{
@@ -146,7 +148,7 @@ export default{
 			startDate:new Date(this.utils.getNowTime()),
 			endDate:new Date(this.utils.getNowTime()),
 			district:District,
-			userInfo:{},
+			// userInfo:{},
 			userAvatar:null,
 			avatar:null,
 			files:null,
@@ -165,9 +167,14 @@ export default{
 			},
 		}
 	},
+	computed:{
+		...mapGetters([
+			'userInfo',
+			'id',
+		])
+	},
 	mounted(){
 		let vm = this;
-		vm.userInfo = JSON.parse(window.sessionStorage.userInfo);
 		if(vm.userInfo.userAvatar){
 			vm.userAvatar = JSON.parse(vm.userInfo.userAvatar).fileUrl;
 		}
@@ -245,7 +252,7 @@ export default{
 	    		}
 
 	    		let e = vm.files;
-	      		let url = vm.urls.uploadSingle;
+	      	let url = vm.urls.uploadSingle;
 	    		let fname = 'avatar';
 	    		vm.isSaving = true;
 					vm.saveBtnText = '正在发布中...';
@@ -257,7 +264,7 @@ export default{
 
 	    		const save = () => {
 	    			let url = vm.urls.addActivity;
-						data.publisherId = vm.userInfo.id;
+						data.publisherId = vm.id;
 						data.publisher = vm.userInfo.userName;
 						data.createTime = vm.utils.getNowTime();
 						data.notes = vm.notes.replace(/\n|\r\n/g,"<br/>");

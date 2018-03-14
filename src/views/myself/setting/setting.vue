@@ -9,8 +9,8 @@
 				</router-link>
 			</div>
 		</div>
-		
-		<div class="btn-create">
+
+		<div class="btn-create" @click="logout">
 			退出账号
 		</div>
 	</div>
@@ -27,23 +27,28 @@ export default{
 	data(){
 		return{
 			headerLeft: true,
-			
+
 			firstMenu:[{
 				name: '个人资料',
-				href: '/myself/info',				
+				href: '/myself/info',
 			},{
 				name: '修改密码',
 				href: '/myself/psd'
 			}],
 
-		    
+
 		}
 	},
 	created(){
 	},
 	methods:{
-		back:function(){
+		back(){
 			this.$router.replace('/myself');
+		},
+		logout() {
+			this.$store.dispatch('Logout').then(() => {
+				location.reload(); //为了重新实例化vue-router对象 避免bug
+			});
 		},
 	}
 }
