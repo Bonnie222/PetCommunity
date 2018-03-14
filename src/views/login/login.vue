@@ -96,33 +96,36 @@ export default {
     		vm.loginForm.userPsd = vm.loginForm.userPsd.trim();
     		var url = vm.urls.login;
     		var data = vm.loginForm;
-				vm.$axios.post(url, data).then((res) =>{
-					if(res.status == 200){
-						let data = res.data;
-						vm.userInfo = data.data;
-						if(data.code == 1){
-							//LOGIN success
-							console.log('LOGIN success!');
-							window.sessionStorage.userInfo = JSON.stringify(vm.userInfo);
-							vm.$store.dispatch('setUserInfo', vm.userInfo);
-							vm.$router.push('/home');
-						}else{
-							console.log(data.message);
-							if(data.code == -2){
-								vm.errMsg = '密码不正确';
-	    						vm.errWindow = true;
-							}else if(data.code == -1){
-								vm.errMsg = '该用户不存在';
-	    						vm.errWindow = true;
-							}
-						}
-					}else{
-						console.log('请求出现错误')
-					}
-					console.log(res);
-				}, (err) => {
-					console.log('Login err',err);
+				vm.$store.dispatch('LoginByPhone', data).then((res) => {
+					console.log('登录成功');
 				});
+				// vm.$axios.post(url, data).then((res) =>{
+				// 	if(res.status == 200){
+				// 		let data = res.data;
+				// 		vm.userInfo = data.data;
+				// 		if(data.code == 1){
+				// 			//LOGIN success
+				// 			console.log('LOGIN success!');
+				// 			window.sessionStorage.userInfo = JSON.stringify(vm.userInfo);
+				// 			vm.$store.dispatch('setUserInfo', vm.userInfo);
+				// 			vm.$router.push('/home');
+				// 		}else{
+				// 			console.log(data.message);
+				// 			if(data.code == -2){
+				// 				vm.errMsg = '密码不正确';
+	    	// 					vm.errWindow = true;
+				// 			}else if(data.code == -1){
+				// 				vm.errMsg = '该用户不存在';
+	    	// 					vm.errWindow = true;
+				// 			}
+				// 		}
+				// 	}else{
+				// 		console.log('请求出现错误')
+				// 	}
+				// 	console.log(res);
+				// }, (err) => {
+				// 	console.log('Login err',err);
+				// });
     	}
     }
 }

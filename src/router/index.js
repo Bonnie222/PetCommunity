@@ -41,11 +41,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-	  { path: '/', redirect: '/signhome' },
+	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
 	  { path: '/signhome',         									name: 'Signhome',   	  	component: Signhome 			},
-	  { path: '/signhome/login',   									name: 'Login',      			component: Login    			},
-	  {	path: '/signhome/register', 								name: 'Register', 				component: Register	 			},
+	  { path: '/login',   									name: 'Login',      			component: Login    			},
+	  {	path: '/register', 								name: 'Register', 				component: Register	 			},
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
