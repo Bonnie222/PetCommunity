@@ -4,6 +4,19 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require("webpack")
+/*
+ 对于以.js或.vue后缀结尾的文件(在src目录下或test目录下的文件)，使用eslint进行文件语法检测。
+*/
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [path.resolve(__dirname, '../src')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+});
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -37,6 +50,16 @@ module.exports = {
 	],
   module: {
     rules: [
+      {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter'),
+          emitWarning: !config.dev.showEslintErrorsInOverlay
+        }
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
     	'/api':{
     		target: 'http://127.0.0.1:3000/api/',
-    		secure: false,    
+    		secure: false,
     		changeOrigin: true,  //true允许跨域
     		pathRewrite:{
     			'^/api':''  //需要rewrite重写的
