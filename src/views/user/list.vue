@@ -11,13 +11,16 @@
               <img :src="item.userAvatar.fileUrl" v-else/>
           </div>
           <div class="user-info">
-            <span>
-              <span class="user-name">{{item.userName}}</span>
-              <button class="">关注</button>
+            <span class="info-top">
+              <span class="user-name">{{item.userName}}
+                <i class="iconfont" :class="{ 'icon-nan':item.userSex == 1,
+									'icon-nv':item.userSex == 2}"></i>
+              </span>
+              <button class="btn-cancel">+ 关注</button>
             </span>
-            <span>
-              <p>爱宠号</p>
-              <p>sssdsdsds</p>
+            <span class="info-bottom">
+              <p>{{item.userNumber}}</p>
+              <p>{{item.userNote?　item.userNote : '这家伙很懒~什么都没留下'}}</p>
             </span>
           </div>
         </router-link>
@@ -28,6 +31,8 @@
 <script>
 import Header from '@/components/header';
 import Loading from '@/components/loading';
+import { mapGetters } from 'vuex';
+
 export default{
     name: 'UserList',
     components:{
@@ -42,6 +47,11 @@ export default{
         keyword: '',
       }
     },
+    computed:{
+  		...mapGetters([
+  			'id',
+  		])
+  	},
     mounted(){
       this.getUserList();
     },
@@ -53,14 +63,13 @@ export default{
         const vm = this;
         vm.loading = true;
         const url = vm.urls.getUserList;
-        const _id = JSON.parse(window.sessionStorage.userInfo).id;
         const data = {
-          id: _id,
+          id: vm.id,
         }
         const callback = (r) => {
           let data = r.data.data;
           console.log(data);
-          $.each(data, function(index, item) {
+          data.forEach((item) => {
             if(item.userAvatar){
               item.userAvatar = JSON.parse(item.userAvatar);
             }
@@ -83,8 +92,49 @@ export default{
 #UserList{
   .user-list{
     background: #FFFFFF;
+    padding: 0 30px;
     .list-item{
-
+      display: flex;
+      .user-pic{
+        flex: 1;
+        padding: 25px 0px;
+        margin-right: 10px;
+        img{
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+      }
+      .user-info{
+        flex: 5;
+        padding: 25px 0px;
+        border-bottom: 1px solid #e4e4e4;/*no*/
+        // &:last-child {
+        //   border-bottom: 0px;
+        // }
+        .info-top{
+          display: flex;
+          justify-content: space-between;
+          font-size: 28px;
+          margin: 10px 0 10px;
+        }
+        .info-bottom{
+          font-size: 24px;
+          color: #999999;
+          p{
+            margin-bottom: 10px;
+          }
+        }
+        button{
+          font-size: 24px;
+          background: #FFFFFF;
+          color: red;
+          border: 1px solid red; /*no*/
+          padding: 10px 20px;
+          border-radius: 10px;
+          margin-top: 10px;
+        }
+      }
     }
   }
 }

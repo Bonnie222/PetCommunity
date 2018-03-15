@@ -106,8 +106,11 @@ export default{
 			'userInfo',
 		])
 	},
-	created(){
-		let info = this.userInfo;
+	mounted(){
+		let info = JSON.parse(JSON.stringify(this.userInfo));
+		if(info.userAvatar) {
+			info.userAvatar = JSON.parse(info.userAvatar);
+		}
 		this.myInfo = info;
 	},
 	methods:{

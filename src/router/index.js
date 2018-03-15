@@ -44,8 +44,8 @@ export default new Router({
 	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
 	  { path: '/signhome',         									name: 'Signhome',   	  	component: Signhome 			},
-	  { path: '/login',   									name: 'Login',      			component: Login    			},
-	  {	path: '/register', 								name: 'Register', 				component: Register	 			},
+	  { path: '/login',   									        name: 'Login',      			component: Login    			},
+	  {	path: '/register', 								          name: 'Register', 				component: Register	 			},
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
