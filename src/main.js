@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
     	if(List.indexOf(to.path) !== -1){  //在内
         next();
     	}else{
-    		next({path: '/signhome'});
+    		next({path: '/login'});
     	}
   }
 });
