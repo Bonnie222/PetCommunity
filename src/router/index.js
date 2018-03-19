@@ -25,7 +25,7 @@ const MylookList = _import('myself/petlook/list');
 const MylookDetail = _import('myself/petlook/detail');
 const MySetting = _import('myself/setting/setting');
 const MyInfo = _import('myself/setting/personalInfo');
-const MyPsd = _import('myself/setting/changePsd');
+const MyPsd = _import('myself/setting/resetPsd');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');

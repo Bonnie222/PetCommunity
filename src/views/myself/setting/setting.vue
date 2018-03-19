@@ -32,7 +32,7 @@ export default{
 				name: '个人资料',
 				href: '/myself/info',
 			},{
-				name: '修改密码',
+				name: '重置密码',
 				href: '/myself/psd'
 			}],
 
