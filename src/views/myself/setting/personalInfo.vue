@@ -9,24 +9,24 @@
 						<span class="imgPic">
 							<img src="../../../assets/images/member.png" class="avatar" v-if="avatar == ''"/>
 							<img :src="avatar" class="avatar" @click="previewImg($event)" v-else/>
-						</span>	
+						</span>
 						<span class="link" :hidden="isDisabled">
 							<img src="../../../assets/images/right.svg"/>
 							<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-						</span>	
+						</span>
 					</div>
 				</div>
 				<div class="info-item">
 					<span class="item-name">昵称<span class="tip">*</span></span>
-					<input type="text" class="item-input" placeholder="请输入" v-model="userInfo.userName" :disabled="isDisabled"/>
+					<input type="text" class="item-input" placeholder="请输入" v-model="myInfo.userName" :disabled="isDisabled"/>
 				</div>
 				<div class="info-item">
 					<span class="item-name">爱宠号</span>
-					<input type="text" class="item-input" v-model="userInfo.userNumber" disabled/>
+					<input type="text" class="item-input" v-model="myInfo.userNumber" disabled/>
 				</div>
 				<div class="info-item">
 					<span class="item-name">邮箱</span>
-					<input type="email" class="item-input" placeholder="请输入" v-model="userInfo.userEmail" :disabled="isDisabled"/>
+					<input type="email" class="item-input" placeholder="请输入" v-model="myInfo.userEmail" :disabled="isDisabled"/>
 				</div>
 			</div>
 			<div class="info">
@@ -34,14 +34,14 @@
 					<span class="item-name">性别</span>
 					<div class="radio-wrap">
 						<label class="yd-radio">
-							<input type="radio" value="1" name="sex" v-model="userInfo.userSex" :disabled="isDisabled">
+							<input type="radio" value="1" name="sex" v-model="myInfo.userSex" :disabled="isDisabled">
 							<span class="yd-radio-icon male">
 								<i class="icon"></i>
 							</span>
 							<span class="yd-radio-text">男</span>
 						</label>
 						<label class="yd-radio">
-							<input type="radio" value="2" name="sex" v-model="userInfo.userSex" :disabled="isDisabled">
+							<input type="radio" value="2" name="sex" v-model="myInfo.userSex" :disabled="isDisabled">
 							<span class="yd-radio-icon female">
 								<i class="icon"></i>
 							</span>
@@ -86,7 +86,7 @@
 				<yd-cityselect v-model="showCityselect" :callback="resultCity" :items="district"></yd-cityselect>
 			</div>
 			<div class="btn-wrap">
-				<button class="btn-save" @click="updateUserInfo" :hidden="isDisabled">{{saveBtnText}}</button>	
+				<button class="btn-save" @click="updateUserInfo" :hidden="isDisabled">{{saveBtnText}}</button>
 			</div>
 			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
 		</div>
@@ -106,6 +106,8 @@ import Header from '@/components/header';
 import ChoiceWindow from '@/components/choiceWindow';
 import District from 'ydui-district/dist/gov_province_city_id';
 import ImgView from '@/components/imageView';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:"Myinfo",
 	components:{
@@ -117,11 +119,11 @@ export default{
 			showContentWindow:true,
 			showStatusWindow:false,
 			showConstWindow:false,
-			
+
 			//主页
 			topTitle:'个人信息',
 			headerLeft:true,
-			userInfo:{},
+			myInfo:{},
 			userInfoText:{},
 			isDisabled: false,
 			avatar:null,
@@ -144,7 +146,7 @@ export default{
 			/*selectWindow*/
 			windowTitle:'',
 			windowheaderLeft:'',
-	
+
 			userStatusList:[{
 			      text: '单身', value: 1, isChecked:false
 			   },{
@@ -185,7 +187,7 @@ export default{
 			   },{
 			   	  text: '摩羯座', value:12, isChecked:false
 			   }],
-			
+
 			formData:{
 				id:null,
 				userAvatar:null,
@@ -200,7 +202,13 @@ export default{
 			}
 		}
 	},
-	created(){
+	computed:{
+		...mapGetters([
+			'id',
+			'userInfo',
+		])
+	},
+	mounted(){
 		this.getUserdetail();
 	},
 	methods:{
@@ -214,17 +222,17 @@ export default{
 			vm.showStatusWindow = false;
 			vm.showConstWindow = false;
 		},
-		
+
 		getUserdetail:function(){
 			let vm = this;
-			vm.userInfo = JSON.parse(window.sessionStorage.userInfo);
-			vm.avatar = vm.userInfo.userAvatar == null? '':JSON.parse(vm.userInfo.userAvatar).fileUrl;
-			vm.userInfo.userBirth = vm.utils.changeDate(vm.userInfo.userBirth);
-			vm.userAge = vm.userInfo.userBirth == null? '请选择':vm.utils.calculateAge(vm.userInfo.userBirth);
-			vm.userCity = vm.userInfo.userCity == null? '请选择':vm.userInfo.userCity;
-			vm.userStatus = vm.userInfo.userStatus == null? '请选择':vm.config.userStatusList[vm.userInfo.userStatus];
-			vm.userConst = vm.userInfo.userConst == null? '请选择':vm.config.userConstList[vm.userInfo.userConst];
-			vm.count = vm.userInfo.userNote == null? 0 : vm.userInfo.userNote.length;
+			vm.myInfo = vm.userInfo;
+			vm.avatar = vm.userInfo.userAvatar == null? '':JSON.parse(vm.myInfo.userAvatar).fileUrl;
+			vm.myInfo.userBirth = vm.utils.changeDate(vm.myInfo.userBirth);
+			vm.userAge = vm.myInfo.userBirth == null? '请选择':vm.utils.calculateAge(vm.myInfo.userBirth);
+			vm.userCity = vm.myInfo.userCity == null? '请选择':vm.myInfo.userCity;
+			vm.userStatus = vm.myInfo.userStatus == null? '请选择':vm.config.userStatusList[vm.myInfo.userStatus];
+			vm.userConst = vm.myInfo.userConst == null? '请选择':vm.config.userConstList[vm.myInfo.userConst];
+			vm.count = vm.myInfo.userNote == null? 0 : vm.myInfo.userNote.length;
 		},
 		previewImg: function(){
     		this.showImgView = true;
@@ -239,7 +247,7 @@ export default{
 			vm.count = len;
 		},
 		//星座选择
-		showuserConstWindow: function(){        
+		showuserConstWindow: function(){
 			let vm = this;
 			vm.showContentWindow = false;
 			vm.showConstWindow = true;
@@ -260,7 +268,7 @@ export default{
 			},500);
 		},
 		//情感选择
-		showuserStatusWindow: function(){        
+		showuserStatusWindow: function(){
 			let vm = this;
 			vm.showContentWindow = false;
 			vm.showStatusWindow = true;
@@ -281,10 +289,10 @@ export default{
 			},500);
 		},
 		//年龄选择
-		openAgePicker: function(){     						 
+		openAgePicker: function(){
 			this.$refs.userBirthPicker.open();
 	   	},
-	   	handleUserBirth: function(value){                   
+	   	handleUserBirth: function(value){
 	   		let vm = this;
 	   		let d = vm.utils.returnDatetime(value, 'yyyy-MM-dd');
 	   		vm.userInfo.userBirth = d;
@@ -296,7 +304,7 @@ export default{
     		let value = ret.itemName1 + ' ' + ret.itemName2
             vm.userInfo.userCity = value;
             vm.userCity = value
-        },    	
+        },
     	getImg: function(e){
     		var vm = this;
     		vm.files = e;
@@ -315,7 +323,7 @@ export default{
     			vm.avatar = this.result;
     		}
     	},
-    	
+
     	updateUserInfo: function(){
     		let vm = this;
     		if(vm.isSaving) return;
@@ -336,19 +344,19 @@ export default{
     		var callback = function(r){
     			vm.userInfo.userAvatar = JSON.stringify(r.data.data);
     			save();
-    		}		
-    		
+    		}
+
     		vm.saveBtnText = '正在保存中...';
     		console.log(e);
     		if(e){
     			vm.utils.upload(vm, e, fname, url, callback);
-    		}else{	
+    		}else{
 //  			vm.userInfo.userAvatar = JSON.stringify(vm.userInfo.userAvatar);
     			save();
     		}
-			
+
 			function save(){
-				$.each(vm.formData, function(prop,value) {	
+				$.each(vm.formData, function(prop,value) {
 					vm.formData[prop] = vm.userInfo[prop];
 				});
 	    		var url = vm.urls.updataMyInfo;
@@ -364,7 +372,7 @@ export default{
 						mes: '修改成功',
 	  					icon: 'success',
 	  					timeout: 1000
-					});	
+					});
 					vm.isSaving = false;
 	    			vm.saveBtnText = '保存修改';
 				}
@@ -411,7 +419,7 @@ export default{
 				border-bottom: none;
 			}
 			.item-name{
-				
+
 			}
 			.item-input{
 				display: inline-block;
@@ -433,7 +441,7 @@ export default{
 					width: 110px;
 					border-radius: 50%;
 					overflow:hidden;
-					
+
 					img{
 						height:inherit;
 						width: inherit;
@@ -464,7 +472,7 @@ export default{
 					opacity: 0;
 					cursor: pointer;
 				}
-			}	
+			}
 		}
 		.info-area{
 			display: block;
@@ -486,7 +494,7 @@ export default{
 				}
 				&>input[type=radio]{
 					position: absolute;
-					left: -9999em;		
+					left: -9999em;
 				}
 				&>input[type=radio]:checked+.yd-radio-icon{
 					border-color: currentcolor;
@@ -505,7 +513,7 @@ export default{
 					vertical-align: bottom;
 					pointer-events: none;
 					/*color: rgb(76, 216, 100); */
-					width: 40px; 
+					width: 40px;
 					height: 40px;
 					.icon{
 						display: inline-block;
@@ -520,7 +528,7 @@ export default{
 						opacity: 0;
 						transform: translate(-50%, -50%) scale(.1);
 					}
-					
+
 				}
 				.male{
 					color: #0275d8;

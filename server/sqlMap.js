@@ -29,8 +29,10 @@ var sqlMap = {
 
 	//寻找
 	look:{
-		add: 'INSERT INTO look(id, isFindPet, region, address, dateTime, petSex, petType, petAge,petAvatar, note, contact, userId, userInfo, findStatus, createTime) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+		add: 'INSERT INTO look(id, isFindPet, region, address, dateTime, petSex, petType, petAge, petAvatar, note, contact, userId, findStatus, createTime) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		homePage: 'SELECT id, isFindPet, note FROM look',
+		list: 'SELECT look.*, user.userName, user.userAvatar FROM look, user WHERE look.userId = user.id ORDER BY look.createTime DESC',
+		detail: 'SELECT look.*, user.userName, user.userAvatar FROM look, user WHERE look.userId = user.id And look.id = ?',
 		userLookListAll: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? ORDER BY createTime DESC',
 		userLookListByStatus: 'SELECT id, createTime, isFindPet, petType, address, dateTime,  findStatus FROM look WHERE userId = ? AND findStatus = ? ORDER BY createTime DESC',
 		updateLookStatus: 'UPDATE look SET findStatus = 2 WHERE id = ?',
@@ -40,11 +42,13 @@ var sqlMap = {
 	activity:{
 		add: 'INSERT INTO activity(id, actTitle, actType, publisherId, publisher, createTime, startTime, endTime, themePhoto, notes, city, address, actNum, cost, contact) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
+		queryApply: 'SELECT * FROM actsigns WHERE actId = ? AND userId = ?',
 	},
 
 	//宠物秀
 	petshow: {
-		add: 'INSERT INTO petshow(id, content, actId, userId, userInfo, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?, ?)',
+		add: 'INSERT INTO petshow(id, content, actId, userId, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?)',
+		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
 	}
 }
 

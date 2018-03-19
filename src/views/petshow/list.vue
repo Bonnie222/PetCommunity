@@ -18,10 +18,13 @@
 					<div class="user-info">
 						<span class="pic">
 							<img src="../../assets/images/member.png"
-							 v-if="item.userInfo.userAvatar == null"/>
+							 v-if="item.userAvatar == null"/>
+							 <span v-else>
+								 <img :src="item.userAvatar.fileUrl"/>
+							 </span>
 						</span>
 						<span class="desc">
-							<span class="name">{{item.userInfo.userName}}</span>
+							<span class="name">{{item.userName}}</span>
 							<span>{{item.createTime}}</span>
 						</span>
 					</div>
@@ -88,7 +91,9 @@ export default{
 			const callback = (r) => {
 				let data = r.data.data;
 				data.forEach((item) => {
-					item.userInfo = JSON.parse(item.userInfo);
+					if(item.userAvatar) {
+							item.userAvatar = JSON.parse(item.userAvatar);
+					}
 					item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
 					item.petAvatar = JSON.parse(item.petAvatar);
 					const index = item.content.indexOf('#');
@@ -177,8 +182,8 @@ export default{
 					margin-right: 20px;
 					overflow: hidden;
 					img{
-						width: inherit;
-						height: inherit;
+						width: 80px;
+						height: 80px;
 					}
 				}
 				.desc{

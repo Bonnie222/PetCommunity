@@ -8,9 +8,12 @@
 					class="list-item" v-for="(item, index) in looklist" :key="index">
 					<div class="item-title">
 						<span class="user-pic">
-							<img src="../../assets/images/member.png" v-if="item.userInfo.userAvatar == null"/>
+							<img src="../../assets/images/member.png" v-if="!item.userAvatar"/>
+							<span v-else>
+								<img :src="item.userAvatar.fileUrl"/>
+							</span>
 						</span>
-						<span class="user-name">{{item.userInfo.userName}}</span>
+						<span class="user-name">{{item.userName}}</span>
 					</div>
 					<div class="item-notes" v-html="item.note"></div>
 					<div class="item-pic">
@@ -63,8 +66,11 @@ export default{
 			let url = vm.urls.getLookList;
 			let callback = function(r){
 				let data = r.data.data;
+				console.log(data);
 				$.each(data, function(index, item) {
-					item.userInfo = JSON.parse(item.userInfo);
+					if (item.userAvatar) {
+						item.userAvatar = JSON.parse(item.userAvatar);
+					}
 					item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
 					item.petAvatar = JSON.parse(item.petAvatar);
 				});
@@ -111,8 +117,8 @@ export default{
 					margin-right: 20px;
 					overflow: hidden;
 					img{
-						width: inherit;
-						height: inherit;
+						width: 80px;
+						height: 80px;
 					}
 				}
 				.user-name{

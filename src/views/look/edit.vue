@@ -363,7 +363,6 @@ export default{
 
 	    		function save(){
 	    			let url = vm.urls.addLook;
-	    			data.userInfo = vm.userInfo;
 						data.userId = vm.id;
 						data.createTime = vm.utils.getNowTime();
 						data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");

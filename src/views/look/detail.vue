@@ -7,10 +7,13 @@
 				<div class="user-info">
 					<span class="pic">
 						<img src="../../assets/images/member.png"
-						 v-if="userInfo.userAvatar == null"/>
+						 v-if="detailList.userAvatar == null"/>
+						 <span v-else>
+							 <img :src="detailList.userAvatar.fileUrl" />
+						 </span>
 					</span>
 					<span class="desc">
-						<span class="name">{{userInfo.userName}}</span>
+						<span class="name">{{detailList.userName}}</span>
 						<span class="type">
 							{{detailList.petType}}
 							<i class="iconfont" :class="{ 'icon-nan' :detailList.petSex == 1, 'icon-nv':detailList.petSex == 2}"></i>
@@ -82,7 +85,6 @@ export default{
 			isFixed:true,
 			headerLeft:true,
 			detailList:{},
-			userInfo:{},
 			picList:[],
 		}
 	},
@@ -113,11 +115,12 @@ export default{
 				data.petSex = vm.config.petSexList[data.petSex];
 				data.petAge = vm.config.petAgeList[data.petAge];
 				data.isFindPet = vm.config.isFindPet[data.isFindPet];
-				data.userInfo = JSON.parse(data.userInfo);
+				if(data.userAvatar) {
+						data.userAvatar = JSON.parse(data.userAvatar);
+				}
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.detailList = data;
 				vm.picList = data.petAvatar;
-				vm.userInfo = data.userInfo;
 			}
 			vm.utils.postData(url, data, callback);
 		}
@@ -147,8 +150,8 @@ export default{
 					margin-right: 20px;
 					overflow: hidden;
 					img{
-						width: inherit;
-						height: inherit;
+						width: 80px;
+						height: 80px;
 					}
 				}
 				.desc{

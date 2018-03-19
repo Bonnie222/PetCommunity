@@ -88,6 +88,8 @@
 
 <script>
 import Header from '@/components/header';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:'ActivityDetail',
 	components:{
@@ -105,17 +107,38 @@ export default{
 			_id:'',
 		}
 	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
+	},
 	created(){
 		var vm = this;
 		vm._type = vm.$route.params.type;
 		vm.topTitle = vm._type == 1 ? '线上活动' : '活动详情';
 		vm._id = vm.$route.params.id;
-		console.log(vm._type,vm._id);
 		vm.getDetail(vm._id);
+	},
+	mounted() {
+		var vm = this;
+		vm.getIsApply();
 	},
 	methods:{
 		back() {
 			this.$router.go(-1);
+		},
+		getIsApply() {
+			const vm = this;
+			const url =  vm.urls.isAppy;
+			var data = {
+				actId: 2,
+				userId:2,
+			}
+			const callback = (r) => {
+				const data = res.data;
+				console.log(data);
+			};
+			vm.utils.postData(url, data, callback);
 		},
 		getDetail(id){
 			var vm = this;
@@ -127,7 +150,7 @@ export default{
 				params: data
 			}
 
-			var callback = function(r){
+			var callback = (r) => {
 				var dt = r.data.data[0];
 				dt.photo = JSON.parse(dt.themePhoto).fileUrl;
 				vm.status = vm.utils.completeTime(vm.utils.getNowTime(), dt.endTime);

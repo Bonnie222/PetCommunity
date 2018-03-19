@@ -303,7 +303,7 @@ router.post('/look/add',(req,res)=>{
 	var sql = $sql.look.add;
 	var p = req.body;
     console.log(p);
-    var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.userInfo, p.findStatus, p.createTime];
+    var sqlParams = [p.isFindPet, p.region, p.address, p.dateTime, p.petSex, p.petType, p.petAge, p.petAvatar, p.note, p.contact, p.userId, p.findStatus, p.createTime];
     conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -314,9 +314,9 @@ router.post('/look/add',(req,res)=>{
 })
 //获取列表
 router.get('/look/list',(req,res)=>{
-	var sql = $sql.queryDesc;
-    var sqlParams = ['look','createTime'];
-    conn.query(sql, sqlParams, function(err, result) {
+	var sql = $sql.look.list;
+    // var sqlParams = ['look','createTime'];
+    conn.query(sql, function(err, result) {
         if (err) {
             console.log(err);
         }else{
@@ -326,10 +326,10 @@ router.get('/look/list',(req,res)=>{
 })
 //获取详情
 router.post('/look/detail',(req,res)=>{
-	var sql = $sql.queryById;
+	var sql = $sql.look.detail;
 	var p = req.body;
     console.log(p);
-    var sqlParams = ['look', p.id];
+    var sqlParams = [p.id];
     conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -453,6 +453,20 @@ router.post('/activity/add',(req, res) => {
         }
     })
 })
+// 判断是否已报名
+router.post('/activity/isAppy', (req, res) => {
+  const sql = $sql.activity.queryApply;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.actId, p.userId];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
 /**
  * 宠物秀
@@ -462,7 +476,7 @@ router.post('/petshow/add',(req, res) => {
 	var sql = $sql.petshow.add;
 	var p = req.body;
 	console.log(p);
-	var sqlParams = [p.content, p.actId, p.userId, p.userInfo, p.createTime, p.petAvatar];
+	var sqlParams = [p.content, p.actId, p.userId, p.createTime, p.petAvatar];
 	conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -473,11 +487,9 @@ router.post('/petshow/add',(req, res) => {
 })
 //列表
 router.get('/petshow/list',(req, res) => {
-	var sql = $sql.queryAll;
+	var sql = $sql.petshow.list;
 	var p = req.body;
-	console.log(p);
-	var sqlParams = ['petshow'];
-	conn.query(sql, sqlParams, function(err, result) {
+	conn.query(sql, function(err, result) {
         if (err) {
             console.log(err);
         }else{
