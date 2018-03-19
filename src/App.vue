@@ -14,6 +14,7 @@ export default {
 #app {
 	overflow-x: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  height: inherit;
 	.btn-wrap{
 	    .btn-cancel,.btn-save{
 	        width: 300px;
