@@ -22,7 +22,8 @@ export default {
 	updateMyLookStatus: host + '/user/updatelookStatus',
 	updataMyInfo: host + '/user/update',
 	deleteMyLook: host + '/user/deletelook',
-
+	getUserPsd: host + '/user/checkpsd',
+	resetPsd: host + '/user/updatepsd',
 
 	//宠物
 	addPet: host + '/pet/add',

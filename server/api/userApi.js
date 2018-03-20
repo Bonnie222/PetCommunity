@@ -221,6 +221,34 @@ router.post('/user/list',(req,res)=>{
         }
     })
 })
+// 查询旧密码
+router.post('/user/checkpsd',(req, res) => {
+	var sql = $sql.user.checkPsd;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 更新密码
+router.post('/user/updatepsd',(req, res) => {
+	var sql = $sql.user.updatePsd;
+	var p = req.body;
+	console.log(p);
+	var sqlParams = [p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 宠物
  */

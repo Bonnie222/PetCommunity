@@ -4,26 +4,30 @@
     <Header title="认证号" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
     <yd-search v-model="keyword" :on-submit="submitHandler"></yd-search>
     <div class="user-list">
-      <div v-for="(item, index) in userList" :key="index">
-        <router-link :to="{ name: '', params: {} }" class="list-item">
+      <div v-for="(item, index) in userList" :key="index" class="list-item">
+        <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
           <div class="user-pic">
-              <img src="../../assets/images/member.png" v-if="!item.userAvatar"/>
-              <img :src="item.userAvatar.fileUrl" v-else/>
+            <img src="../../assets/images/member.png" v-if="!item.userAvatar"/>
+            <img :src="item.userAvatar.fileUrl" v-else/>
           </div>
-          <div class="user-info">
-            <span class="info-top">
+        </router-link>
+        <div class="user-info">
+          <span class="info-top">
+            <router-link :to="{ name: 'UserDetail', params: {id: item.id} }">
               <span class="user-name">{{item.userName}}
                 <i class="iconfont" :class="{ 'icon-nan':item.userSex == 1,
-									'icon-nv':item.userSex == 2}"></i>
+  								'icon-nv':item.userSex == 2}"></i>
               </span>
-              <button class="btn-cancel">+ 关注</button>
-            </span>
+            </router-link>
+            <button class="btn-cancel" @click="aa">+ 关注</button>
+          </span>
+          <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
               <p>{{item.userNumber}}</p>
               <p>{{item.userNote?　item.userNote : '这家伙很懒~什么都没留下'}}</p>
             </span>
-          </div>
-        </router-link>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -56,6 +60,10 @@ export default{
       this.getUserList();
     },
     methods:{
+      aa() {
+        alert(111);
+        return;
+      },
       back(){
         this.$router.go(-1);
       },
