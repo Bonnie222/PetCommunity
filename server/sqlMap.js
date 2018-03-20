@@ -6,6 +6,7 @@ var sqlMap = {
 	queryAsc: 'SELECT * FROM ?? ORDER BY ?? ASC',
 	queryById: 'SELECT * FROM ?? WHERE id = ?',
 	deleteById: 'DELETE FROM ?? WHERE id = ?',
+	// totalById: 'SELECT COUNT(*) FROM ?? '
 	//登录
 	login: 'SELECT * FROM user WHERE userPhone = ?',
 	//注册
@@ -45,6 +46,9 @@ var sqlMap = {
 		add: 'INSERT INTO activity(id, actTitle, actType, publisherId, publisher, createTime, startTime, endTime, themePhoto, notes, city, address, actNum, cost, contact) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
 		queryApply: 'SELECT * FROM actsigns WHERE actId = ? AND userId = ?',
+		apply: 'INSERT INTO actsigns(id, actId, userId) VALUES (0, ?, ?)',
+		// updateTotal: 'UPDATE activity SET peopleNum = (SELECT COUNT(*) FROM actsigns WHERE actId = ?) WHERE id = ?',
+		updateTotal: 'SELECT COUNT(*) as count FROM actsigns GROUP BY actId WHERE actId = ?',
 	},
 
 	//宠物秀

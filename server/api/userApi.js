@@ -221,34 +221,6 @@ router.post('/user/list',(req,res)=>{
         }
     })
 })
-// 查询旧密码
-router.post('/user/checkpsd',(req, res) => {
-	var sql = $sql.user.checkPsd;
-	var p = req.body;
-	console.log(p);
-	var sqlParams = [p.id];
-    conn.query(sql, sqlParams, function(err, result) {
-        if (err) {
-            console.log(err);
-        }else{
-        	jsonWrite(res, result);
-        }
-    })
-})
-// 更新密码
-router.post('/user/updatepsd',(req, res) => {
-	var sql = $sql.user.updatePsd;
-	var p = req.body;
-	console.log(p);
-	var sqlParams = [p.id];
-    conn.query(sql, sqlParams, function(err, result) {
-        if (err) {
-            console.log(err);
-        }else{
-        	jsonWrite(res, result);
-        }
-    })
-})
 /**
  * 宠物
  */
@@ -482,7 +454,7 @@ router.post('/activity/add',(req, res) => {
     })
 })
 // 判断是否已报名
-router.post('/activity/isAppy', (req, res) => {
+router.post('/activity/isApply', (req, res) => {
   const sql = $sql.activity.queryApply;
   const p = req.body;
 	console.log(p);
@@ -495,7 +467,34 @@ router.post('/activity/isAppy', (req, res) => {
         }
     })
 })
-
+// 申请报名
+router.post('/activity/apply', (req, res) => {
+  const sql = $sql.activity.apply;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.actId, p.userId];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 更新活动已报名人数
+router.post('/activity/upadateTotal', (req, res) => {
+  const sql = $sql.activity.upadateTotal;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.actId];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
  * 宠物秀
  */

@@ -78,8 +78,10 @@
 					<span v-html="detailOne.notes"></span>
 				</span>
 			</div>
-			<div class="link-btn" :class="{'click':status == false}">
-				<span v-if="status==false">已结束</span>
+			<div class="link-btn" :class="{'click':status == false || isAppy == true}">
+				<span v-if="status==false || isAppy == true">
+					{{ status==true && isAppy == true ? '已报名' : '已结束'}}
+				</span>
 				<span v-else @click="goApply">我要报名</span>
 			</div>
 		</div>
@@ -105,6 +107,8 @@ export default{
 			detailTwo:{},
 			_type:'',
 			_id:'',
+			isAppy: false,
+			isSaving: false,
 		}
 	},
 	computed:{
@@ -129,16 +133,42 @@ export default{
 		},
 		getIsApply() {
 			const vm = this;
-			const url =  vm.urls.isAppy;
-			var data = {
-				actId: 2,
-				userId:2,
+			const url =  vm.urls.isApply;
+			const data = {
+				actId: vm._id,
+				userId: vm.id,
 			}
 			const callback = (r) => {
-				const data = res.data;
-				console.log(data);
+				const data = r.data.data;
+				if (data.length !== 0) vm.isAppy = true;
 			};
 			vm.utils.postData(url, data, callback);
+		},
+		goApply(){
+			const vm = this;
+			const url =  vm.urls.apply;
+			const data = {
+				actId: vm._id,
+				userId: vm.id,
+			}
+			vm.isSaving = true;
+			const callback = (r) => {
+				const dt = {
+					actId: vm._id
+				}
+				vm.utils.postData(vm.urls.updateTotal, dt);
+				vm.$dialog.toast({
+					mes: '报名成功',
+						icon: 'success',
+						timeout: 1000
+				});
+				vm.isSaving = false;
+				vm.isAppy = true;
+			};
+			const tips = '是否确认报名？报名后不许取消';
+			vm.utils.confirmCallback(vm, tips, ()=>{
+				vm.utils.postData(url, data, callback);
+			});
 		},
 		getDetail(id){
 			var vm = this;
@@ -165,11 +195,6 @@ export default{
 				vm.detailOne = dt;
 			}
 			vm.utils.postData(url, data, callback, options);
-		},
-		goApply(){
-			const vm = this;
-			// const url =
-
 		},
 	}
 }
