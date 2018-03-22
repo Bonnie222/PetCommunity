@@ -47,8 +47,9 @@ var sqlMap = {
 		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
 		queryApply: 'SELECT * FROM actsigns WHERE actId = ? AND userId = ?',
 		apply: 'INSERT INTO actsigns(id, actId, userId) VALUES (0, ?, ?)',
-		// updateTotal: 'UPDATE activity SET peopleNum = (SELECT COUNT(*) FROM actsigns WHERE actId = ?) WHERE id = ?',
-		updateTotal: 'SELECT COUNT(*) as count FROM actsigns GROUP BY actId WHERE actId = ?',
+		userActJoinList: 'SELECT activity.*, actsigns.actId FROM activity, actsigns WHERE activity.id = actsigns.actId And actsigns.userId = ?',
+		userActPublList: 'SELECT * FROM activity WHERE publisherId = ?',
+		actPulRegisnList: 'SELECT user.* FROM user, actsigns WHERE user.id = actsigns.userId And actsigns.actId = ?',
 	},
 
 	//宠物秀

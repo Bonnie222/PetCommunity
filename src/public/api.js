@@ -15,15 +15,20 @@ export default {
 
 	//我的
 	getPersonal: host + '/user/personal',
+	getMyPetList: host + '/user/petList',
+	updataMyInfo: host + '/user/update',
+	getUserPsd: host + '/user/checkpsd',
+	resetPsd: host + '/user/updatepsd',
+	// 我的寻宠
 	getMyLookList: host + '/user/looklistAll',
 	getMyLookListByStatus: host + '/user/looklistByStatus',
 	getMyLookDetail: host + '/user/lookdetail',
-	getMyPetList: host + '/user/petList',
 	updateMyLookStatus: host + '/user/updatelookStatus',
-	updataMyInfo: host + '/user/update',
 	deleteMyLook: host + '/user/deletelook',
-	getUserPsd: host + '/user/checkpsd',
-	resetPsd: host + '/user/updatepsd',
+  // 我的活动
+	getMyActJoinList: host + '/user/activityJoinlist',
+	getMyActPublList: host + '/user/activityPubllist',
+	getMyPublRegisnList: host + '/user/regisnslist',
 
 	//宠物
 	addPet: host + '/pet/add',

@@ -1,51 +1,8 @@
 <template>
 	<div id="ActivityDetail">
-		<Header :title="topTitle" :headerLeft="headerLeft"
+		<Header title="活动详情" :headerLeft="headerLeft"
 			:fixed="isFixed" @clickRouter="back"></Header>
-		<div v-if="_type==1" class="detailOne">
-			<div class="title">
-				<img :src="detailOne.photo" class="imgbg"/>
-				<img :src="detailOne.photo" class="blur"/>
-				<div class="info-wrap">
-					<span class="photo">
-						<img :src="detailOne.photo" />
-					</span>
-					<span class="info">
-						<span class="name">#{{detailOne.actTitle}}#</span>
-						<span class="publish">发布者: {{detailOne.publisher}}</span>
-						<span class="number">{{detailOne.peopleNum}}参与</span>
-					</span>
-				</div>
-			</div>
-			<div class="wrap">
-				<div class="wrap-note" v-html="detailOne.notes"></div>
-				<div class="wrap-desc">
-					<div class="desc-item">
-						<label>【活动时间】</label>
-						<span>{{detailOne.startTime}} - {{detailOne.endTime}}</span>
-					</div>
-					<div class="desc-item">
-						<label>【参与方式】</label>
-						<span>{{detailOne.participateWay}}</span>
-					</div>
-					<div class="desc-item">
-						<label>【评奖规则】</label>
-						<span>{{detailOne.rules}}</span>
-					</div>
-					<div class="desc-item">
-						<label>【奖励内容】</label>
-						<span v-html="detailOne.awards"></span>
-					</div>
-				</div>
-			</div>
-			<div class="link-btn" :class="{'click':status == false}">
-				<span v-if="status==false">已结束</span>
-				<router-link to="" v-else>
-					<span>我要参与</span>
-				</router-link>
-			</div>
-		</div>
-		<div v-else-if="_type!=1" class="detailTwo">
+		<div class="detailTwo">
 			<div class="info-wrap">
 				<div class="first-wrap">
 					<span class="picTure">
@@ -61,20 +18,28 @@
 						<i class="iconfont icon-qian1"></i>
 						{{detailOne.cost}}
 					</span>
-					<span class="number">{{detailOne.peopleNum}}人报名</span>
+          <span class="number">{{detailOne.peopleNum}}人报名</span>
 				</div>
 			</div>
-			<div class="address">
-				<i class="iconfont icon-didian"></i>
-				{{detailOne.address}}
+			<div class="address-wrap">
+				<div class="address-item">
+          <i class="iconfont icon-didian"></i>
+  				{{detailOne.address}}
+        </div>
+				<router-link :to="{ name: 'MyactRegisnList', params: {id: detailOne.id}}"
+          class="address-item">
+          <i class="iconfont icon-ren2"></i>
+  				报名名单
+          <i class="icon-right">
+						<img src="../../../assets/images/right.svg" />
+					</i>
+        </router-link>
 			</div>
 			<div class="desc-wrap">
 				<span class="publisher">
-					<span class=""><i class="iconfont icon-ren"></i>发起人</span>
-					<span class="namePic"></span>
+					<span class=""><i class="iconfont icon-huodong11"></i>活动内容</span>
 				</span>
 				<span class="note">
-					<p>活动内容</p>
 					<span v-html="detailOne.notes"></span>
 				</span>
 			</div>
@@ -120,15 +85,10 @@ export default{
 			'id',
 		])
 	},
-	created(){
-		var vm = this;
-		vm._type = vm.$route.params.type;
-		vm.topTitle = vm._type == 1 ? '线上活动' : '活动详情';
+	mounted() {
+		const vm = this;
 		vm._id = vm.$route.params.id;
 		vm.getDetail(vm._id);
-	},
-	mounted() {
-		var vm = this;
 		vm.getIsApply();
 	},
 	methods:{
@@ -189,14 +149,8 @@ export default{
 				var dt = r.data.data[0];
 				dt.photo = JSON.parse(dt.themePhoto).fileUrl;
 				vm.status = vm.utils.completeTime(vm.utils.getNowTime(), dt.endTime);
-				if(vm._type == 1){
-					dt.startTime = vm.utils.changeDate(dt.startTime, 'yyyy年MM月dd日');
-					dt.endTime = vm.utils.changeDate(dt.endTime, 'yyyy年MM月dd日');
-				}else{
-					dt.startTime = vm.utils.changeDate(dt.startTime, 'yyyy-MM-dd hh:mm');
-					dt.endTime = vm.utils.changeDate(dt.endTime, 'yyyy-MM-dd hh:mm');
-				}
-				console.log(dt);
+				dt.startTime = vm.utils.changeDate(dt.startTime, 'yyyy-MM-dd hh:mm');
+				dt.endTime = vm.utils.changeDate(dt.endTime, 'yyyy-MM-dd hh:mm');
 				vm.detailOne = dt;
 			}
 			vm.utils.postData(url, data, callback, options);
@@ -211,90 +165,6 @@ export default{
 		margin-right: 10px;
 		color: red;
 		font-size: 26px;
-	}
-	.detailOne{
-		padding-top: 90px;
-		.title{
-			background: #FFFFFF;
-			height: 230px;
-			width: 100%;
-			position: relative;
-			.imgbg{
-				width: inherit;
-				height: inherit;
-			}
-			.blur{
-				position: absolute;
-				top:0;
-				width: inherit;
-				height: inherit;
-				filter: blur(6px);
-				-webkit-filter: blur(6px);  /* chrome, opera */
-				-ms-filter: blur(6px);
-				-moz-filter: blur(6px);
-			}
-			.info-wrap{
-				position: absolute;
-				top:0;
-				/*background: yellow;*/
-				margin: 35px 25px;
-				color:#FFFFFF;
-				display: flex;
-				align-items: center;
-				.photo{
-					display:inline-block;
-					width:210px;
-					height: 160px;
-					margin-right: 20px;
-					border:1px solid #FFFFFF;/*no*/
-					overflow:hidden;
-					img{
-						width: inherit;
-						height: inherit;
-					}
-				}
-				.info{
-					display: flex;
-					flex-direction: column;
-					.name{
-						font-size: 30px;
-						margin-bottom: 20px;
-					}
-					.publish{
-						font-size: 26px;
-						margin-bottom: 20px;
-					}
-					.number{
-						font-size: 24px;
-					}
-				}
-			}
-		}
-		.wrap{
-			background: #FFFFFF;
-			padding: 20px;
-			line-height: 46px;
-			color: #666666;
-			font-size: 28px;
-			margin-bottom: 90px;
-			.wrap-desc{
-				margin-top:20px;
-				.desc-item{
-					display: flex;
-					margin-bottom: 10px;
-					label{
-						display: block;
-						color: red;
-						vertical-align: top;
-						flex: 1;
-					}
-					span{
-						flex: 3;
-						color: #333333;
-					}
-				}
-			}
-		}
 	}
 	.detailTwo{
 		padding-top: 90px;
@@ -338,14 +208,32 @@ export default{
 				color: #666666;
 			}
 		}
-		.address{
+		.address-wrap{
 			background: #FFFFFF;
-			padding: 30px 30px;
 			font-size: 26px;
 			color: #666666;
 			margin-bottom: 20px;
+      padding: 0px 30px;
 			border-top: 1px solid #E4E4E4;/*no*/
 			border-bottom: 1px solid #E4E4E4;/*no*/
+      .address-item {
+        display: block;
+        padding: 30px 0px;
+        border-bottom: 1px solid #E4E4E4;/*no*/
+        &:last-child {
+          border-bottom: 0px;
+        }
+        .icon-right{
+          float: right;
+					display: inline-block;
+					width: 15px;
+					height: 26px;
+					img{
+						width: 15px;
+						height: 26px;
+					}
+				}
+      }
 		}
 		.desc-wrap{
 			background: #FFFFFF;

@@ -104,16 +104,16 @@
 			</li>
 		</ul>
 		<ul class="form2">
-			<li class="input2">
+			<!-- <li class="input2">
 				<label><i class="iconfont icon-huodong11"></i>选择活动主题</label>
 				<span class="" @click="">
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
 				</span
-			</li>
+			</li> -->
 			<li class="input4">
-				<label><i class="iconfont icon-qian1"></i>活动说明</label>
+				<label><i class="iconfont icon-huodong11"></i>活动说明</label>
 				<textarea  placeholder="请输入本次活动的主要说明，注意事项等"  v-model="notes"></textarea>
 			</li>
 		</ul>

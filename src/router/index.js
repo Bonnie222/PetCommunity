@@ -23,6 +23,9 @@ const Addpet = _import('myself/petinfo/edit');
 const Editpet = _import('myself/petinfo/detail');
 const MylookList = _import('myself/petlook/list');
 const MylookDetail = _import('myself/petlook/detail');
+const MyactivityList = _import('myself/activity/list');
+const MyactivityDetail = _import('myself/activity/detail');
+const MyactRegisnList = _import('myself/activity/regisnlist');
 const MySetting = _import('myself/setting/setting');
 const MyInfo = _import('myself/setting/personalInfo');
 const MyPsd = _import('myself/setting/resetPsd');
@@ -64,6 +67,9 @@ export default new Router({
 	  {	path: '/myself/pet/detail/:id',							name: 'Editpet',					component: Editpet				},
 	  {	path: '/myself/look/list/:type',						name: 'MylookList',				component: MylookList			},
 	  {	path: '/myself/look/detail/:id',						name: 'MylookDetail',			component: MylookDetail		},
+    { path: '/myself/activity/regisnlist/:id',    name: 'MyactRegisnList',  component: MyactRegisnList},
+    { path: '/myself/activity/list/:type',        name: 'MyactivityList',   component: MyactivityList },
+    { path: '/myself/activity/detail/:id',        name: 'MyactivityDetail', component: MyactivityDetail},
 	  {	path: '/myself/setting',        						name: 'MySetting',			  component: MySetting  		},
 	  {	path: '/myself/info',        								name: 'MyInfo',					  component: MyInfo		  		},
 	  {	path: '/myself/psd',        								name: 'MyPsd',					  component: MyPsd		  		},

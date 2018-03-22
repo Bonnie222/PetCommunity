@@ -33,5 +33,11 @@ export default {
 	        color: #ffffff;
 	    }
 	}
+  .icon-nan{
+    color: #0275D8;
+  }
+  .icon-nv{
+    color: #f00;
+  }
 }
 </style>

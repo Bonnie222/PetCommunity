@@ -481,20 +481,7 @@ router.post('/activity/apply', (req, res) => {
         }
     })
 })
-// 更新活动已报名人数
-router.post('/activity/upadateTotal', (req, res) => {
-  const sql = $sql.activity.upadateTotal;
-  const p = req.body;
-	console.log(p);
-	const sqlParams = [p.actId];
-	conn.query(sql, sqlParams, function(err, result) {
-        if (err) {
-            console.log(err);
-        }else{
-        	jsonWrite(res, result);
-        }
-    })
-})
+
 /**
  * 宠物秀
  */
@@ -530,6 +517,52 @@ router.post('/petshow/detail',(req, res) => {
 	var p = req.body;
 	console.log(p);
 	var sqlParams = ['petshow', p.id];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+
+/**
+* 我的活动
+*/
+// 获取个人参与的活动
+router.post('/user/activityJoinlist', (req, res) => {
+  const sql = $sql.activity.userActJoinList;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.userId];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 获取个人发布的活动
+router.post('/user/activityPubllist', (req, res) => {
+  const sql = $sql.activity.userActPublList;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.userId];
+	conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 获取我发布的活动的报名名单
+router.post('/user/regisnslist', (req, res) => {
+  const sql = $sql.activity.actPulRegisnList;
+  const p = req.body;
+	console.log(p);
+	const sqlParams = [p.actId];
 	conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);

@@ -97,7 +97,7 @@ export default{
 			},{
 				name:'我的活动',
 				icon:'iconfont icon-grade-alt',
-				href:''
+				href:'/myself/activity/list/0'
 			}]
 		}
 	},
