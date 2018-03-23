@@ -56,6 +56,7 @@ var sqlMap = {
 	petshow: {
 		add: 'INSERT INTO petshow(id, content, actId, userId, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?)',
 		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
+		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 	}
 }
 

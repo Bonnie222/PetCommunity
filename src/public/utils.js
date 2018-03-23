@@ -28,7 +28,7 @@ export default{
      * @param options { Object } -必选 含官方的所有options对象，可为null。传参为{params:{key:11}}
      * @param cb { Function } -必选 成功回调
      */
-	postData: function(url, data, cb, options){
+	 postData: function(url, data, cb, options){
 		axios.post(url, data, options).then(cb).catch(response => {
 			if(response instanceof Error){
 				//一些错误是在设置请求的时候触发

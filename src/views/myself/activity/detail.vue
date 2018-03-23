@@ -26,7 +26,7 @@
           <i class="iconfont icon-didian"></i>
   				{{detailOne.address}}
         </div>
-				<router-link :to="{ name: 'MyactRegisnList', params: {id: detailOne.id}}"
+				<router-link :to="{ name: 'MyactRegisnList', params:{id: detailOne.id}}"
           class="address-item">
           <i class="iconfont icon-ren2"></i>
   				报名名单
@@ -37,7 +37,7 @@
 			</div>
 			<div class="desc-wrap">
 				<span class="publisher">
-					<span class=""><i class="iconfont icon-huodong11"></i>活动内容</span>
+					<span class=""><i class="iconfont icon-shuoming"></i>活动内容</span>
 				</span>
 				<span class="note">
 					<span v-html="detailOne.notes"></span>

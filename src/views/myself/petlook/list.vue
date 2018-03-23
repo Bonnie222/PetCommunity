@@ -14,7 +14,7 @@
 			</li>
 		</ul>
 		<div class="content-wrap">
-			<ul class="content-list" v-if="len !=0">
+			<ul class="content-list">
 				<router-link :to="item.href" v-for="item in lookList" :key="item.id">
 					<li>
 					 	<span class="item-title">
@@ -30,8 +30,8 @@
 					</li>
 				</router-link>
 			</ul>
-			<div class="nodata" v-else>
-				<img src="../../../assets/images/no-data.png" />
+			<div class="nodata" v-show="isShow=true">
+				<img src="../../../assets/images/no-data.svg" />
 				<p>暂时没有数据哦~</p>
 			</div>
 		</div>
@@ -51,6 +51,7 @@ export default{
 	},
 	data(){
 		return{
+			isShow: false,
 			isFixed:true,
 			headerLeft:true,
 			_userId:'',
@@ -70,7 +71,6 @@ export default{
 					}
 				}
 			},
-			len:1,
 			lookList:[]
 		}
 	},
@@ -91,6 +91,7 @@ export default{
 		},
 		changeToTab: function(val){
 			let vm = this;
+			vm.isShow = false;
 			let value = parseInt(val);
 			$.each(vm.lookTabList.list, function(index,item){
 				item.check = false;
@@ -112,10 +113,13 @@ export default{
 			}else if(value == 2){
 				data.findStatus = 2;
 			}
-
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
 			let callback = function(r){
+				vm.$indicator.close();
 				let data = r.data.data;
-				vm.len = data.length;
+				if(data.length == 0) vm.isShow = true;
 				$.each(data, function(index, item){
 					item.createTime = vm.utils.changeDate(item.createTime);
 					item.dateTime = vm.utils.changeDate(item.dateTime);

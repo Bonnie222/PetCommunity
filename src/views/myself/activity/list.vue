@@ -145,7 +145,11 @@ export default{
       const data = {
         userId: vm.id,
       };
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
       const callback = (r) => {
+				vm.$indicator.close();
         const list = r.data.data;
         list.forEach((item) => {
           item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);
@@ -164,7 +168,11 @@ export default{
       const data = {
         userId: vm.id,
       };
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
       const callback = (r) => {
+				vm.$indicator.close();
         const list = r.data.data;
         list.forEach((item) => {
           item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);

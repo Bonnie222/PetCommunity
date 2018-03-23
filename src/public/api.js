@@ -29,6 +29,7 @@ export default {
 	getMyActJoinList: host + '/user/activityJoinlist',
 	getMyActPublList: host + '/user/activityPubllist',
 	getMyPublRegisnList: host + '/user/regisnslist',
+	getUserPetshowList: host + '/user/petshowlist',
 
 	//宠物
 	addPet: host + '/pet/add',

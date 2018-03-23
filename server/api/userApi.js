@@ -525,7 +525,20 @@ router.post('/petshow/detail',(req, res) => {
         }
     })
 })
-
+// 根据id查询用户宠物秀
+router.post('/user/petshowlist',(req,res)=>{
+	var sql = $sql.petshow.userPetShowList;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.userId];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 /**
 * 我的活动
 */

@@ -1,6 +1,5 @@
 <template>
   <div id="UserList">
-    <Loading :showLoading="loading"></loading>
     <Header title="认证号" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
     <yd-search v-model="keyword" :on-submit="submitHandler"></yd-search>
     <div class="user-list">
@@ -34,17 +33,15 @@
 </template>
 <script>
 import Header from '@/components/header';
-import Loading from '@/components/loading';
 import { mapGetters } from 'vuex';
 
 export default{
     name: 'UserList',
     components:{
-  	    Header, Loading,
+  	    Header,
   	},
     data(){
       return{
-        loading: false,
         isFixed:true,
         headerLeft:true,
         userList: [],
@@ -69,7 +66,6 @@ export default{
       },
       getUserList(){
         const vm = this;
-        vm.loading = true;
         const url = vm.urls.getUserList;
         const data = {
           id: vm.id,
@@ -82,7 +78,6 @@ export default{
               item.userAvatar = JSON.parse(item.userAvatar);
             }
           });
-          vm.loading = false;
           vm.userList = data;
         }
         vm.utils.postData(url, data, callback);

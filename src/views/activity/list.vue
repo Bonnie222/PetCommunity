@@ -170,7 +170,11 @@ export default{
 			var options = {
 				params: data
 			}
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
 			var callback = function(r){
+				vm.$indicator.close();
 				var data = r.data.data;
 				$.each(data,function(index,item){
 					item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);

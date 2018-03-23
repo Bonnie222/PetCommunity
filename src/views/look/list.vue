@@ -1,8 +1,7 @@
 <template>
 	<div id="LookList">
-		<Loading :showLoading="loading"></loading>
 		<Header title="寻宠110" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
-		<div v-show="!loading">
+		<div>
 			<div class="list-wrap">
 				<router-link :to="{name:'LookDetail', params:{id: item.id}}"
 					class="list-item" v-for="(item, index) in looklist" :key="index">
@@ -38,16 +37,14 @@
 
 <script>
 import Header from '@/components/header';
-import Loading from '@/components/loading';
 
 export default{
 	name:"LookList",
 	components:{
-	    Header, Loading,
+	    Header,
 	},
 	data(){
 		return{
-			loading: false,
 			isFixed:true,
 			headerLeft:true,
 			looklist:{}
@@ -62,9 +59,12 @@ export default{
 		},
 		getLookList(){
 			let vm = this;
-			vm.loading = true;
 			let url = vm.urls.getLookList;
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
 			let callback = function(r){
+				vm.$indicator.close();
 				let data = r.data.data;
 				console.log(data);
 				$.each(data, function(index, item) {
@@ -74,7 +74,6 @@ export default{
 					item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
 					item.petAvatar = JSON.parse(item.petAvatar);
 				});
-				vm.loading = false;
 				vm.looklist = data;
 			}
 			vm.utils.getData(url,callback);

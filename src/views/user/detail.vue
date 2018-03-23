@@ -5,14 +5,15 @@
       <div class="user-wrap">
         <div class="user-pic">
           <img src="../../assets/images/member.png" v-if="!detail.userAvatar"/>
-          <img :src="dertail.userAvatar.fileUrl" v-else/>
+          <img :src="detail.userAvatar.fileUrl" v-else/>
         </div>
         <div class="user-info">
           <p class="number">{{detail.userName}}</p>
           <p class="text">
-            <i class="iconfont icon-weizhib" v-if="detail.userCity"></i>
+            <i class="iconfont icon-didian" v-if="detail.userCity"></i>
             {{detail.userCity}}
-            <i class="iconfont icon-weizhib" v-if="detail.userSex"></i>
+            <i class="iconfont" :class="{'icon-nan':detail.userSex == 1,
+              'icon-nv': detail.userSex == 2}" v-if="detail.userSex"></i>
             {{detail.userSex == 1? '男' : '女'}}
           </p>
           <p class="text text-note">
@@ -25,15 +26,43 @@
             </button>
         </div>
         <div class="data-wrap">
-          <span><p class="number">22</p><p class="text">关注</p></span>
-          <span><p class="number">22</p><p class="text">粉丝</p></span>
-          <span><p class="number">22</p><p class="text">帖子</p></span>
+          <span>
+            <p class="number">{{detail.userAttentions}}</p>
+            <p class="text">关注</p>
+          </span>
+          <span>
+            <p class="number">{{detail.userFans}}</p>
+            <p class="text">粉丝</p>
+          </span>
+          <span>
+            <p class="number">{{petshowlist.length}}</p>
+            <p class="text">帖子</p>
+          </span>
         </div>
       </div>
-
+      <div class="pet-wrap">
+        ssss
       </div>
-      <div class="pet-wrap">pett</div>
     </div>
+    <div class="show-list" v-for="(item, index) in petshowlist" :key="index">
+      <router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
+        <div class="detail-title">
+							<span>{{item.createTime}}</span>
+				</div>
+				<div class="detail-notes" v-html="item.content"></div>
+			</router-link>
+				<div class="detail-pic">
+					<yd-lightbox :num="item.petAvatar.length">
+						 <yd-lightbox-img v-for="(pic, per) in item.petAvatar"
+						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
+						 <yd-lightbox-txt>
+	            <h1 slot="top">{{item.contentTitle}}</h1>
+	            <div slot="content" class="content" v-html="item.contentNote">
+	            </div>
+	        	</yd-lightbox-txt>
+				 </yd-lightbox>
+				</div>
+		</div>
   </div>
 </template>
 <script>
@@ -51,12 +80,14 @@ export default {
       topTitle: null,
       userId: null,
       detail: {},
+      petshowlist: [],
     }
   },
   mounted() {
     const vm = this;
     vm.userId = this.$route.params.id;
     vm.getUserDetail(vm.userId);
+    vm.getUserPetshow(vm.userId)
   },
   methods:{
     back() {
@@ -76,14 +107,40 @@ export default {
       const callback = (r) => {
         const detail = r.data.data[0];
         vm.topTitle = detail.userName;
-        if(vm.userAvatar) {
-          vm.userAvatar = JSON.parse(vm.userAvatar);
+        if(detail.userAvatar) {
+          detail.userAvatar = JSON.parse(detail.userAvatar);
         }
         vm.detail = detail;
 
       };
       vm.utils.postData(url, data, callback, options);
     },
+    getUserPetshow(_id) {
+      const vm = this;
+      const url = vm.urls.getUserPetshowList;
+      const data = {
+        userId: _id,
+      };
+      const options = {
+        params:{
+          id: _id
+        }
+      };
+      const callback = (r) => {
+        const list = r.data.data;
+        list.forEach((item) => {
+          item.petAvatar = JSON.parse(item.petAvatar);
+          item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
+        });
+        // vm.topTitle = detail.userName;
+        // if(detail.userAvatar) {
+        //   detail.userAvatar = JSON.parse(detail.userAvatar);
+        // }
+        vm.petshowlist = list;
+
+      };
+      vm.utils.postData(url, data, callback, options);
+    }
   },
 }
 </script>
@@ -104,6 +161,9 @@ export default {
       .text {
         font-size: 28px;
         color: #999999;
+        .iconfont {
+          color: #999999;
+        }
       }
       .text-note{
         margin: 10px auto;
@@ -128,7 +188,6 @@ export default {
         }
       }
       .data-wrap {
-        background: yellow;
         width: 70%;
         margin: 20px auto;
         display: flex;
@@ -147,5 +206,39 @@ export default {
       }
     }
   }
+  .show-list {
+		background: #ffffff;
+    margin-top: 20px;
+		.detail-title{
+			padding: 20px;
+			border-bottom:1px solid #CCCCCC; /*no*/
+    }
+    .detail-notes{
+			max-height: 105px;
+			margin-bottom: 10px;
+			font-size: 28px;
+			line-height: 36px;
+			/* 多行文本溢出利用省略号代替,仅用于webkit内核 $line 行数*/
+			overflow : hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+			margin: 10px 0 25px;
+			color: #333333;
+			padding: 0 20px;
+		}
+		.detail-pic{
+			margin-bottom: 20px;
+			padding: 20px;
+			img{
+				display: inline-block;
+				width: 200px;
+				height: 200px;
+				border-radius: 10px;
+			}
+		}
+  }
+
 }
 </style>

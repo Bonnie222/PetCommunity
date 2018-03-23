@@ -1,6 +1,5 @@
 <template>
   <div id="RegisnList">
-    <Loading :showLoading="loading"></loading>
     <Header title="报名名单" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
     <div class="user-list">
       <div v-for="(item, index) in userList" :key="index" class="list-item">
@@ -33,17 +32,15 @@
 </template>
 <script>
 import Header from '@/components/header';
-import Loading from '@/components/loading';
 import { mapGetters } from 'vuex';
 
 export default{
     name: 'RegsinList',
     components:{
-  	    Header, Loading,
+  	    Header,
   	},
     data(){
       return{
-        loading: false,
         isFixed:true,
         headerLeft:true,
         userList: [],
@@ -68,7 +65,6 @@ export default{
       },
       getUserList(){
         const vm = this;
-        vm.loading = true;
         const url = vm.urls.getMyPublRegisnList;
         const data = {
           actId: vm.$route.params.id,
@@ -81,7 +77,6 @@ export default{
               item.userAvatar = JSON.parse(item.userAvatar);
             }
           });
-          vm.loading = false;
           vm.userList = data;
         }
         vm.utils.postData(url, data, callback);
