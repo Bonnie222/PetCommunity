@@ -44,7 +44,7 @@
         <yd-accordion>
           <yd-accordion-item title="宠物列表">
             <div class="pet-list">
-              <span v-if="petList.length !== 0"  class="pet-info">
+              <span v-if="petList.length == 0"  class="pet-info">
                 暂无宠物信息
               </span>
               <span v-else>

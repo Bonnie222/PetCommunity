@@ -4,7 +4,8 @@
 			<Header title="疾病症状" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
 			<div class="form">
 				<div class="form1">
-					<textarea placeholder="详细描述宠物的症状，基本情况，以便医生能更准确迅速判断病情" v-model="notes" maxlength="255" @input="countWord"></textarea>
+					<textarea placeholder="详细描述宠物的症状，基本情况，以便医生能更准确迅速判断病情"
+						v-model="notes" maxlength="255" @input="countWord"></textarea>
 					<p>{{count}}/255</p>
 					<div class="pic">
 						<span class="addBtn" v-for="(item, index) in picList" v-if="picList.length!=0">
@@ -13,7 +14,8 @@
 						</span>
 						<span class="addBtn" v-show="picList.length != 3">
 							<img src="../../assets/images/tianjia.png" />
-							<input class="file-btn" type="file" hidefocus="true" name="picture" accept="image/*" @change="getImg($event)"/>
+							<input class="file-btn" type="file" hidefocus="true" name="picture"
+							 	accept="image/*" @change="getImg($event)"/>
 						</span>
 					</div>
 				</div>
@@ -200,14 +202,144 @@
 		        </yd-accordion-item>
 						<yd-accordion-item title="泌尿生殖系统">
 							<div class="check-list flex">
-								<label>受伤原因</label>
-								<input type="text" placeholder="请输入"
-									v-model="editList.surgical.cause"/>
+								<label>饮水量</label>
+								<yd-checkbox-group v-model="editList.urinary.water"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList7" :key="idx">
+										<yd-checkbox :val="item.value"
+											shape="circle">{{item.text}}</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
 							</div>
 							<div class="check-list flex">
-								<label>受伤时间</label>
-								<span class="choice" @click="openOutTimePicker">
-									{{editList.surgical.time == '' ? '请选择' : editList.surgical.time}}
+								<label>尿次数</label>
+								<yd-checkbox-group v-model="editList.urinary.times"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList7" :key="idx">
+										<yd-checkbox :val="item.value"
+											shape="circle">{{item.text}}</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>一天总尿量</label>
+								<yd-checkbox-group v-model="editList.urinary.total"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList7" :key="idx">
+										<yd-checkbox :val="item.value"
+											shape="circle">{{item.text}}</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>尿颜色</label>
+								<yd-checkbox-group v-model="editList.urinary.color"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList8" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>如果尿液有血色</label>
+								<yd-checkbox-group v-model="editList.urinary.hasBlood"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList9" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+		        </yd-accordion-item>
+						<yd-accordion-item title="五官科">
+							<div class="check-list flex">
+								<label>眼屎、眼泪</label>
+								<yd-checkbox-group v-model="editList.facial.tears"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList7" :key="idx">
+										<yd-checkbox :val="item.value"
+											shape="circle">{{item.text}}</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>耳有无异味</label>
+								<yd-checkbox-group v-model="editList.facial.earSmell"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">有</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">无</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>耳是否瘙痒</label>
+								<yd-checkbox-group v-model="editList.facial.earTickle"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">有</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">无</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>耳内分泌物颜色</label>
+								<yd-checkbox-group v-model="editList.facial.earColor"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList10" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>鼻是否干燥</label>
+								<yd-checkbox-group v-model="editList.facial.nose"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList11" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>口腔、是否正常进食</label>
+								<yd-checkbox-group v-model="editList.facial.oral"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">否</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>流口水症状</label>
+								<yd-checkbox-group v-model="editList.facial.isDrool"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">否</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>有牙结石</label>
+								<yd-checkbox-group v-model="editList.facial.hasTeeth"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">否</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+		        </yd-accordion-item>
+						<yd-accordion-item title="驱虫">
+							<div class="check-list flex">
+								<label>主人问题</label>
+								<input type="text" placeholder="请输入"
+									v-model="editList.insert.question"/>
+							</div>
+							<div class="check-list flex">
+								<label>最近一次驱虫时间</label>
+								<span class="choice" @click="openInsertTimePicker">
+									{{editList.insert.time == '' ? '请选择' : editList.insert.time}}
 									<i class="icon-right">
 										<img src="../../assets/images/right.svg" />
 									</i>
@@ -215,7 +347,24 @@
 							</div>
 							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
 		        </yd-accordion-item>
-		    	</yd-accordion>
+						<yd-accordion-item title="免疫" style="font-size:28px;">
+							<div class="check-list flex">
+								<label>主人问题</label>
+								<input type="text" placeholder="请输入"
+									v-model="editList.immune.question"/>
+							</div>
+							<div class="check-list flex">
+								<label>最近一次免疫时间</label>
+								<span class="choice" @click="openImmuneTimePicker">
+									{{editList.immune.time == '' ? '请选择' : editList.immune.time}}
+									<i class="icon-right">
+										<img src="../../assets/images/right.svg" />
+									</i>
+								</span>
+							</div>
+							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
+		        </yd-accordion-item>
+					</yd-accordion>
 				</div>
 
 				<!--选择器-->
@@ -224,6 +373,11 @@
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 				<mt-datetime-picker ref="showOutDatetime" type="datetime" @confirm="handleOutDatetime"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="showInsertDatetime" type="datetime" @confirm="handleInsertDatetime"
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="showImmuneDatetime" type="datetime" @confirm="handleImmuneDatetime"
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+
 			</div>
 			<div class="btn-wrap">
 				<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
@@ -279,6 +433,17 @@ export default{
 			checkList4: ['无瘙痒', '轻度瘙痒', '中度瘙痒', '重度瘙痒'],
 			checkList5: ['不掉毛', '少量掉毛', '大量掉毛', '脱毛', '秃毛'],
 			checkList6: ['跳蚤', '蜱虫', '虱子'],
+			checkList7: [{
+				value:1, text:'增多',
+			}, {
+				value:2, text:'减少',
+			}, {
+				value:3, text: '无变化',
+			}],
+			checkList8: ['淡黄', '深黄', '血红色', '茶色'],
+			checkList9: ['尿前', '尿中(混合)', '尿后'],
+			checkList10: ['褐色', '黄色'],
+			checkList11: ['湿润', '干燥', '干裂'],
 			editList:{
 				petAvatar:'',
 				note:'',
@@ -304,6 +469,31 @@ export default{
 				},
 				surgical: {
 					cause: '',
+					time: '',
+				},
+				urinary: {
+					water: [],
+					times: [],
+					total: [],
+					color: [],
+					hasBlood: [],
+				},
+				facial: {
+					tears: [],
+					earsmell: [],
+					earTickle: [],
+					earColor: [],
+					nose: [],
+					oral: [],
+					isDrool: [],
+					hasTeeth: [],
+				},
+				insert: {
+					question: '',
+					time: '',
+				},
+				immune: {
+					question: '',
 					time: '',
 				}
 			},
@@ -407,6 +597,26 @@ export default{
 	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
 	 		vm.editList.surgical.time = d;
    	},
+		// 驱虫 时间
+   	openInsertTimePicker:function(){
+   		this.$refs.showInsertDatetime.open();
+   	},
+   	handleInsertDatetime: function(value){
+   		let vm = this;
+   		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
+	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
+	 		vm.editList.insert.time = d;
+   	},
+		// 免疫 时间
+   	openImmuneTimePicker:function(){
+   		this.$refs.showImmuneDatetime.open();
+   	},
+   	handleImmuneDatetime: function(value){
+   		let vm = this;
+   		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
+	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
+	 		vm.editList.immune.time = d;
+   	},
   	getImg: function(e){
   		let vm = this;
   		let file = e.target.files[0];
@@ -485,6 +695,7 @@ export default{
 			background: #FFFFFF;
 			border-bottom:1px solid #CCCCCC; /*no*/
 			color: #333333;
+			z-index: 9999;
 		}
 	}
 	.form{
@@ -662,7 +873,7 @@ export default{
 					}
 				}
 			}
-
+			
 			.checkbox-group{
 
 			}
@@ -677,4 +888,5 @@ export default{
 	    }
 	}
 }
+
 </style>

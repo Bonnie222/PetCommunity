@@ -39,5 +39,8 @@ export default {
   .icon-nv{
     color: #f00;
   }
+  .yd-accordion-title{
+    font-size: 30px !important;
+  }
 }
 </style>
