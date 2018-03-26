@@ -7,7 +7,7 @@
 		        	<span>{{item.name}}</span>
 		        </router-link>
 		    </span>
-		    <span class="menu-list" @click="showadd=true">
+		    <span class="menu-list" @click="showPopup">
 		         <span class="menu-item">
 		         	<span class="middlemenu"></span>
 		         </span>
@@ -19,33 +19,33 @@
 		        </router-link>
 		    </span>
 	    </div>
-	   <div class="overlayer" v-show="showadd" @click="hideAdd()"></div>
-	   		<div class="commonWindow-wrap" v-show="showadd">
-		    	<div class="center-wrap">
-		    		<router-link :to="item.href" class="route-item" v-for="item in MiddleMenu1" :key="item.name">
-		        		<span>
-		        			<i :class="item.icon"></i>
-		        		</span>
-		        		<label>{{item.name}}</label>
-		          	</router-link>
-		    	</div>
-	            <div class="center-wrap">
-	            	<router-link :to="item.href" class="route-item" v-for="item in MiddleMenu2" :key="item.name">
-		        		<span>
-		        			<i :class="item.icon"></i>
-		        		</span>
-		        		<label>{{item.name}}</label>
-		          	</router-link>
-	            </div>
-	       	</div>
-       	</div>
+			<Popup ref="popup">
+				<div class="center-wrap">
+	    		<router-link :to="item.href" class="route-item" v-for="item in MiddleMenu1" :key="item.name">
+	        		<span>
+	        			<i :class="item.icon"></i>
+	        		</span>
+	        		<label>{{item.name}}</label>
+	          	</router-link>
+	    	</div>
+        <div class="center-wrap">
+        	<router-link :to="item.href" class="route-item" v-for="item in MiddleMenu2" :key="item.name">
+      		<span>
+      			<i :class="item.icon"></i>
+      		</span>
+      		<label>{{item.name}}</label>
+        	</router-link>
+        </div>
+			</Popup>
 	</div>
 </template>
 
 <script>
+import Popup from '@/components/popupWindow';
+
 export default{
-	props:{
-		//popup:{}
+	components: {
+		Popup,
 	},
 	name:"Navmenu",
 	data(){
@@ -91,8 +91,8 @@ export default{
 		}
 	},
 	methods:{
-		hideAdd:function(){
-			this.showadd = false;
+		showPopup() {
+			this.$refs.popup.showWindow();
 		}
 	}
 }
@@ -147,22 +147,9 @@ export default{
 			color: #EB695C;
 		}
 	}
-	.overlayer {
-	    position: fixed;
-	    top: 0;
-	    left: 0;
-	    right: 0;
-	    bottom: 0;
-	    background: rgba(0, 0, 0, .7);
-	    z-index: 998;
-	}
 	.commonWindow-wrap{
-		position: fixed;
-		top: 50%;
-	    transform: translateY(-50%);
-	    left: 50%;
-	    margin-left: -300px;
-	    z-index: 999;
+    left: 50%;
+    margin-left: -300px;
 		.center-wrap{
 			display: flex;
 			justify-content: space-between;

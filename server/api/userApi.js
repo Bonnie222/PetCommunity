@@ -513,10 +513,10 @@ router.get('/petshow/list',(req, res) => {
 })
 //详情
 router.post('/petshow/detail',(req, res) => {
-  var sql = $sql.queryById;
+  var sql = $sql.petshow.detail;
 	var p = req.body;
 	console.log(p);
-	var sqlParams = ['petshow', p.id];
+	var sqlParams = [p.id];
 	conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);

@@ -41,7 +41,22 @@
         </div>
       </div>
       <div class="pet-wrap">
-        ssss
+        <yd-accordion>
+          <yd-accordion-item title="宠物列表">
+            <div class="pet-list">
+              <span v-if="petList.length !== 0"  class="pet-info">
+                暂无宠物信息
+              </span>
+              <span v-else>
+                <span v-for="(item, idx) in petList" :key="idx"
+                  class="pet-info" @click="petInfo(item)">
+                  <img :src="item.avatar"/>
+                  <span>{{item.petType}}</span>
+                </span>
+              </span>
+            </div>
+          </yd-accordion-item>
+      </yd-accordion>
       </div>
     </div>
     <div class="show-list" v-for="(item, index) in petshowlist" :key="index">
@@ -63,15 +78,29 @@
 				 </yd-lightbox>
 				</div>
 		</div>
+    <Popup ref="popup">
+      <div class="pet-Msg">
+        <img :src="petMsg.avatar" />
+        <div>
+          <P>{{petMsg.petName}}
+            <i class="iconfont" :class="{'icon-nan': petMsg.petSex==1,
+              'icon-nv': petMsg.petSex==2}"></i>
+          </P>
+          <p>{{petMsg.petType}}</p>
+          <P>{{petMsg.petBirth}}</P>
+        </div>
+      </div>
+    </Popup>
   </div>
 </template>
 <script>
 import Header from '@/components/header';
+import Popup from '@/components/popupWindow';
 
 export default {
   name: 'UserDetail',
   components:{
-      Header,
+      Header, Popup,
   },
   data() {
     return {
@@ -80,18 +109,27 @@ export default {
       topTitle: null,
       userId: null,
       detail: {},
+      petList: [],
       petshowlist: [],
+      showPet: false,
+      petMsg: {},
     }
   },
   mounted() {
     const vm = this;
     vm.userId = this.$route.params.id;
     vm.getUserDetail(vm.userId);
+    vm.getUserPetList(vm.userId);
     vm.getUserPetshow(vm.userId)
   },
   methods:{
     back() {
       this.$router.go(-1);
+    },
+    petInfo(obj) {
+      this.petMsg = obj;
+      console.log(obj);
+      this.$refs.popup.showWindow();
     },
     getUserDetail(_id) {
       const vm = this;
@@ -114,6 +152,30 @@ export default {
 
       };
       vm.utils.postData(url, data, callback, options);
+    },
+    getUserPetList(_id) {
+      const vm = this;
+			const url = vm.urls.getMyPetList;
+			const data = {
+				petBelongId :_id
+			}
+			const options = {
+				params:{
+					userid: _id
+				}
+			}
+			const callback = (r) => {
+				const data = r.data.data;
+				if(data.length !== 0) {
+					data.forEach((item) => {
+						item.petType = vm.config.petTypeList[item.petType];
+						item.petBirth = vm.utils.calculateAge(item.petBirth);
+						item.avatar = JSON.parse(item.petAvatar).fileUrl;
+					});
+				}
+        vm.petList = data;
+			}
+			vm.utils.postData(url, data, callback, options);
     },
     getUserPetshow(_id) {
       const vm = this;
@@ -146,6 +208,7 @@ export default {
 </script>
 <style lang="less" scoped>
 #UserDetail {
+  // 用户信息
   .detail-wrap {
     background: #ffffff;
     margin-top: 90px;
@@ -206,6 +269,30 @@ export default {
       }
     }
   }
+
+  // 宠物列表
+  .pet-list {
+    padding: 20px 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    .pet-info {
+      display: flex;
+      align-items: center;
+      flex-basis: 32%;
+      margin-bottom: 20px;
+      color: #666666;
+      &:not(:nth-child(3n)) {
+        margin-right: 10px;
+      }
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+    }
+  }
+  // 宠物秀
   .show-list {
 		background: #ffffff;
     margin-top: 20px;
@@ -240,5 +327,31 @@ export default {
 		}
   }
 
+  .pet-Msg {
+    width: 70%;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    img {
+      width: 100%;
+    }
+    div {
+      padding: 20px;
+    }
+    p {
+      margin-bottom: 30px;
+      font-size: 30px;
+      &:not(:first-child) {
+        margin-bottom: 15px;
+        font-size: 26px;
+        color: #666666;
+      }
+      &:last-child{
+        margin-bottom: 0px;
+      }
+    }
+  }
 }
 </style>

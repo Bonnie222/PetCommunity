@@ -14,6 +14,7 @@
 				</span>
 		</div>
 		<div class="detail-wrap" v-for="(item, index) in petshowlist" :key="index">
+			<router-link :to="{ name: 'UserDetail', params: {id: item.userId} }">
 				<div class="detail-title">
 					<div class="user-info">
 						<span class="pic">
@@ -29,6 +30,7 @@
 						</span>
 					</div>
 				</div>
+			</router-link>
 			<router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
 				<div class="detail-notes" v-html="item.content"></div>
 			</router-link>

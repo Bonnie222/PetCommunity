@@ -19,62 +19,11 @@
 				</div>
 				<ul class="form2">
 					<li class="">
-						<label>寻宠寻主</label>
-						<div class="radio-wrap">
-							<label class="yd-radio">
-								<input type="radio" value="1" name="type" v-model="editList.isFindPet">
-								<span class="yd-radio-icon"></span>
-								<span class="yd-radio-text">寻宠</span>
-							</label>
-							<label class="yd-radio">
-								<input type="radio" value="2" name="type" v-model="editList.isFindPet">
-								<span class="yd-radio-icon"></span>
-								<span class="yd-radio-text">寻主</span>
-							</label>
-						</div>			
+						<label>昵称</label>
+						<input type="text" placeholder="请输入" v-model="editList.petName"/>
 					</li>
 					<li class="">
-						<label>{{editList.isFindPet == 1 ? '丢失地区' : '捡宠地区'}}</label>
-						<span class="" @click="showCityselect = true">
-							{{editList.region == '' ? '请选择' : editList.region}}
-							<i class="icon-right">
-								<img src="../../assets/images/right.svg" />
-							</i>
-						</span>
-					</li>
-					<li class="">
-						<label>详细地址</label>
-						<input type="text"  v-model="editList.address"/>
-					</li>
-					<li class="">
-						<label>{{editList.isFindPet == 1 ? '丢失时间' : '捡宠时间'}}</label>
-						<span class="" @click="openTimePicker">
-							{{editList.dateTime == '' ? '请选择' : editList.dateTime}}
-							<i class="icon-right">
-								<img src="../../assets/images/right.svg" />
-							</i>
-						</span>
-					</li>
-					<li class="" v-if="editList.isFindPet == 1">
-						<label>宠物年龄</label>
-						<span class="" @click="showpetAgeWindow">
-							{{petAgeText == '' ? '请选择':petAgeText}}
-							<i class="icon-right">
-								<img src="../../assets/images/right.svg" />
-							</i>
-						</span>
-					</li>
-					<li class="">
-						<label>宠物品种</label>
-						<span class="" @click="showpetTypeWindow">
-							{{petTypeText == '' ? '请选择':petTypeText}}
-							<i class="icon-right">
-								<img src="../../assets/images/right.svg" />
-							</i>
-						</span>
-					</li>
-					<li class="">
-						<label>宠物性别</label>
+						<label>性别</label>
 						<div class="radio-wrap">
 							<label class="yd-radio">
 								<input type="radio" value="1" name="sex" checked v-model="editList.petSex">
@@ -86,31 +35,200 @@
 								<span class="yd-radio-icon"></span>
 								<span class="yd-radio-text">MM</span>
 							</label>
-							<label class="yd-radio">
-								<input type="radio" value="3" name="sex" v-model="editList.petSex">
-								<span class="yd-radio-icon"></span>
-								<span class="yd-radio-text">未知</span>
-							</label>
-						</div>			
+						</div>
 					</li>
 					<li class="">
-						<label>联系方式</label>
-						<input type="text" placeholder="请输入" v-model="editList.contact"/>
+						<label>品种</label>
+						<span class="" @click="showpetTypeWindow">
+							{{petTypeText == '' ? '请选择':petTypeText}}
+							<i class="icon-right">
+								<img src="../../assets/images/right.svg" />
+							</i>
+						</span>
+					</li>
+					<li class="">
+						<label>出生年月</label>
+						<span class="" @click="openTimePicker">
+							{{editList.petBirth == '' ? '请选择' : editList.petBirth}}
+							<i class="icon-right">
+								<img src="../../assets/images/right.svg" />
+							</i>
+						</span>
+					</li>
+					<li class="">
+						<label>体内驱虫(3个月内)</label>
+						<div class="radio-wrap">
+							<label class="yd-radio">
+								<input type="radio" value="1" name="insert" checked v-model="editList.isInsert">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">是</span>
+							</label>
+							<label class="yd-radio">
+								<input type="radio" value="0" name="insert" v-model="editList.isInsert">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">否</span>
+							</label>
+						</div>
+					</li>
+					<li class="">
+						<label>疫苗齐全(1年内)</label>
+						<div class="radio-wrap">
+							<label class="yd-radio">
+								<input type="radio" value="1" name="vaccine" checked v-model="editList.isVaccine">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">是</span>
+							</label>
+							<label class="yd-radio">
+								<input type="radio" value="0" name="vaccine" v-model="editList.isVaccine">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">否</span>
+							</label>
+						</div>
+					</li>
+					<li class="">
+						<label>是否绝育</label>
+						<div class="radio-wrap">
+							<label class="yd-radio">
+								<input type="radio" value="1" name="status" checked v-model="editList.petStatus">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">是</span>
+							</label>
+							<label class="yd-radio">
+								<input type="radio" value="0" name="status" v-model="editList.petStatus">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">否</span>
+							</label>
+						</div>
+					</li>
+					<li class="">
+						<label>城市</label>
+						<span class="" @click="showCityselect = true">
+							{{editList.region == '' ? '请选择' : editList.region}}
+							<i class="icon-right">
+								<img src="../../assets/images/right.svg" />
+							</i>
+						</span>
 					</li>
 				</ul>
+				<div class="check-wrap">
+					<yd-accordion accordion>
+		        <yd-accordion-item title="呼吸系统">
+	            <div class="check-list">
+								<yd-checkbox-group v-model="editList.breath" color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList1" :key="idx">
+										<yd-checkbox :val="item"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+	            </div>
+		        </yd-accordion-item>
+		        <yd-accordion-item title="消化系统">
+							<div class="check-list flex">
+								<label>是否有呕吐物</label>
+								<yd-checkbox-group v-model="editList.digestion.vomiting"
+									color="#eb695c" size="15" class="checbox-group">
+									<span v-for="(item, idx) in checkList2" :key="idx">
+										<yd-checkbox :val="item"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>是否有腹泻物</label>
+								<yd-checkbox-group v-model="editList.digestion.diarrhea"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList3" :key="idx">
+										<yd-checkbox :val="item"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+		        </yd-accordion-item>
+		        <yd-accordion-item title="皮肤病">
+							<div class="check-list flex">
+								<label>瘙痒症状</label>
+								<yd-checkbox-group v-model="editList.skin.tickle"
+									color="#eb695c" size="15" class="checbox-group" >
+									<span v-for="(item, idx) in checkList4" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>掉毛症状</label>
+								<yd-checkbox-group v-model="editList.skin.hair"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList5" :key="idx">
+										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>近三个月有患体外寄生虫</label>
+								<yd-checkbox-group v-model="editList.skin.parasite"
+									color="#eb695c" size="15">
+									<span v-for="(item, idx) in checkList6" :key="idx">
+										<yd-checkbox :val="item"></yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<div class="check-list flex">
+								<label>是否做体外寄生虫预防</label>
+								<yd-checkbox-group v-model="editList.skin.against"
+									color="#eb695c" size="15">
+									<span>
+										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
+										<yd-checkbox val="0" shape="circle">否</yd-checkbox>
+									</span>
+								</yd-checkbox-group>
+							</div>
+							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
+		        </yd-accordion-item>
+						<yd-accordion-item title="骨科、外科">
+							<div class="check-list flex">
+								<label>受伤原因</label>
+								<input type="text" placeholder="请输入"
+									v-model="editList.surgical.cause"/>
+							</div>
+							<div class="check-list flex">
+								<label>受伤时间</label>
+								<span class="choice" @click="openOutTimePicker">
+									{{editList.surgical.time == '' ? '请选择' : editList.surgical.time}}
+									<i class="icon-right">
+										<img src="../../assets/images/right.svg" />
+									</i>
+								</span>
+							</div>
+							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
+		        </yd-accordion-item>
+						<yd-accordion-item title="泌尿生殖系统">
+							<div class="check-list flex">
+								<label>受伤原因</label>
+								<input type="text" placeholder="请输入"
+									v-model="editList.surgical.cause"/>
+							</div>
+							<div class="check-list flex">
+								<label>受伤时间</label>
+								<span class="choice" @click="openOutTimePicker">
+									{{editList.surgical.time == '' ? '请选择' : editList.surgical.time}}
+									<i class="icon-right">
+										<img src="../../assets/images/right.svg" />
+									</i>
+								</span>
+							</div>
+							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
+		        </yd-accordion-item>
+		    	</yd-accordion>
+				</div>
+
 				<!--选择器-->
 				<yd-cityselect v-model="showCityselect" :callback="resultCity" :items="district"></yd-cityselect>
 				<mt-datetime-picker ref="showDatetime" type="datetime" @confirm="handleDatetime"
-					:endDate="endDate"></mt-datetime-picker>
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
+				<mt-datetime-picker ref="showOutDatetime" type="datetime" @confirm="handleOutDatetime"
+					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 			</div>
 			<div class="btn-wrap">
 				<button class="btn-save" @click="saveToPublish">{{saveBtnText}}</button>
 			</div>
 			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
-		</div>
-		<div v-show="showAgeWindow">
-			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
-			<ChoiceWindow :dataList="petAgeList" @confirm="confirmAge"></ChoiceWindow>
 		</div>
 		<div v-show="showTypeWindow">
 			<Header :title="windowTitle" :headerLeft="windowheaderLeft" @clickRouter="windowback"></Header>
@@ -124,6 +242,7 @@ import Header from '@/components/header';
 import District from 'ydui-district/dist/gov_province_city_area_id';
 import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
+import { mapGetters } from 'vuex';
 
 export default{
 	name:"LookEdit",
@@ -150,23 +269,45 @@ export default{
 			count:0,
 			files:[],
 			avatar:'',
-			petAgeText:'',
 			petTypeText:'',
 			showImgView:false,
 			picList:[],
+			checkList1: ['咳嗽', '流鼻涕', '鼻子干', '有痰', '无痰', '精神良好', '精神不振',
+				'精神萎靡', '食欲良好', '食欲一般'],
+			checkList2: ['无', '食物', '黄水', '白色泡沫', '异物'],
+			checkList3: ['无', '软便', '烂泥状', '水状', '腥臭', '酸臭', '腐臭'],
+			checkList4: ['无瘙痒', '轻度瘙痒', '中度瘙痒', '重度瘙痒'],
+			checkList5: ['不掉毛', '少量掉毛', '大量掉毛', '脱毛', '秃毛'],
+			checkList6: ['跳蚤', '蜱虫', '虱子'],
 			editList:{
-				isFindPet:1,
-				region:'',
-				address:'',
-				dateTime:'',
-				petSex:1,
-				petType:'',
-				petAge:0,
 				petAvatar:'',
 				note:'',
-				contact:'',
-				findStatus:1				
+				petName: null,
+				petSex:1,
+				petType: null,
+				petBirth: '',
+				isInsert:1,
+				isVaccine:1,
+				petStatus:1,
+				region:'',
+				diseaseType: null,
+				breath: [],
+				digestion: {
+					vomiting: [],
+					diarrhea: [],
+				},
+				skin: {
+					tickle: [],
+					hair: [],
+					parasite: [],
+					against: [],
+				},
+				surgical: {
+					cause: '',
+					time: '',
+				}
 			},
+			startDate: new Date('1990-01-01'),
 			endDate:new Date(this.utils.getNowTime()),
 			petTypeList:[{
 				text:'汪星人', value:1, isChecked:false
@@ -185,30 +326,12 @@ export default{
 			},{
 				text:'其它', value:8, isChecked:false
 			}],
-			petAgeList:[{ 
-				text:'小于1岁', value:1, isChecked:false 
-			},{
-				text:'1岁',	value:2, isChecked:false 
-			},{
-				text:'2岁',	value:3, isChecked:false 
-			},{
-				text:'3岁',	value:4, isChecked:false 
-			},{
-				text:'4岁', value:5, isChecked:false 
-			},{
-				text:'5岁',	value:6, isChecked:false 
-			},{
-				text:'6岁',	value:7, isChecked:false 
-			},{
-				text:'7岁', value:8, isChecked:false 
-			},{
-				text:'8岁',	value:9, isChecked:false 
-			},{
-				text:'9岁',	value:10, isChecked:false 
-			},{
-				text:'10岁以上',	value:11, isChecked:false 
-			}]
 		}
+	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
 	},
 	methods:{
 		back:function(){
@@ -239,41 +362,20 @@ export default{
     		list = list.splice(index, 1);
     		fileslist = fileslist.splice(index, 1)
     	},
-    	//城市
+    //城市
 		resultCity: function(ret) {
-            this.editList.region = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
-       	},
-       	//时间
-       	openTimePicker:function(){
-       		this.$refs.showDatetime.open();
-       	},
-       	handleDatetime: function(value){
-       		let vm = this;
-       		let d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate() + ' ' + value.getHours() + ':' + value.getMinutes() 
-	   		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
-	   		vm.editList.dateTime = d;
-       	},
-       	//年龄
-       	showpetAgeWindow:function(){
-       		let vm = this;
-       		vm.showContentWindow = false;
-       		vm.showAgeWindow = true;
-       		vm.windowTitle = '宠物年龄';
-			vm.windowheaderLeft = true;
-       	},
-       	confirmAge: function(obj){
-			let vm = this;
-			$.each(vm.petAgeList, function(index, item){
-					item.isChecked = false;
-			})
-			obj.isChecked = true;
-			vm.petAgeText = obj.text;
-			vm.editList.petAge = obj.value;
-			setTimeout(function(){
-				vm.showContentWindow = true;
-				vm.showAgeWindow = false;
-			},500);
-		},
+        this.editList.region = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
+   	},
+   	//时间
+   	openTimePicker:function(){
+   		this.$refs.showDatetime.open();
+   	},
+   	handleDatetime: function(value){
+   		let vm = this;
+   		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
+	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
+	 		vm.editList.petBirth = d;
+   	},
 		//品种
 		showpetTypeWindow:function(){
        		let vm = this;
@@ -295,68 +397,73 @@ export default{
 				vm.showTypeWindow = false;
 			},500);
 		},
-    	getImg: function(e){
-    		let vm = this;
-    		let file = e.target.files[0];
-    		let fileslist = vm.files;
-    		fileslist = fileslist.push(file);
-    		if((file.type).indexOf("image/")==-1){
-    			vm.$dialog.toast({
-		            mes: '该文件必须为图片格式',
-		            timeout: 1000,
-		            icon: 'error'
-		        });
-    			return false;
-    		}
-    		let reader = new FileReader();
-    		reader.readAsDataURL(file);
-    		reader.onload = function(e){
-    			let pic = {};
-    			let list = vm.picList;
-    			pic.picture = this.result;
-    			list = list.push(pic);
-    		}
+		// 外科 时间
+   	openOutTimePicker:function(){
+   		this.$refs.showOutDatetime.open();
+   	},
+   	handleOutDatetime: function(value){
+   		let vm = this;
+   		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
+	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
+	 		vm.editList.surgical.time = d;
+   	},
+  	getImg: function(e){
+  		let vm = this;
+  		let file = e.target.files[0];
+  		let fileslist = vm.files;
+  		fileslist = fileslist.push(file);
+  		if((file.type).indexOf("image/")==-1){
+  			vm.$dialog.toast({
+	            mes: '该文件必须为图片格式',
+	            timeout: 1000,
+	            icon: 'error'
+	        });
+  			return false;
+  		}
+  		let reader = new FileReader();
+  		reader.readAsDataURL(file);
+  		reader.onload = function(e){
+  			let pic = {};
+  			let list = vm.picList;
+  			pic.picture = this.result;
+  			list = list.push(pic);
+  		}
     	},
     	saveToPublish: function(){
     		let vm = this;
     		if(vm.isSaving) return;
-    		let dt = window.sessionStorage.userInfo;
-			let data = vm.editList;
-			if(!data.region || !data.address || !data.dateTime ||
-				!data.petType || !vm.notes || !data.contact){
-					vm.$toast('信息填写不完整');
-					return;
-			}
-			let partten = /^$|^1(3|4|5|7|8)\d{9}$/;
-    		if(!partten.test(data.contact)){
-    			vm.$toast('请输入正确的手机联系方式');
-					return;
-    		}
-    		
+    		// let dt = window.sessionStorage.userInfo;
+				let data = vm.editList;
+				if(!data.region || !data.petBirth ||
+					!data.petType || !vm.notes || !data.petName){
+						vm.$toast('信息填写不完整');
+						return;
+				}
+
     		let e = vm.files;
-      		let url = vm.urls.uploadArray;
+      	let url = vm.urls.uploadArray;
     		let fname = 'picture';
     		vm.isSaving = true;
-			vm.saveBtnText = '正在发布中...';
+				vm.saveBtnText = '正在发布中...';
     		let callback = function(r){
     			vm.editList.petAvatar = JSON.stringify(r.data.data);
     			save();
-    		}		
+    		}
     		vm.utils.uploadMore(vm, e, fname, url, callback);
-    		
+
     		function save(){
     			let url = vm.urls.addLook;
     			data.userInfo = dt;
-				data.userId = JSON.parse(dt).id;
-				data.createTime = vm.utils.getNowTime();
-				data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
+					data.userId = JSON.parse(dt).id;
+					data.createTime = vm.utils.getNowTime();
+					data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
 
 				let callback = function(r){
 					vm.$dialog.toast({
 						mes: '发布成功',
 	  					icon: 'success',
 	  					timeout: 1000
-					});	
+					});
 					vm.isSaving = false;
 					vm.saveBtnText = '确认发布';
 					setTimeout(function(){
@@ -393,7 +500,7 @@ export default{
 				width: 100%;
 				min-height: 300px;
 				border: none;
-				
+
 			}
 			textarea::placeholder{
 				color:#999999;
@@ -405,7 +512,7 @@ export default{
 				padding: 10px 20px;
 			}
 			.pic{
-				
+
 				height: 130px;
 				padding: 10px;
 				.addBtn{
@@ -447,9 +554,10 @@ export default{
 			background: #ffffff;
 			padding: 0 25px;
 			border-top: 1px solid #E4E4E4;/*no*/
-			border-bottom: 1px solid #E4E4E4;/*no*/	
+			border-bottom: 1px solid #E4E4E4;/*no*/
 			font-size: 30px;
 			color: #333333;
+			margin-bottom: 20px;
 			& li{
 				display: flex;
 				justify-content: space-between;
@@ -467,7 +575,7 @@ export default{
 				input{
 					width: 500px;
 					text-align: right;
-					
+
 				}
 				input::placeholder{
 					color:#cccccc;
@@ -481,8 +589,8 @@ export default{
 						height: 26px;
 					}
 				}
-			}	
-	
+			}
+
 		}
 		.radio-wrap{
 			.yd-radio{
@@ -493,7 +601,7 @@ export default{
 			}
 			.yd-radio-icon{
 				position: absolute;
-				width: 40px; 
+				width: 40px;
 				height: 40px;
 				margin-right: 2px;
 				/*background: url(../../assets/images/radioNotCheck.png);
@@ -502,10 +610,8 @@ export default{
 			& input[type=radio]{
 				display: inline-block;
 				/*margin-right: 15px;*/
-				opacity: 0;	
+				opacity: 0;
 			}
-				
-				
 			& input[type=radio]:checked+.yd-radio-icon{
 				background: url(../../assets/images/radioChecked.png);
 				background-size: cover;
@@ -516,7 +622,50 @@ export default{
 				font-size: 30px;
 				color: #666;
 			}
-			
+		}
+	}
+	.check-wrap {
+		.tip {
+			padding: 20px;
+			color: #999999;
+		}
+		.check-list {
+			border-bottom: 1px solid #e4e4e4; /*no*/
+			padding: 20px;
+			.yd-checkbox {
+				margin-bottom: 15px;
+				color: #333333;
+			}
+		}
+		.flex {
+			display: flex;
+			justify-content:space-between;
+			input{
+				text-align: right;
+				font-size: 28px;
+			}
+			label {
+				color: #666666;
+				font-size: 28px;
+				line-height: 36px;
+				margin-right: 10px;
+			}
+			.choice {
+				font-size: 26px;
+				.icon-right{
+					display: inline-block;
+					width: 15px;
+					height: 26px;
+					img{
+						width: 15px;
+						height: 26px;
+					}
+				}
+			}
+
+			.checkbox-group{
+
+			}
 		}
 	}
 	.btn-wrap{

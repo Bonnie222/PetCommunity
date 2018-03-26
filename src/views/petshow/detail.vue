@@ -1,6 +1,6 @@
 <template>
   <div id="PetShowDetail">
-    <Header title="详情" :headerLeft="headerLeft"
+    <Header title="宠物秀详情" :headerLeft="headerLeft"
 			:fixed="isFixed" @clickRouter="back"></Header>
     <div class="detail-wrap">
       <div v-if="detail.actId">
@@ -11,25 +11,30 @@
         </router-link>
       </div>
       <div class="detail-main">
-  				<div class="detail-title">
+        <div class="detail-title">
+  				<router-link :to="{ name: 'UserDetail', params: {id: detail.userId} }">
   					<div class="user-info">
   						<span class="pic">
   							<img src="../../assets/images/member.png"
-  							 v-if="userInfo.userAvatar == null"/>
+  							 v-if="detail.userAvatar == null"/>
+                 <span v-else>
+                   <img :src="detail.userAvatar.fileUrl"/>
+                 </span>
   						</span>
   						<span class="desc">
-  							<span class="name">{{userInfo.userName}}</span>
+  							<span class="name">{{detail.userName}}</span>
   							<span>{{detail.createTime}}</span>
   						</span>
   					</div>
-  				</div>
-  				<div class="detail-notes" v-html="detail.content"></div>
-  				<div class="detail-pic">
-  					<yd-lightbox :num="picList.length">
-  						 <yd-lightbox-img v-for="(pic, per) in picList"
-  						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
-  				 </yd-lightbox>
-  				</div>
+  				</router-link>
+        </div>
+				<div class="detail-notes" v-html="detail.content"></div>
+				<div class="detail-pic">
+					<yd-lightbox :num="picList.length">
+						 <yd-lightbox-img v-for="(pic, per) in picList"
+						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
+				 </yd-lightbox>
+				</div>
   		</div>
     </div>
   </div>
@@ -46,7 +51,6 @@ export default{
       isFixed:true,
 			headerLeft:true,
       detail:{},
-      userInfo:{},
       picList:[],
     }
   },
@@ -70,10 +74,11 @@ export default{
       const callback = (r) => {
         let detail = r.data.data[0];
         detail.createTime = vm.utils.changeDate(detail.createTime, "yyyy年MM月dd日 hh:mm");
-        detail.userInfo = JSON.parse(detail.userInfo);
         detail.petAvatar = JSON.parse(detail.petAvatar);
+        if(detail.userAvatar) {
+          detail.userAvatar = JSON.parse(detail.userAvatar);
+        }
         vm.detail = detail;
-        vm.userInfo = detail.userInfo;
         vm.picList = detail.petAvatar;
         console.log(detail);
       };
@@ -110,6 +115,7 @@ export default{
     .detail-main{
   		background: #ffffff;
   		.detail-title{
+        display: block;
   			padding: 20px;
   			border-bottom:1px solid #CCCCCC; /*no*/
   			.user-info{
@@ -120,13 +126,12 @@ export default{
   					display: inline-block;
   					width: 80px;
   					height: 80px;
-  					background: yellow;
   					border-radius: 50%;
   					margin-right: 20px;
   					overflow: hidden;
   					img{
-  						width: inherit;
-  						height: inherit;
+              width: 80px;
+              height: 80px;
   					}
   				}
   				.desc{
