@@ -18,7 +18,11 @@
   								'icon-nv':item.userSex == 2}"></i>
               </span>
             </router-link>
-            <button class="btn-cancel" @click="aa">+ 关注</button>
+            <button class="btn-cancel" :class="{'isFocus': item.isFocus }"
+            @click="attentFunc(item)">
+             {{item.isFocus ? '√ 已关注' : '+ 关注'}}</button>
+            <!-- <button class="btn-cancel isFocus" @click="cancelAttentFunc(item)"
+              v-else>√ 已关注</button> -->
           </span>
           <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
@@ -46,6 +50,7 @@ export default{
         headerLeft:true,
         userList: [],
         keyword: '',
+        attentList: [],
       }
     },
     computed:{
@@ -54,15 +59,48 @@ export default{
   		])
   	},
     mounted(){
-      this.getUserList();
+      this.getUserAttentions();
     },
     methods:{
-      aa() {
-        alert(111);
-        return;
-      },
       back(){
         this.$router.go(-1);
+      },
+      attentFunc(obj) {
+        const vm = this;
+        const url = obj.isFocus ? vm.urls.toCancelConcern : vm.urls.toConcern;
+        const data = {
+          fromUserId: vm.id,
+          toUserId: obj.id,
+        }
+        const callback = (r) => {
+          obj.isFocus = !obj.isFocus;
+        }
+        vm.utils.postData(url, data, callback);
+      },
+      // cancelAttentFunc(obj) {
+      //   const vm = this;
+      //   const url = vm.urls.toCancelConcern;
+      //   const data = {
+      //     fromUserId: vm.id,
+      //     toUserId: obj.id,
+      //   }
+      //   const callback = (r) => {
+      //     obj.isFocus = false;
+      //   }
+      //   vm.utils.postData(url, data, callback);
+      // },
+      getUserAttentions() {
+        const vm = this;
+        const url = vm.urls.getUserAttentions;
+        const data = {
+          fromUserId: vm.id,
+        }
+        const callback = (r) => {
+          const data = r.data.data;
+          vm.attentList = data;
+          vm.getUserList();
+        }
+        vm.utils.postData(url, data, callback);
       },
       getUserList(){
         const vm = this;
@@ -72,13 +110,18 @@ export default{
         }
         const callback = (r) => {
           let data = r.data.data;
-          console.log(data);
           data.forEach((item) => {
             if(item.userAvatar){
               item.userAvatar = JSON.parse(item.userAvatar);
             }
           });
+          vm.attentList.forEach((att) => {
+            data.forEach((item) => {
+              item.isFocus = att.toUserId == item.id;
+            });
+          });
           vm.userList = data;
+          console.log(vm.attentList, data);
         }
         vm.utils.postData(url, data, callback);
       },
@@ -136,6 +179,10 @@ export default{
           padding: 10px 20px;
           border-radius: 10px;
           margin-top: 10px;
+        }
+        .isFocus {
+          border-color: #999999;
+          color: #999999;
         }
       }
     }

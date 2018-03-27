@@ -30,8 +30,8 @@
 					</li>
 				</router-link>
 			</ul>
-			<div class="nodata" v-show="isShow=true">
-				<img src="../../../assets/images/no-data.svg" />
+			<div class="nodata" v-show="noData">
+				<img src="../../../assets/images/nodata.svg" />
 				<p>暂时没有数据哦~</p>
 			</div>
 		</div>
@@ -51,7 +51,7 @@ export default{
 	},
 	data(){
 		return{
-			isShow: false,
+			noData: false,
 			isFixed:true,
 			headerLeft:true,
 			_userId:'',
@@ -113,13 +113,14 @@ export default{
 			}else if(value == 2){
 				data.findStatus = 2;
 			}
+			vm.noData = false;
 			vm.$indicator.open({
 			  spinnerType: 'fading-circle'
 			});
+
 			let callback = function(r){
 				vm.$indicator.close();
 				let data = r.data.data;
-				if(data.length == 0) vm.isShow = true;
 				$.each(data, function(index, item){
 					item.createTime = vm.utils.changeDate(item.createTime);
 					item.dateTime = vm.utils.changeDate(item.dateTime);
@@ -128,6 +129,7 @@ export default{
 					item.href = "/myself/look/detail/" + item.id;
 				})
 				vm.lookList = data;
+				if(data.length == 0) vm.noData = true;
 			}
 			vm.utils.postData(url, data, callback);
 		},

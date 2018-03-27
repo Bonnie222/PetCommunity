@@ -21,8 +21,11 @@
           </p>
         </div>
         <div class="btn-wrap">
-            <button class="btn-save">
+            <button class="btn-save" v-if="relationType==0">
                 + 关注
+            </button>
+            <button class="btn-save isFocus" v-else>
+                {{relationType==1 ? '√ 已关注' : '⇋ 互相关注'}}
             </button>
         </div>
         <div class="data-wrap">
@@ -96,6 +99,7 @@
 <script>
 import Header from '@/components/header';
 import Popup from '@/components/popupWindow';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserDetail',
@@ -113,14 +117,21 @@ export default {
       petshowlist: [],
       showPet: false,
       petMsg: {},
+      relationType: null,
     }
   },
+  computed:{
+		...mapGetters([
+			'id',
+		])
+	},
   mounted() {
     const vm = this;
     vm.userId = this.$route.params.id;
     vm.getUserDetail(vm.userId);
     vm.getUserPetList(vm.userId);
     vm.getUserPetshow(vm.userId)
+    vm.getRelatin(vm.userId);
   },
   methods:{
     back() {
@@ -130,6 +141,39 @@ export default {
       this.petMsg = obj;
       console.log(obj);
       this.$refs.popup.showWindow();
+    },
+    getRelatin(_id) {
+      const vm = this;
+      const url = vm.urls.judgeRelation;
+      const data = {
+        fromUserId: vm.id,
+        toUserId: _id,
+      };
+      const callback = (r) => {
+        const data = r.data.data;
+        switch (data.length) {
+          case 0:
+            vm.relationType = 0;
+            break;
+          case 1:
+            if(data[0].fromUserId == vm.id)
+              vm.relationType = 1;
+            break;
+          case 2:
+            vm.relationType = 2;
+            break;
+        }
+        // if(data.length == 0) {
+        //   vm.relationType = 0;
+        // } else {
+        //   if(data.length == 1 && data[0].fromUserId == vm.id) {
+        //     vm.relationType = 1;
+        //   } else if (data.length == 2) {
+        //     vm.relationType = 2;
+        //   }
+        // }
+      };
+      vm.utils.postData(url, data, callback);
     },
     getUserDetail(_id) {
       const vm = this;
@@ -248,6 +292,12 @@ export default {
         .btn-save {
           width: 200px;
           height: 70px;
+          font-size: 28px;
+        }
+        .isFocus {
+          border-color: #999999;
+          color: #999999;
+          background: #ffffff;
         }
       }
       .data-wrap {

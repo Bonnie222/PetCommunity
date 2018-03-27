@@ -30,7 +30,12 @@ export default {
 	getMyActPublList: host + '/user/activityPubllist',
 	getMyPublRegisnList: host + '/user/regisnslist',
 	getUserPetshowList: host + '/user/petshowlist',
-
+	// 我的宠友
+	getUserAttentions: host + '/user/attentions',
+	getUserFans: host + '/user/fans',
+	toConcern: host + '/user/toConcern',
+	toCancelConcern: host + '/user/toCancelConcern',
+	judgeRelation: host + '/user/judgeRelation',
 	//宠物
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',

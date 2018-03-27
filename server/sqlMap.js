@@ -22,6 +22,11 @@ var sqlMap = {
 		update: 'UPDATE user SET userAvatar=?, userName=?, userEmail=?, userSex=?, userBirth=?, userCity=?, userStatus=?, userConst=?, userNote=? WHERE id=?',
 		checkPsd: 'SELECT userPsd FROM user WHERE id = ?',
 		updatePsd: 'UPDATE user SET userPsd = ? WHERE id = ?',
+		attentions: 'SELECT * FROM relation WHERE fromUserId = ?',
+		fans: 'SELECT * FROM relation WHERE toUserId = ?',
+		toConcern: 'INSERT INTO relation (id, fromUserId, toUserId) VALUES (0, ?, ?)',
+		toCancelConcern: 'DELETE FROM relation WHERE fromUserId = ? AND toUserId = ?',
+		judgeRelation: 'SELECT * FROM relation WHERE (fromUserId = ? OR toUserId = ?) AND (fromUserId = ? OR toUserId = ?)',
 	},
 	//宠物
 	pet:{
