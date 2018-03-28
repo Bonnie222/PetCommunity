@@ -113,8 +113,21 @@
 					</li>
 				</ul>
 				<div class="check-wrap">
+					<div class="check-type">
+						<label>选择疾病类型</label>
+						<div class="radio-wrap">
+							<label class="yd-radio" v-for="(item, idx) in diseaseTypeList"
+								:key="idx">
+								<input type="radio" :value="item.value"
+									name="type" v-model="editList.diseaseType">
+								<span class="yd-radio-icon"></span>
+								<span class="yd-radio-text">{{item.text}}</span>
+							</label>
+						</div>
+					</div>
 					<yd-accordion accordion>
-		        <yd-accordion-item title="呼吸系统">
+		        <yd-accordion-item title="呼吸系统" open
+							v-show="editList.diseaseType ==1">
 	            <div class="check-list">
 								<yd-checkbox-group v-model="editList.breath" color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList1" :key="idx">
@@ -123,7 +136,8 @@
 								</yd-checkbox-group>
 	            </div>
 		        </yd-accordion-item>
-		        <yd-accordion-item title="消化系统">
+		        <yd-accordion-item title="消化系统" open
+							v-show="editList.diseaseType ==2">
 							<div class="check-list flex">
 								<label>是否有呕吐物</label>
 								<yd-checkbox-group v-model="editList.digestion.vomiting"
@@ -143,7 +157,8 @@
 								</yd-checkbox-group>
 							</div>
 		        </yd-accordion-item>
-		        <yd-accordion-item title="皮肤病">
+		        <yd-accordion-item title="皮肤病" open
+							v-show="editList.diseaseType ==3">
 							<div class="check-list flex">
 								<label>瘙痒症状</label>
 								<yd-checkbox-group v-model="editList.skin.tickle"
@@ -347,7 +362,7 @@
 							</div>
 							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
 		        </yd-accordion-item>
-						<yd-accordion-item title="免疫" style="font-size:28px;">
+						<yd-accordion-item title="免疫">
 							<div class="check-list flex">
 								<label>主人问题</label>
 								<input type="text" placeholder="请输入"
@@ -444,6 +459,23 @@ export default{
 			checkList9: ['尿前', '尿中(混合)', '尿后'],
 			checkList10: ['褐色', '黄色'],
 			checkList11: ['湿润', '干燥', '干裂'],
+			diseaseTypeList:[{
+				text:'呼吸系统', value:1,
+			},{
+				text:'消化系统', value:2,
+			},{
+				text:'皮肤病', value:3,
+			},{
+				text:'骨科、外科', value:4,
+			},{
+				text:'泌尿生殖', value:5,
+			},{
+				text:'五官科', value:6,
+			},{
+				text:'免疫', value:7,
+			},{
+				text:'驱虫', value:8,
+			}],
 			editList:{
 				petAvatar:'',
 				note:'',
@@ -812,8 +844,8 @@ export default{
 			}
 			.yd-radio-icon{
 				position: absolute;
-				width: 40px;
-				height: 40px;
+				width: 30px;
+				height: 30px;
 				margin-right: 2px;
 				/*background: url(../../assets/images/radioNotCheck.png);
 				*/
@@ -836,6 +868,30 @@ export default{
 		}
 	}
 	.check-wrap {
+		.check-type {
+			background-color: #ffffff;
+			display: flex;
+			flex-direction: column;
+			padding: 20px 20px 0px;
+			border: 1px solid #e4e4e4; /*no*/
+			border-left: 0px;
+			border-right: 0px;
+			font-size: 28px;
+			label {
+				margin-bottom: 15px;
+			}
+			.radio-wrap{
+				display: flex;
+				flex-wrap: wrap;
+				.yd-radio {
+					min-width: 210px;
+				}
+				.yd-radio-text{
+					font-size: 28px;
+					color: #666;
+				}
+			}
+		}
 		.tip {
 			padding: 20px;
 			color: #999999;
@@ -873,7 +929,7 @@ export default{
 					}
 				}
 			}
-			
+
 			.checkbox-group{
 
 			}

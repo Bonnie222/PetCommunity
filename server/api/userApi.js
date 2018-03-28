@@ -221,7 +221,7 @@ router.post('/user/list',(req,res)=>{
         }
     })
 })
-// 查询我关注的用户
+// 查询我关注的用户ID
 router.post('/user/attentions',(req,res)=>{
 	var sql = $sql.user.attentions;
 	var p = req.body;
@@ -235,7 +235,7 @@ router.post('/user/attentions',(req,res)=>{
         }
     })
 })
-// 查询关注我的用户 (粉丝)
+// 查询关注我的用户 (粉丝)ID
 router.post('/user/fans',(req,res)=>{
 	var sql = $sql.user.fans;
 	var p = req.body;
@@ -283,6 +283,20 @@ router.post('/user/judgeRelation',(req,res)=>{
 	var p = req.body;
     console.log(p);
     var sqlParams = [p.fromUserId, p.fromUserId, p.toUserId, p.toUserId];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
+// 判断用户搜索
+router.post('/user/search',(req,res)=>{
+	var sql = $sql.user.search;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [`%${p.keyword}%`, p.id];
     conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -654,4 +668,35 @@ router.post('/user/regisnslist', (req, res) => {
         }
     })
 })
+/**
+ * 宠友
+ */
+ // 我关注的用户
+ router.post('/user/followers', (req, res) => {
+   const sql = $sql.user.myFollower;
+   const p = req.body;
+ 	console.log(p);
+ 	const sqlParams = [p.userId];
+ 	conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+         	jsonWrite(res, result);
+         }
+     })
+ })
+ // 关注我的用户
+ router.post('/user/followings', (req, res) => {
+   const sql = $sql.user.myFollowing;
+   const p = req.body;
+   console.log(p);
+   const sqlParams = [p.userId];
+   conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result);
+         }
+     })
+ })
 module.exports = router;

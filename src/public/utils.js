@@ -101,10 +101,8 @@ export default{
     // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
     formatDate: function(str, fmt) { //author: meizz
         fmt = fmt || 'yyyy-MM-dd';
-        if (typeof str === 'string') {
-            str = str.replace(/-/g, "/");
-        }
-        var date = new Date(str);
+				if(typeof str === 'string') str.replace(/-/g, '/')
+				var date = new Date(str);
         var o = {
             "M+": date.getMonth() + 1, //月份
             "d+": date.getDate(), //日

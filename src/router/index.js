@@ -26,6 +26,7 @@ const MylookDetail = _import('myself/petlook/detail');
 const MyactivityList = _import('myself/activity/list');
 const MyactivityDetail = _import('myself/activity/detail');
 const MyactRegisnList = _import('myself/activity/regisnlist');
+const MyfriendList = _import('myself/friends/list');
 const MySetting = _import('myself/setting/setting');
 const MyInfo = _import('myself/setting/personalInfo');
 const MyPsd = _import('myself/setting/resetPsd');
@@ -40,6 +41,7 @@ const ActivityEdit = _import('activity/edit');
 /*认证号*/
 const UserList = _import('user/list');
 const UserDetail = _import('user/detail');
+const UserInfo = _import('user/info');
 
 Vue.use(Router)
 
@@ -70,6 +72,7 @@ export default new Router({
     { path: '/myself/activity/regisnlist/:id',    name: 'MyactRegisnList',  component: MyactRegisnList},
     { path: '/myself/activity/list/:type',        name: 'MyactivityList',   component: MyactivityList },
     { path: '/myself/activity/detail/:id',        name: 'MyactivityDetail', component: MyactivityDetail},
+    {	path: '/myself/friends/list/:type',				  name: 'MyfriendList',			component: MyfriendList		},
 	  {	path: '/myself/setting',        						name: 'MySetting',			  component: MySetting  		},
 	  {	path: '/myself/info',        								name: 'MyInfo',					  component: MyInfo		  		},
 	  {	path: '/myself/psd',        								name: 'MyPsd',					  component: MyPsd		  		},
@@ -84,5 +87,6 @@ export default new Router({
     /*认证号*/
 	 	{	path: '/user/list',								          name: 'UserList',			    component: UserList     	},
     {	path: '/user/detail/:id',								    name: 'UserDetail',  	    component: UserDetail    	},
+    {	path: '/user/detail/info/:id',						  name: 'UserInfo',  	      component: UserInfo      	},
   ]
 })

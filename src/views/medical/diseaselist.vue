@@ -1,6 +1,6 @@
 <template>
 	<div id="DiseaseList">
-		<Header title="问诊列表" :headerLeft="headerLeft"></Header>
+		<Header title="问诊列表" :headerLeft="headerLeft" @clickRouter="back"></Header>
 		<div class="list-title">
 			<div class="title-wrap">
 				<span class="title">呼吸系统</span>
@@ -10,7 +10,7 @@
 				<span class="tip">流鼻涕</span>
 				<span class="tip">咳嗽</span>
 				<span class="tip">流鼻涕</span>
-			</div>	
+			</div>
 		</div>
 		<div class="list-wrap">
 			<div class="list-item">
@@ -49,10 +49,13 @@ export default{
 	data(){
 		return{
 			headerLeft: true,
-//			show1:false
+			
 		}
 	},
 	methods:{
+		back() {
+			this.$router.go(-1);
+		}
 	}
 }
 </script>
@@ -127,6 +130,6 @@ export default{
 			}
 		}
 	}
-	
+
 }
 </style>

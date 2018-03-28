@@ -1,6 +1,8 @@
 <template>
   <div id="UserDetail">
-    <Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
+    <Header :title="topTitle" :headerLeft="headerLeft" :fixed="isFixed"
+      @clickRouter="back" :headerRight="headerRight"
+      :headerRightText="headerRightText" @rightFunc="rightFunc"></Header>
     <div class="detail-wrap">
       <div class="user-wrap">
         <div class="user-pic">
@@ -17,10 +19,10 @@
             {{detail.userSex == 1? '男' : '女'}}
           </p>
           <p class="text text-note">
-            {{detail.userNote ? detail.userNote : '这个家伙很懒~什么都没留下啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'}}
+            {{detail.userNote ? detail.userNote : '这个家伙很懒~什么都没留下...'}}
           </p>
         </div>
-        <div class="btn-wrap">
+        <div class="btn-wrap" v-show="id!==userId">
             <button class="btn-save" v-if="relationType==0">
                 + 关注
             </button>
@@ -30,11 +32,11 @@
         </div>
         <div class="data-wrap">
           <span>
-            <p class="number">{{detail.userAttentions}}</p>
+            <p class="number">{{detail.userFollowers}}</p>
             <p class="text">关注</p>
           </span>
           <span>
-            <p class="number">{{detail.userFans}}</p>
+            <p class="number">{{detail.userFollowings}}</p>
             <p class="text">粉丝</p>
           </span>
           <span>
@@ -109,6 +111,8 @@ export default {
   data() {
     return {
       headerLeft: true,
+      headerRight: true,
+      headerRightText: '资料',
       isFixed: true,
       topTitle: null,
       userId: null,
@@ -137,6 +141,21 @@ export default {
     back() {
       this.$router.go(-1);
     },
+    rightFunc() {
+      if(this.id != this.userId ){
+        this.$router.push({
+          name: 'UserInfo',
+          params: {
+            id: this.userId,
+          }
+        });
+      } else {
+        this.$router.push({
+          name: 'MyInfo',
+          params: {}
+        });
+      }
+    },
     petInfo(obj) {
       this.petMsg = obj;
       console.log(obj);
@@ -156,22 +175,12 @@ export default {
             vm.relationType = 0;
             break;
           case 1:
-            if(data[0].fromUserId == vm.id)
-              vm.relationType = 1;
+            vm.relationType = data[0].fromUserId == vm.id ? 1 : 0;
             break;
           case 2:
             vm.relationType = 2;
             break;
         }
-        // if(data.length == 0) {
-        //   vm.relationType = 0;
-        // } else {
-        //   if(data.length == 1 && data[0].fromUserId == vm.id) {
-        //     vm.relationType = 1;
-        //   } else if (data.length == 2) {
-        //     vm.relationType = 2;
-        //   }
-        // }
       };
       vm.utils.postData(url, data, callback);
     },

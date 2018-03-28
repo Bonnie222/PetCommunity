@@ -5,17 +5,23 @@
 			<div class="mymessage-wrap">
 				<div class="mymessage-card">
 					<div class="card-info">
-						<span class="info-pic">
-							<img src="../../assets/images/member.png" v-if="!myInfo.userAvatar"/>
-							<img :src="myInfo.userAvatar.fileUrl" v-else/>
-						</span>
-						<span class="info-mess">
-							<span class="info-name">{{myInfo.userName}}
-								<i class="iconfont" :class="{ 'icon-nan':myInfo.userSex == 1,
-									'icon-nv':myInfo.userSex == 2}"></i>
+						<span class="info-info">
+							<span class="info-pic">
+								<img src="../../assets/images/member.png" v-if="!myInfo.userAvatar"/>
+								<img :src="myInfo.userAvatar.fileUrl" v-else/>
 							</span>
-							<span class="info-phone">{{myInfo.userPhone}}</span>
+							<span class="info-mess">
+								<span class="info-name">{{myInfo.userName}}
+									<i class="iconfont" :class="{ 'icon-nan':myInfo.userSex == 1,
+										'icon-nv':myInfo.userSex == 2}"></i>
+								</span>
+								<span class="info-phone">{{myInfo.userPhone}}</span>
+							</span>
 						</span>
+						<router-link :to="{ name: 'UserDetail', params: {id: id } }" class="personalHome">
+							<span>个人主页</span>
+							<span class="link"><img src="../../assets/images/right.svg"/></span>
+						</router-link>
 					</div>
 					<div class="card-id">
 						<label>爱宠号:</label>
@@ -79,7 +85,7 @@ export default{
 			},{
 				name: '宠友',
 				icon: 'iconfont icon-pengyou',
-				href: ''
+				href: '/myself/friends/list/0'
 			},{
 				name: '设置',
 				icon: 'iconfont icon-shezhi1',
@@ -103,6 +109,7 @@ export default{
 	},
 	computed:{
 		...mapGetters([
+			'id',
 			'userInfo',
 		])
 	},
@@ -139,7 +146,22 @@ export default{
 					padding: 50px 0;
 					display:flex;
 					display:-webkit-flex;
+					justify-content: space-between;
+					align-items: center;
 					border-bottom:1px solid #E4E4E4; /*no*/
+					.info-info {
+						display:flex;
+						display:-webkit-flex;
+					}
+					.personalHome {
+						font-size: 24px;
+						color: #999999;
+						display: flex;
+						align-items: center;
+						span:first-child {
+							margin-right: 10px;
+						}
+					}
 					.info-pic{
 						display: block;
 						width: 110px;
@@ -245,14 +267,14 @@ export default{
 				color: #666666;
 				margin-right: 10px;
 			}
-			.link{
-				width: 15px;
-				height: 26px;
-				img{
-					width: 15px;
-					height: 26px;
-				}
-			}
+		}
+	}
+	.link{
+		width: 15px;
+		height: 26px;
+		img{
+			width: 15px;
+			height: 26px;
 		}
 	}
 }

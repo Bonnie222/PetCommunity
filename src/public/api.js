@@ -36,6 +36,8 @@ export default {
 	toConcern: host + '/user/toConcern',
 	toCancelConcern: host + '/user/toCancelConcern',
 	judgeRelation: host + '/user/judgeRelation',
+	getMyFollowers: host + '/user/followers',
+	getMyFollowings: host + '/user/followings',
 	//宠物
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',
@@ -62,4 +64,5 @@ export default {
 
 	//认证号
 	getUserList: host + '/user/list',
+	userSearch: host + 'user/search',
 }

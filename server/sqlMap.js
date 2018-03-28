@@ -27,6 +27,9 @@ var sqlMap = {
 		toConcern: 'INSERT INTO relation (id, fromUserId, toUserId) VALUES (0, ?, ?)',
 		toCancelConcern: 'DELETE FROM relation WHERE fromUserId = ? AND toUserId = ?',
 		judgeRelation: 'SELECT * FROM relation WHERE (fromUserId = ? OR toUserId = ?) AND (fromUserId = ? OR toUserId = ?)',
+		search: 'SELECT * FROM user WHERE userName LIKE ? AND id not in (SELECT id FROM user WHERE id = ?)',
+		myFollower: 'SELECT user.userAvatar, user.userName, user.userSex, user.id FROM user, relation WHERE relation.fromUserId = ? And user.id = relation.toUserId',
+		myFollowing: 'SELECT user.userAvatar, user.userName, user.userSex, user.id FROM user, relation WHERE relation.toUserId = ? And user.id = relation.fromUserId',
 	},
 	//宠物
 	pet:{
