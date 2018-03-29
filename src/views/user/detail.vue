@@ -64,25 +64,33 @@
       </yd-accordion>
       </div>
     </div>
-    <div class="show-list" v-for="(item, index) in petshowlist" :key="index">
-      <router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
-        <div class="detail-title">
-							<span>{{item.createTime}}</span>
-				</div>
-				<div class="detail-notes" v-html="item.content"></div>
-			</router-link>
-				<div class="detail-pic">
-					<yd-lightbox :num="item.petAvatar.length">
-						 <yd-lightbox-img v-for="(pic, per) in item.petAvatar"
-						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
-						 <yd-lightbox-txt>
-	            <h1 slot="top">{{item.contentTitle}}</h1>
-	            <div slot="content" class="content" v-html="item.contentNote">
-	            </div>
-	        	</yd-lightbox-txt>
-				 </yd-lightbox>
-				</div>
-		</div>
+    <div>
+      <div class="nodata" v-if="petshowlist.length == 0">
+				<img src="../../assets/images/nodata.svg" />
+				<p>{{ id == userId ? '您还没有任何动态哦~' :
+              '该宠友还没有任何动态哦~'}}</p>
+      </div>
+      <div class="show-list" v-for="(item, index) in petshowlist"
+        :key="index" v-else>
+        <router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
+          <div class="detail-title">
+  							<span>{{item.createTime}}</span>
+  				</div>
+  				<div class="detail-notes" v-html="item.content"></div>
+  			</router-link>
+  				<div class="detail-pic">
+  					<yd-lightbox :num="item.petAvatar.length">
+  						 <yd-lightbox-img v-for="(pic, per) in item.petAvatar"
+  						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
+  						 <yd-lightbox-txt>
+  	            <h1 slot="top">{{item.contentTitle}}</h1>
+  	            <div slot="content" class="content" v-html="item.contentNote">
+  	            </div>
+  	        	</yd-lightbox-txt>
+  				 </yd-lightbox>
+  				</div>
+  		</div>
+    </div>
     <Popup ref="popup">
       <div class="pet-Msg">
         <img :src="petMsg.avatar" />
@@ -261,6 +269,14 @@ export default {
 </script>
 <style lang="less" scoped>
 #UserDetail {
+  .nodata{
+		text-align: center;
+		margin-top: 10%;
+		p{
+			margin-top: 20px;
+			color: #999999;
+		}
+	}
   // 用户信息
   .detail-wrap {
     background: #ffffff;

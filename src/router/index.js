@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 const _import = require('./_import_production');
 /*注册登录*/
-const Signhome = _import('login/signhome');
+const Forget = _import('login/forget');
 const Login = _import('login/login');
 const Register = _import('login/register');
 /*首页*/
@@ -49,7 +49,7 @@ export default new Router({
   routes: [
 	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
-	  { path: '/signhome',         									name: 'Signhome',   	  	component: Signhome 			},
+	  { path: '/forget',         						name: 'Forget',   	  	  component: Forget 			},
 	  { path: '/login',   									        name: 'Login',      			component: Login    			},
 	  {	path: '/register', 								          name: 'Register', 				component: Register	 			},
 	  /*首页*/

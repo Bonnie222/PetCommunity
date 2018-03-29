@@ -46,7 +46,7 @@ Vue.config.productionTip = false;
 // }
 
 /*遍历Vuex的权限列表，加入渠道的路径未在true列表中，则直接重定向为开始页*/
-const List = ['/signhome', '/login', '/register'];
+const List = ['/forget', '/login', '/register'];
 
 router.beforeEach((to, from, next) => {
   //获取先获取用户信息，从用户信息中拿权限，判断是否手敲

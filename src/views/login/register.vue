@@ -128,17 +128,14 @@ export default {
 				 	new Date().getDate()),
     	}
     },
-    computed:{
-    	errWrap(){
-//  		return
-    	},
-    	errText(){
-
-    	}
-    },
     methods:{
     	back()  {
-				this.$router.go(-1);
+				if(this.topTitle == '注册') {
+					this.$router.go(-1);
+				} else {
+					this.topTitle = '注册';
+	   			this.psdProtectWindow = false;
+				}
 			},
     	onFocus() {
     		var vm = this;
