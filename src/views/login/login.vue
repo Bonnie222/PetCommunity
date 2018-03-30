@@ -53,7 +53,8 @@
             <span class="err">{{errMsg}}</span>
         </div>
 				<div class="small-wrap">
-					<router-link :to="{ name: '', params: {} }">忘记密码</router-link>
+					<router-link :to="{ path: 'forget', query:{phone: loginForm.userPhone}}">
+						找回密码</router-link>
 					<router-link to="/register">快速注册</router-link>
 				</div>
         <div class="btn-wrap">

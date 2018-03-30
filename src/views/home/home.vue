@@ -21,9 +21,9 @@
 		<div class="findpet">
 			<span class="findpet-title">寻宠启示</span>
 			<span class="findpet-list">
-				<yd-rollnotice autoplay="2000" speed="500">
+				<yd-rollnotice autoplay="2000">
 			        <yd-rollnotice-item v-for="item in lookList" :key="item.id">
-			        	<router-link :to="item.href">
+			        	<router-link :to="item.href" class="link">
 			        		<span class="tip">
 											{{item.isFindPet == 1? '寻宠' : '寻主'}}
 									</span>
@@ -140,36 +140,35 @@ export default{
 	}
 	.findpet{
 		margin:30px 25px;
-		height: 130px;
+		height: 120px;
+		padding: 0 20px;
 		background: #FFFFFF;
 		border: 1px solid #e4e4e4;/*no*/
 		border-radius: 10px;
 		display: flex;
 		align-items: center;
-		/*overflow: hidden;		*/
 		.findpet-title{
-			margin:20px;
-			vertical-align: middle;
-			display: block;
-			width: 15%;
-			font-size: 46px;
+			margin-right: 10px;
+			width: 80px;
+			font-size: 32px;
 			font-weight: bolder;
 			color: #EB695C;
 		}
 		.findpet-list{
-			width: 85%;
-			margin-top: 20px;
-			display: inline-block;
-			vertical-align: middle;
+			// width: 85%;
 			.yd-rollnotice{
 
 			}
 			.yd-rollnotice-item{
-				background: yellow;
-
+				.link {
+					display: flex;
+					align-items: center;
+				}
 				.tip{
-					font-size:28px;
+					text-align: center;
+					font-size:26px;
 					display: inline-block;
+					width: 100px;
 					border: 1px solid #D81E06; /*no*/
 					color: #D81E06;
 					padding: 5px 10px;
@@ -177,15 +176,15 @@ export default{
 					margin-right: 10px;
 				}
 				.note{
-					font-size: 36px;
-					height: 40px;
-					line-height: 40px;
+					font-size: 28px;
+					height: 30px;
+					line-height: 32px;
 					/* 多行文本溢出利用省略号代替,仅用于webkit内核 $line 行数*/
-				    overflow : hidden;
-				    text-overflow: ellipsis;
-				    display: inline-block;
-				    /*-webkit-box-orient: vertical;*/
-				    -webkit-line-clamp: 1;
+			    overflow : hidden;
+			    text-overflow: ellipsis;
+			    display: inline-block;
+			    -webkit-box-orient: vertical;
+			    -webkit-line-clamp: 1;
 				}
 			}
 		}

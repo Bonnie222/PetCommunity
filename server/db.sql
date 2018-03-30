@@ -256,7 +256,7 @@ DROP TRIGGER IF EXISTS `tri_updateActPeopleNum`;
 DELIMITER ;;
 CREATE TRIGGER `tri_updateActPeopleNum` AFTER INSERT ON `actsigns` FOR EACH ROW BEGIN
  DECLARE sum INT;
- SET sum = (SELECT peopleNum FROM activity WHERE id = new.actId); 
+ SET sum = (SELECT peopleNum FROM activity WHERE id = new.actId);
  UPDATE activity SET peopleNum = sum+1 WHERE id = new.actId;
 END
 ;;

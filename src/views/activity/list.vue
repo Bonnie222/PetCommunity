@@ -269,7 +269,6 @@ export default{
 					display: inline-block;
 					width: 160px;
 					height: 140px;
-					background: yellow;
 					margin-right:20px;
 					img{
 						width: inherit;
