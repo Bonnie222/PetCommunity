@@ -33,7 +33,7 @@
   		</div>
 			<div class="nodata" v-show="noData">
 				<img src="../../../assets/images/nodata.svg" />
-				<p>暂时没有数据哦~</p>
+				<p>暂时还没有关注的宠友哦~</p>
 			</div>
 		</div>
 		<div v-else class="tab">
@@ -54,7 +54,7 @@
       </div>
       <div class="nodata" v-show="noData">
 				<img src="../../../assets/images/nodata.svg" />
-				<p>暂时没有数据哦~</p>
+				<p>暂时还没有关注您的宠友哦~</p>
 			</div>
 		</div>
 	</div>
@@ -136,7 +136,7 @@ export default{
  			 });
 			 const callback = (r) => {
  				 vm.$indicator.close();
-         const list = r.data.data;
+         const list = r.data.data.data;
          list.forEach((item) => {
            if (item.userAvatar) item.userAvatar = JSON.parse(item.userAvatar);
          });

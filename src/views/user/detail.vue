@@ -22,7 +22,7 @@
             {{detail.userNote ? detail.userNote : '这个家伙很懒~什么都没留下...'}}
           </p>
         </div>
-        <div class="btn-wrap" v-show="id!==userId">
+        <div class="btn-wrap" v-show="id!==userId" @click="attentFunc(detail)">
             <button class="btn-save" v-if="relationType==0">
                 + 关注
             </button>
@@ -48,11 +48,11 @@
       <div class="pet-wrap">
         <yd-accordion>
           <yd-accordion-item title="宠物列表">
-            <div class="pet-list">
-              <span v-if="petList.length == 0"  class="pet-info">
+            <div>
+              <span v-if="petList.length == 0"  class="pet-list">
                 暂无宠物信息
               </span>
-              <span v-else>
+              <span v-else class="pet-list">
                 <span v-for="(item, idx) in petList" :key="idx"
                   class="pet-info" @click="petInfo(item)">
                   <img :src="item.avatar"/>
@@ -72,10 +72,11 @@
       </div>
       <div class="show-list" v-for="(item, index) in petshowlist"
         :key="index" v-else>
-        <router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
-          <div class="detail-title">
-  							<span>{{item.createTime}}</span>
-  				</div>
+        <div class="detail-title">
+						<span>{{item.createTime}}</span>
+            <span @click="del(item)" class="del" v-show="userId==id">删除</span>
+				</div>
+        <router-link :to="{ name: 'PetshowDetail', params: {id:item.id}, query: {userId: item.userId} }">
   				<div class="detail-notes" v-html="item.content"></div>
   			</router-link>
   				<div class="detail-pic">
@@ -130,6 +131,7 @@ export default {
       showPet: false,
       petMsg: {},
       relationType: null,
+      isFan: null,
     }
   },
   computed:{
@@ -164,9 +166,22 @@ export default {
         });
       }
     },
+    del(obj){
+      const vm = this;
+      const url = vm.urls.deletePetshow;
+      const data = {
+        id: obj.id,
+      }
+      const callback = () => {
+        vm.$toast('删除成功');
+      }
+      const tips = '是否确认删除该动态？';
+      vm.utils.confirmCallback(vm, tips, ()=>{
+      	vm.utils.postData(url, data, callback);
+      });
+    },
     petInfo(obj) {
       this.petMsg = obj;
-      console.log(obj);
       this.$refs.popup.showWindow();
     },
     getRelatin(_id) {
@@ -177,12 +192,13 @@ export default {
         toUserId: _id,
       };
       const callback = (r) => {
-        const data = r.data.data;
+        const data = r.data.data.data;
         switch (data.length) {
           case 0:
             vm.relationType = 0;
             break;
           case 1:
+            vm.isFan = data[0].toUserId == vm.id;
             vm.relationType = data[0].fromUserId == vm.id ? 1 : 0;
             break;
           case 2:
@@ -190,6 +206,23 @@ export default {
             break;
         }
       };
+      vm.utils.postData(url, data, callback);
+    },
+    attentFunc(obj) {
+      const vm = this;
+      const url = vm.relationType == 1 || vm.relationType == 2 ?
+        vm.urls.toCancelConcern : vm.urls.toConcern;
+      const data = {
+        fromUserId: vm.id,
+        toUserId: obj.id,
+      }
+      const callback = (r) => {
+        if(vm.relationType == 1 || vm.relationType == 2) {
+          vm.relationType = 0;
+        } else {
+          vm.relationType = vm.isFan == true ? 2 : 1;
+        }
+      }
       vm.utils.postData(url, data, callback);
     },
     getUserDetail(_id) {
@@ -204,7 +237,7 @@ export default {
         }
       };
       const callback = (r) => {
-        const detail = r.data.data[0];
+        const detail = r.data.data;
         vm.topTitle = detail.userName;
         if(detail.userAvatar) {
           detail.userAvatar = JSON.parse(detail.userAvatar);
@@ -226,7 +259,7 @@ export default {
 				}
 			}
 			const callback = (r) => {
-				const data = r.data.data;
+				const data = r.data.data.data;
 				if(data.length !== 0) {
 					data.forEach((item) => {
 						item.petType = vm.config.petTypeList[item.petType];
@@ -250,7 +283,7 @@ export default {
         }
       };
       const callback = (r) => {
-        const list = r.data.data;
+        const list = r.data.data.data;
         list.forEach((item) => {
           item.petAvatar = JSON.parse(item.petAvatar);
           item.createTime = vm.utils.changeDate(item.createTime, "yyyy年MM月dd日 hh:mm");
@@ -347,14 +380,15 @@ export default {
 
   // 宠物列表
   .pet-list {
-    padding: 20px 20px 0;
+    padding: 20px;
     display: flex;
     flex-wrap: wrap;
     .pet-info {
+      flex-basis: 31%;
       display: flex;
       align-items: center;
-      flex-basis: 32%;
       margin-bottom: 20px;
+      margin-right: 20px;
       color: #666666;
       &:not(:nth-child(3n)) {
         margin-right: 10px;
@@ -374,6 +408,11 @@ export default {
 		.detail-title{
 			padding: 20px;
 			border-bottom:1px solid #CCCCCC; /*no*/
+      display: flex;
+      justify-content: space-between;
+      .del{
+        color: blue;
+      }
     }
     .detail-notes{
 			max-height: 105px;

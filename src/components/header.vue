@@ -2,6 +2,7 @@
 	<mt-header :title="title" id="header" :fixed="fixed">
 	    <mt-button icon="back" @click="gotoRouter" slot="left" v-show="headerLeft"></mt-button>
 	    <mt-button slot="right" @click="rightFunc" v-show="headerRight">{{headerRightText}}</mt-button>
+			<mt-button slot="right" icon="more" @click="rightFunc" v-show="headerRightIcon"></mt-button>
 	</mt-header>
 </template>
 
@@ -10,7 +11,8 @@ export default {
     props:{
     	title:{ type:String, default:"" },
     	headerLeft:{ type:Boolean, default:true },
-    	headerRight:{ type:Boolean, default:true },
+    	headerRight:{ type:Boolean, default:false },
+			headerRightIcon: { type:Boolean, default:false},
 			headerRightText: { type:String, default:null },
     	fixed:{ type:Boolean, default:false },
     },

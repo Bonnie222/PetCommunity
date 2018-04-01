@@ -35,6 +35,7 @@ export default{
 	computed:{
 		...mapGetters([
 			'id',
+			'userInfo'
 		])
 	},
 	data(){
@@ -49,19 +50,19 @@ export default{
 		}
 	},
 	mounted(){
-		const checkPsd = ()=> {
-			const vm = this;
-			const url = vm.urls.getUserPsd;
-			const data = {
-				id: vm.id,
-			}
-			const callback = (r) => {
-				const psd = r.data.data[0].userPsd;
-				vm.psd = psd;
-			};
-			vm.utils.postData(url, data, callback);
-		}
-		checkPsd();
+		// const checkPsd = ()=> {
+		// 	const vm = this;
+		// 	const url = vm.urls.getUserPsd;
+		// 	const data = {
+		// 		id: vm.id,
+		// 	}
+		// 	const callback = (r) => {
+		// 		const psd = r.data.data[0].userPsd;
+		// 		vm.psd = psd;
+		// 	};
+		// 	vm.utils.postData(url, data, callback);
+		// }
+		// checkPsd();
 	},
 	methods:{
 		back(){
@@ -70,7 +71,7 @@ export default{
 		reset(){
 			const vm = this;
 			if(!vm.oldPsd ||!vm.newPsd || !vm.newPsd2) return;
-			if(vm.psd !== vm.oldPsd) {
+			if(vm.userInfo.userPsd !== vm.oldPsd) {
 				vm.$dialog.toast({
 					mes: '原密码输入有误，请重新输入',
 						icon: 'error',
@@ -105,6 +106,7 @@ export default{
 			const url = vm.urls.resetPsd;
 			const data = {
 				id: vm.id,
+				psd: vm.newPsd,
 			}
 			vm.isSaving = true;
 			vm.saveBtnText = "正在重置...";
@@ -117,7 +119,7 @@ export default{
 				vm.saveBtnText = "重置密码";
 				vm.isSaving = false;
 				setTimeout(function(){
-					location.reload();
+					vm.$router.go(-2);
 				},2000);
 			}
 			vm.utils.postData(url, data, callback);

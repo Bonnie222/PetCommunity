@@ -65,7 +65,7 @@ export default{
 			});
 			let callback = function(r){
 				vm.$indicator.close();
-				let data = r.data.data;
+				let data = r.data.data.data;
 				console.log(data);
 				$.each(data, function(index, item) {
 					if (item.userAvatar) {

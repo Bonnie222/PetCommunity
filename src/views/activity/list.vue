@@ -98,6 +98,11 @@
 					</div>
 				</router-link>
 			</div>
+			<div class="link-btn" >
+				<router-link to="/activity/edit">
+					<span><i class="iconfont icon-tianxie"></i>我要发布活动</span>
+				</router-link>
+			</div>
 		</div>
 	</div>
 </template>
@@ -175,7 +180,7 @@ export default{
 			});
 			var callback = function(r){
 				vm.$indicator.close();
-				var data = r.data.data;
+				var data = r.data.data.data;
 				$.each(data,function(index,item){
 					item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);
 					item.themePhoto = JSON.parse(item.themePhoto);
@@ -208,6 +213,21 @@ export default{
 		margin-right: 10px;
 		color: #666666;
 		font-size: 24px;
+	}
+	.link-btn{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		background: #FFFFFF;
+		height: 80px;
+		line-height: 80px;
+		text-align: center;
+		border-top:1px solid #CCCCCC; /*no*/
+		color: #EB695C;
+		font-size: 26px;
+		.iconfont{
+			color:inherit;
+		}
 	}
 	.tab-list{
 		background: #FFFFFF;

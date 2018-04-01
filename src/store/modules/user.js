@@ -64,7 +64,7 @@ const user = {
 				axios.post(url, options).then((res) => {
 					const result = res.data;
 					if(result.code == 1){
-						const data = result.data[0];
+						const data = result.data;
 						commit('SET_USERINFO', data);
 						resolve(data);
 					}else{

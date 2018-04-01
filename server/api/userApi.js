@@ -13,16 +13,21 @@ var $sql = require('../sqlMap');
 var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
-var jsonWrite = function(res, ret) {
+var jsonWrite = function(res, ret, type) {
     if(typeof ret === 'undefined') {
         res.send({code: '-1', message: '操作失败'}).end();
     } else {
-    	let obj = {};
-    	let data = ret;
-    	obj.data = data;
-		obj.message = '请求成功';
-		obj.code = 1;
-		res.send(obj).end();
+    	let obj = {
+        data: {},
+      };
+      if(type == 'List') {
+         obj.data.data = ret
+      } else if (type == 'Obj') {
+        obj.data = ret[0];
+      }
+  		obj.message = '请求成功';
+  		obj.code = 1;
+  		res.send(obj).end();
     }
 };
 
@@ -172,7 +177,7 @@ router.get('/home/look',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -189,7 +194,7 @@ router.post('/user/personal',(req,res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -217,7 +222,7 @@ router.post('/user/list',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -231,7 +236,7 @@ router.post('/user/attentions',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -245,7 +250,7 @@ router.post('/user/fans',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -287,16 +292,30 @@ router.post('/user/judgeRelation',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
-// 判断用户搜索
+// 用户搜索
 router.post('/user/search',(req,res)=>{
 	var sql = $sql.user.search;
 	var p = req.body;
     console.log(p);
-    var sqlParams = [`%${p.keyword}%`, p.id];
+    var sqlParams = [`%${p.keyword}%`, `%${p.keyword}%`, p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result, 'List');
+        }
+    })
+})
+// 重置密码
+router.post('/user/updatepsd',(req,res)=>{
+	var sql = $sql.user.updatePsd;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.psd, p.id];
     conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -305,6 +324,8 @@ router.post('/user/search',(req,res)=>{
         }
     })
 })
+
+
 /**
  * 宠物
  */
@@ -318,7 +339,7 @@ router.post('/user/petList',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -346,7 +367,7 @@ router.post('/pet/detail',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -404,7 +425,7 @@ router.get('/look/list',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -418,7 +439,7 @@ router.post('/look/detail',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -432,7 +453,7 @@ router.post('/user/looklistAll',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -446,7 +467,7 @@ router.post('/user/looklistByStatus',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -460,7 +481,7 @@ router.post('/user/lookdetail',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result,'Obj');
         }
     })
 })
@@ -505,7 +526,7 @@ router.post('/activity/list',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -519,7 +540,7 @@ router.post('/activity/detail',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -547,7 +568,7 @@ router.post('/activity/isApply', (req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -556,7 +577,7 @@ router.post('/activity/apply', (req, res) => {
   const sql = $sql.activity.apply;
   const p = req.body;
 	console.log(p);
-	const sqlParams = [p.actId, p.userId];
+	const sqlParams = [p.actId, p.userId, p.signName, p.signContact, p.actTitle];
 	conn.query(sql, sqlParams, function(err, result) {
         if (err) {
             console.log(err);
@@ -591,7 +612,7 @@ router.get('/petshow/list',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -605,7 +626,7 @@ router.post('/petshow/detail',(req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'Obj');
         }
     })
 })
@@ -619,7 +640,35 @@ router.post('/user/petshowlist',(req,res)=>{
         if (err) {
             console.log(err);
         }else{
+        	jsonWrite(res, result, 'List');
+        }
+    })
+})
+// 删除宠物秀
+router.post('/petshow/delete',(req,res)=>{
+	var sql = $sql.deleteById;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = ['petshow', p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
         	jsonWrite(res, result);
+        }
+    })
+})
+// 查询我关注的用户的宠物秀
+router.post('/petshow/followers',(req,res)=>{
+	var sql = $sql.petshow.followerShowList;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.id];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -636,7 +685,7 @@ router.post('/user/activityJoinlist', (req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -650,7 +699,7 @@ router.post('/user/activityPubllist', (req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -664,7 +713,7 @@ router.post('/user/regisnslist', (req, res) => {
         if (err) {
             console.log(err);
         }else{
-        	jsonWrite(res, result);
+        	jsonWrite(res, result, 'List');
         }
     })
 })
@@ -681,7 +730,7 @@ router.post('/user/regisnslist', (req, res) => {
          if (err) {
              console.log(err);
          }else{
-         	jsonWrite(res, result);
+         	jsonWrite(res, result, 'List');
          }
      })
  })
@@ -695,7 +744,7 @@ router.post('/user/regisnslist', (req, res) => {
          if (err) {
              console.log(err);
          }else{
-           jsonWrite(res, result);
+           jsonWrite(res, result, 'List');
          }
      })
  })

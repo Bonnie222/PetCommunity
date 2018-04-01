@@ -58,7 +58,7 @@ export default{
 			},{
 				name:'宠物秀',
 				icon:'iconfont icon-chongwu',
-				href:'/petshow/list'
+				href:'/petshow/list/1'
 			}],
 			FootMenu2:[{
 				name: '医疗',

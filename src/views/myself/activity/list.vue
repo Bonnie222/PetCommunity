@@ -16,7 +16,7 @@
 		<div v-if="actTabList.list[0].check" class="tab1">
 			<div class="detail-item" v-for="item in listOne">
 				<router-link :to="{name:'ActivityDetail',
-					params: {type: item.type, id:item.id}}">
+					params:{type: item.actType, id:item.id}}">
 					<div class="title">
 						<span class="name">{{item.actTitle}}</span>
 						<span class="status">
@@ -161,7 +161,7 @@ export default{
  			 });
 			 const callback = (r) => {
  				 vm.$indicator.close();
-         const list = r.data.data;
+         const list = r.data.data.data;
          list.forEach((item) => {
            item.status = vm.utils.completeTime(vm.utils.getNowTime(), item.endTime);
 					 item.themePhoto = JSON.parse(item.themePhoto);
@@ -174,6 +174,7 @@ export default{
 					 vm.listTwo = list;
 				 }
  				 if(list.length == 0) vm.noData = true;
+				 console.log(list);
        };
        vm.utils.postData(url, data, callback);
 		},

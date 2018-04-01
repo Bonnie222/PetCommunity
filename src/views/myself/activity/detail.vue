@@ -26,7 +26,7 @@
           <i class="iconfont icon-didian"></i>
   				{{detailOne.address}}
         </div>
-				<router-link :to="{ name: 'MyactRegisnList', params:{id: detailOne.id}}"
+				<router-link :to="{ name:'MyactRegisnList', params:{id:detailOne.id}}"
           class="address-item">
           <i class="iconfont icon-ren2"></i>
   				报名名单
@@ -51,7 +51,10 @@
 				<span v-else-if="status==true && detailOne.actNum == detailOne.peopleNum">
 					报名已满
 				</span>
-				<span v-else @click="goApply">我要报名</span>
+				<span v-else>
+					<router-link :to="{ path: '/activity/sign', query: {actId:detailOne.id, actTitle:detailOne.actTitle}}">
+						我要报名</router-link>
+				</span>
 			</div>
 		</div>
 	</div>
@@ -103,37 +106,11 @@ export default{
 				userId: vm.id,
 			}
 			const callback = (r) => {
+				console.log(r);
 				const data = r.data.data;
-				if (data.length !== 0) vm.isAppy = true;
+				if (!data) vm.isAppy = true;
 			};
 			vm.utils.postData(url, data, callback);
-		},
-		goApply(){
-			const vm = this;
-			const url =  vm.urls.apply;
-			const data = {
-				actId: vm._id,
-				userId: vm.id,
-			}
-			vm.isSaving = true;
-			const callback = (r) => {
-				const dt = {
-					actId: vm._id
-				}
-				vm.utils.postData(vm.urls.updateTotal, dt);
-				vm.$dialog.toast({
-					mes: '报名成功',
-						icon: 'success',
-						timeout: 1000
-				});
-				vm.isSaving = false;
-				vm.isAppy = true;
-				vm.detailOne.peopleNum = vm.detailOne.peopleNum + 1;
-			};
-			const tips = '是否确认报名？报名后不许取消';
-			vm.utils.confirmCallback(vm, tips, ()=>{
-				vm.utils.postData(url, data, callback);
-			});
 		},
 		getDetail(id){
 			var vm = this;
@@ -144,9 +121,8 @@ export default{
 			var options = {
 				params: data
 			}
-
 			var callback = (r) => {
-				var dt = r.data.data[0];
+				var dt = r.data.data;
 				dt.photo = JSON.parse(dt.themePhoto).fileUrl;
 				vm.status = vm.utils.completeTime(vm.utils.getNowTime(), dt.endTime);
 				dt.startTime = vm.utils.changeDate(dt.startTime, 'yyyy-MM-dd hh:mm');

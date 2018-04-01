@@ -20,14 +20,13 @@ var sqlMap = {
 		queryByName: 'SELECT * FROM user WHERE userName = ?',
 		queryByEmail: 'SELECT * FROM user WHERE userEmail = ?',
 		update: 'UPDATE user SET userAvatar=?, userName=?, userEmail=?, userSex=?, userBirth=?, userCity=?, userStatus=?, userConst=?, userNote=? WHERE id=?',
-		checkPsd: 'SELECT userPsd FROM user WHERE id = ?',
 		updatePsd: 'UPDATE user SET userPsd = ? WHERE id = ?',
 		attentions: 'SELECT * FROM relation WHERE fromUserId = ?',
 		fans: 'SELECT * FROM relation WHERE toUserId = ?',
 		toConcern: 'INSERT INTO relation (id, fromUserId, toUserId) VALUES (0, ?, ?)',
 		toCancelConcern: 'DELETE FROM relation WHERE fromUserId = ? AND toUserId = ?',
 		judgeRelation: 'SELECT * FROM relation WHERE (fromUserId = ? OR toUserId = ?) AND (fromUserId = ? OR toUserId = ?)',
-		search: 'SELECT * FROM user WHERE userName LIKE ? AND id not in (SELECT id FROM user WHERE id = ?)',
+		search: 'SELECT * FROM user WHERE userName LIKE ? OR userPhone LIKE ? AND id not in (SELECT id FROM user WHERE id = ?)',
 		myFollower: 'SELECT user.userAvatar, user.userName, user.userSex, user.id FROM user, relation WHERE relation.fromUserId = ? And user.id = relation.toUserId',
 		myFollowing: 'SELECT user.userAvatar, user.userName, user.userSex, user.id FROM user, relation WHERE relation.toUserId = ? And user.id = relation.fromUserId',
 	},
@@ -54,10 +53,10 @@ var sqlMap = {
 		add: 'INSERT INTO activity(id, actTitle, actType, publisherId, publisher, createTime, startTime, endTime, themePhoto, notes, city, address, actNum, cost, contact) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		queryListByType: 'SELECT id, actTitle, startTime, endTime, notes, peopleNum, themePhoto, address FROM activity WHERE actType = ? ORDER BY endTime DESC',
 		queryApply: 'SELECT * FROM actsigns WHERE actId = ? AND userId = ?',
-		apply: 'INSERT INTO actsigns(id, actId, userId) VALUES (0, ?, ?)',
+		apply: 'INSERT INTO actsigns(id, actId, userId, signName, signContact, actTitle) VALUES (0, ?, ?, ?, ?, ?)',
 		userActJoinList: 'SELECT activity.*, actsigns.actId FROM activity, actsigns WHERE activity.id = actsigns.actId And actsigns.userId = ?',
 		userActPublList: 'SELECT * FROM activity WHERE publisherId = ?',
-		actPulRegisnList: 'SELECT user.* FROM user, actsigns WHERE user.id = actsigns.userId And actsigns.actId = ?',
+		actPulRegisnList: 'SELECT user.*, actsigns.signName, actsigns.signContact FROM user, actsigns WHERE user.id = actsigns.userId And actsigns.actId = ?',
 	},
 
 	//宠物秀
@@ -66,6 +65,7 @@ var sqlMap = {
 		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
 		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 		detail: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id And petshow.id = ?',
+		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC'
 	}
 }
 

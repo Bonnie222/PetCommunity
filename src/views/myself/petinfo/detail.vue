@@ -9,11 +9,11 @@
 						<span class="imgPic">
 							<img :src="avatar" class="avatar" @click="previewImg($event)"/>
 							<!--<img src="../../assets/images/removeImg.svg" class="remove" @click="removeImg"/>-->
-						</span>	
+						</span>
 						<span class="link" :hidden="isDisabled">
 							<img src="../../../assets/images/right.svg"/>
 							<input class="file-btn" type="file" hidefocus="true" name="avatar" accept="image/*" @change="getImg($event)" ref="avatarInput"/>
-						</span>	
+						</span>
 					</div>
 				</div>
 				<div class="info-item">
@@ -72,19 +72,19 @@
 						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
-				
+
 				<!--选择器-->
 				<mt-datetime-picker ref="petBirthPicker" type="date" @confirm="handlePetBirth"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 				<mt-datetime-picker ref="petArrivalPicker" type="date" @confirm="handlePetArrival"
 				:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-				
+
 			</div>
 			<div class="btn-wrap">
 				<button class="btn-save" @click="updatePetInfo" :hidden="isDisabled">{{saveBtnText}}</button>
 				<!--<button class="btn-save" @click="editPetInfo" v-show="isDisabled">编辑资料</button>-->
 				<button class="btn-cancel" @click="delPet" :hidden="isDisabled" >删除宠物</button>
-					
+
 				<!--<button class="btn-cancel" @click="cancelToUpdate" :hidden="isDisabled" >取消</button>-->
 			</div>
 			<ImgView v-show="showImgView" :imgSrc="avatar" @clickkit="closeView"></ImgView>
@@ -107,7 +107,7 @@ import ImgView from '@/components/imageView';
 export default{
 	name:"Editpet",
 	components:{
-	    Header,ImgView, ChoiceWindow 
+	    Header,ImgView, ChoiceWindow
 	},
 	data(){
 		return{
@@ -134,7 +134,7 @@ export default{
 			/*宠物出生日期范围*/
 			startDate:new Date('1990,1,1'),
 			endDate:new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate()),
-			
+
 			petTypeList:[{
 				text:'汪星人', value:1, isChecked:false
 			},{
@@ -196,7 +196,7 @@ export default{
 				}
 			}
 			var callback = function(r){
-				var data = r.data.data[0];
+				var data = r.data.data;
 				data.petTypeText = vm.config.petTypeList[data.petType];
 				data.petBirth = vm.utils.changeDate(data.petBirth);
 				data.petArrivedDate = data.petArrivedDate == null ? '请选择': vm.utils.changeDate(data.petArrivedDate);
@@ -294,12 +294,12 @@ export default{
 				var mesText = '删除成功';
 				vm.utils.toastCallback(vm,mesText,routeUrl);
 			}
-			
+
 			var tips = '删除宠物后相关资料不可恢复 <br/>您确定要删除吗？';
 			vm.utils.confirmCallback(vm, tips,function(){
 				vm.utils.postData(url, data, callback, options);
 			});
-			
+
     	},
     	getImg: function(e){
     		var vm = this;
@@ -319,11 +319,11 @@ export default{
     			vm.avatar = this.result;
     		}
     	},
-    	
+
     	updatePetInfo: function(){
     		var vm = this;
     		if(vm.isSaving) return;
-    		if(!vm.petInfo.petName || !vm.petInfo.petSex || 
+    		if(!vm.petInfo.petName || !vm.petInfo.petSex ||
 				!vm.petInfo.petType || !vm.petInfo.petBirth){
 					vm.$toast('信息填写不完整');
 					return;
@@ -334,7 +334,7 @@ export default{
     		var callback = function(r){
     			vm.petInfo.petAvatar = JSON.stringify(r.data.data);
     			save();
-    		}		
+    		}
     		vm.saveBtnText = '正在保存中...'
     		if(e){
     			vm.utils.upload(vm, e, fname, url, callback);
@@ -342,7 +342,7 @@ export default{
     			vm.petInfo.petAvatar = JSON.stringify(vm.petInfo.petAvatar);
     			save();
     		}
-			
+
 			function save(){
 				vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
 				vm.petInfo.petStatusText = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatusText;
@@ -359,7 +359,7 @@ export default{
 						mes: '修改成功',
 	  					icon: 'success',
 	  					timeout: 1000
-					});	
+					});
 					vm.isSaving = false;
 	    			vm.saveBtnText = '保存修改';
 				}
@@ -405,7 +405,7 @@ export default{
 				border-bottom: none;
 			}
 			.item-name{
-				
+
 			}
 			.item-input{
 				display: inline-block;
@@ -427,7 +427,7 @@ export default{
 					width: 110px;
 					border-radius: 50%;
 					overflow:hidden;
-					
+
 					img{
 						height:inherit;
 						width: inherit;
@@ -458,7 +458,7 @@ export default{
 					opacity: 0;
 					cursor: pointer;
 				}
-			}	
+			}
 		}
 		.radio-wrap{
 			.yd-radio{
@@ -469,7 +469,7 @@ export default{
 				}
 				&>input[type=radio]{
 					position: absolute;
-					left: -9999em;		
+					left: -9999em;
 				}
 				&>input[type=radio]:checked+.yd-radio-icon{
 					border-color: currentcolor;
@@ -488,7 +488,7 @@ export default{
 					vertical-align: bottom;
 					pointer-events: none;
 					/*color: rgb(76, 216, 100); */
-					width: 40px; 
+					width: 40px;
 					height: 40px;
 					.icon{
 						display: inline-block;
@@ -503,7 +503,7 @@ export default{
 						opacity: 0;
 						transform: translate(-50%, -50%) scale(.1);
 					}
-					
+
 				}
 				.male{
 					color: #0275d8;

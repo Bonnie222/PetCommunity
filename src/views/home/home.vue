@@ -90,13 +90,13 @@ export default{
 		getHomeLook() {
 			var vm = this;
 			var url = vm.urls.getHomeLook;
-			var callback = function(r){
-				$.each(r.data.data, function(index,item) {
+			var callback = (r) => {
+				let list = r.data.data.data;
+				$.each(list, function(index,item) {
 					item.href = '/look/detail/' + item.id;
 					item.note = item.note.replace(/<br\/>/g, " ");
 				});
-				vm.lookList = r.data.data;
-				console.log(vm.lookList)
+				vm.lookList = list;
 			}
 			vm.utils.getData(url,callback);
 		}

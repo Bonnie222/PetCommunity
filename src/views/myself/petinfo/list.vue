@@ -70,7 +70,7 @@ export default{
 				}
 			}
 			const callback = (r) => {
-				var data = r.data.data;
+				var data = r.data.data.data;
 				if(data.length == 0){
 					vm.$router.replace('/myself/pet/add');
 				}else{

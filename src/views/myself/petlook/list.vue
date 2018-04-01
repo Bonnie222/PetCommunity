@@ -91,7 +91,6 @@ export default{
 		},
 		changeToTab: function(val){
 			let vm = this;
-			vm.isShow = false;
 			let value = parseInt(val);
 			$.each(vm.lookTabList.list, function(index,item){
 				item.check = false;
@@ -120,7 +119,7 @@ export default{
 
 			let callback = function(r){
 				vm.$indicator.close();
-				let data = r.data.data;
+				let data = r.data.data.data;
 				$.each(data, function(index, item){
 					item.createTime = vm.utils.changeDate(item.createTime);
 					item.dateTime = vm.utils.changeDate(item.dateTime);

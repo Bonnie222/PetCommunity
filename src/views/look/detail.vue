@@ -108,7 +108,7 @@ export default{
 				}
 			}
 			let callback = function(r){
-				let data = r.data.data[0];
+				let data = r.data.data;
 				data.dateTime = vm.utils.changeDate(data.dateTime, "yyyy年MM月dd日 hh:mm");
 				data.createTime = vm.utils.changeDate(data.createTime, "yyyy年MM月dd日 hh:mm");
 				data.petType = vm.config.petTypeList[data.petType];

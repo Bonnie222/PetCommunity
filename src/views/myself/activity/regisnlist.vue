@@ -17,12 +17,12 @@
   								'icon-nv':item.userSex == 2}"></i>
               </span>
             </router-link>
-            <button class="btn-cancel" @click="aa">+ 关注</button>
+            <!-- <button class="btn-cancel" @click="aa">+ 关注</button> -->
           </span>
           <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
-              <p>{{item.userNumber}}</p>
-              <p>{{item.userNote?　item.userNote : '这家伙很懒~什么都没留下'}}</p>
+              <!-- <p>姓名:{{item.signName}}</p>
+              <p>联系方式:{{item.signContact}}</p> -->
             </span>
           </router-link>
         </div>
@@ -70,7 +70,7 @@ export default{
           actId: vm.$route.params.id,
         }
         const callback = (r) => {
-          let data = r.data.data;
+          let data = r.data.data.data;
           console.log(data);
           data.forEach((item) => {
             if(item.userAvatar){

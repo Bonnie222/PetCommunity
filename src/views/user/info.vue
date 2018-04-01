@@ -141,7 +141,7 @@ export default{
         }
       };
       const callback = (r) => {
-        const detail = r.data.data[0];
+        const detail = r.data.data;
         if(detail.userAvatar) {
           detail.userAvatar = JSON.parse(detail.userAvatar);
         }

@@ -93,7 +93,7 @@ export default{
 				params:data
 			}
 			let callback = function(r){
-				let item = r.data.data[0];
+				let item = r.data.data;
 				vm.topTitle = item.isFindPet == 1 ? '寻宠详情':'寻主详情';
 				vm.status = item.findStatus;
 				item.createTime = vm.utils.changeDate(item.createTime);

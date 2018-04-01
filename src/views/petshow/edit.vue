@@ -67,6 +67,7 @@
 import Header from '@/components/header';
 import ChoiceWindow from '@/components/choiceWindow';
 import ImgView from '@/components/imageView';
+import { mapGetters } from 'vuex';
 
 export default{
 	name:"PetShowEdit",
@@ -101,8 +102,18 @@ export default{
 			},
 		}
 	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
+	},
 	mounted(){
 		const vm = this;
+		if(vm.$route.query.actId != undefined){
+			vm.checkedId = vm.$route.query.actId;
+			vm.notes=vm.checkedTitle = vm.actTitle = `#${vm.$route.query.actTitle}#`;
+			vm.count = vm.notes.length;
+		}
 		const url = vm.urls.getActivityList;
 		var data = {
 			actType: 1
@@ -151,6 +162,11 @@ export default{
    		vm.showActTitleWindow = true;
    		vm.windowTitle = '选择线上活动';
 			vm.windowheaderLeft = true;
+			if(vm.checkedId) {
+				$.each(vm.ActList, function(index, item){
+						if(item.id == vm.checkedId) item.isChecked = true;
+				})
+			}
    	},
    	confirmAct(obj){
 			let vm = this;
@@ -159,18 +175,18 @@ export default{
 				vm.checkedId = obj.id;
 				obj.isChecked = true;
 			}else{
-				if(vm.checkedTitle == obj.actTitle){
-					vm.checkedId = obj.isChecked == true ? '' : obj.id;
-					vm.checkedTitle = obj.isChecked == true ? '' : obj.actTitle;
-					obj.isChecked = obj.isChecked == true ? false : true;
-				} else {
+				// if(vm.checkedTitle == obj.actTitle){
+				// 	vm.checkedId = obj.isChecked == true ? '' : obj.id;
+				// 	vm.checkedTitle = obj.isChecked == true ? '' : obj.actTitle;
+				// 	obj.isChecked = obj.isChecked == true ? false : true;
+				// } else {
 					$.each(vm.ActList, function(index, item){
 							item.isChecked = false;
 					})
 					vm.checkedId = obj.id;
 					vm.checkedTitle = obj.actTitle;
 					obj.isChecked = true;
-				}
+			// 	}
 			}
 		},
 		save(){
@@ -207,6 +223,11 @@ export default{
 			vm.notes = index === -1 ? '' : vm.notes.split('#')[2]
 			const len = vm.notes.length;
 			vm.count = len;
+			$.each(vm.ActList, function(index, item){
+					item.isChecked = false;
+			})
+			vm.checkedId = '';
+			vm.checkedTitle = '';
 			vm.showContentWindow = true;
       vm.showActTitleWindow = false;
 		},
@@ -259,8 +280,7 @@ export default{
 
     		const save = () => {
     			let url = vm.urls.addPetShow;
-    			data.userInfo = dt;
-					data.userId = JSON.parse(dt).id;
+					data.userId = vm.id;
 					data.createTime = vm.utils.getNowTime();
 					data.content= vm.notes.replace(/\n|\r\n/g,"<br/>");
 					if(vm.checkedId) data.actId = vm.checkedId;
@@ -274,7 +294,7 @@ export default{
 						vm.isSaving = false;
 						vm.saveBtnText = '确认发布';
 						setTimeout(function(){
-							vm.$router.go(-1);
+							vm.$router.push('/petshow/list/2');
 						},1500);
 					}
 					vm.utils.postData(url, data, callback);

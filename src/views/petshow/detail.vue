@@ -1,7 +1,7 @@
 <template>
   <div id="PetShowDetail">
-    <Header title="宠物秀详情" :headerLeft="headerLeft"
-			:fixed="isFixed" @clickRouter="back"></Header>
+    <Header title="宠物秀详情" v-bind="header"
+      @clickRouter="back" @rightFunc="rightFunc"></Header>
     <div class="detail-wrap">
       <div v-if="detail.actId">
         <router-link  class="act-title"
@@ -37,10 +37,13 @@
 				</div>
   		</div>
     </div>
+    <yd-actionsheet :items="myItems1" v-model="sheetVisible" cancel="取消"></yd-actionsheet>
   </div>
 </template>
 <script>
 import Header from '@/components/header';
+import { mapGetters } from 'vuex';
+
 export default{
   name: 'PetShowDetail',
   components:{
@@ -48,20 +51,59 @@ export default{
 	},
   data(){
     return{
-      isFixed:true,
-			headerLeft:true,
+      header:{
+        fixed:true,
+  			headerLeft:true,
+        headerRightIcon: true,
+      },
       detail:{},
       picList:[],
+      sheetVisible: false,
+      myItems1:[{
+        label: '返回首页',
+        callback: () => {
+           this.$router.push('/home');
+        }
+      }],
     }
+  },
+  computed:{
+    ...mapGetters([
+      'id',
+    ])
   },
   mounted(){
     const id = this.$route.params.id;
+    const userId = this.$route.query.userId;
     this.getDetail(id);
+    if(userId == this.id) this.myItems1.unshift({
+      label: '删除',
+      callback: () => {
+         this.delete();
+      }
+    })
   },
   methods:{
     back() {
 			this.$router.go(-1);
 		},
+    rightFunc() {
+      this.sheetVisible = true;
+    },
+    delete(){
+      const vm = this;
+      const url = vm.urls.deletePetshow;
+      const data = {
+        id: vm.$route.params.id,
+      }
+      const callback = () => {
+        vm.$router.go(-1);
+      }
+      const tips = '是否确认删除该动态？';
+      vm.utils.confirmCallback(vm, tips, ()=>{
+      	vm.utils.postData(url, data, callback);
+      });
+    },
     getDetail(_id){
       const vm = this;
       const url = vm.urls.getPetshowDetail;
@@ -72,7 +114,7 @@ export default{
         params: data
       }
       const callback = (r) => {
-        let detail = r.data.data[0];
+        let detail = r.data.data;
         detail.createTime = vm.utils.changeDate(detail.createTime, "yyyy年MM月dd日 hh:mm");
         detail.petAvatar = JSON.parse(detail.petAvatar);
         if(detail.userAvatar) {
@@ -80,9 +122,7 @@ export default{
         }
         vm.detail = detail;
         vm.picList = detail.petAvatar;
-        console.log(detail);
       };
-      console.log(url, data);
       vm.utils.postData(url, data, callback, options);
     }
   }

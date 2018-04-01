@@ -2,7 +2,7 @@
   <div id="UserList">
     <Header title="认证号" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
     <yd-search v-model="keyword" :on-submit="search" :on-cancel="cancelSearch"
-      placeholder="搜索昵称" :fullpage="fullpage"></yd-search>
+      placeholder="搜索昵称/手机号" :fullpage="fullpage"></yd-search>
     <div class="user-list">
       <div v-for="(item, index) in userList" :key="index" class="list-item">
         <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
@@ -20,9 +20,10 @@
               </p>
               <p class="user-fans">粉丝 {{item.userFollowings}}</p>
             </router-link>
-            <button class="btn-cancel" :class="{'isFocus': item.isFocus }"
+            <span v-show="item.isFocus" style="color:#999999">❤ 已关注</span>
+            <!-- <button class="btn-cancel" :class="{'isFocus': item.isFocus }"
             @click="attentFunc(item)">
-             {{item.isFocus ? '√ 已关注' : '+ 关注'}}</button>
+             {{item.isFocus ? '已关注' : '+ 关注'}}</button> -->
           </span>
           <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
@@ -68,7 +69,7 @@ export default{
     },
     methods:{
       back(){
-        this.$router.go(-1);
+        this.$router.replace('/home');
       },
       attentFunc(obj) {
         const vm = this;
@@ -89,7 +90,7 @@ export default{
           fromUserId: vm.id,
         }
         const callback = (r) => {
-          const data = r.data.data;
+          const data = r.data.data.data;
           vm.attentList = data;
           vm.getUserList();
         }
@@ -103,7 +104,7 @@ export default{
         }
         if(vm.keyword) data.keyword = vm.keyword;
         const callback = (r) => {
-          let data = r.data.data;
+          let data = r.data.data.data;
           data.forEach((item) => {
             if(item.userAvatar){
               item.userAvatar = JSON.parse(item.userAvatar);
@@ -122,11 +123,12 @@ export default{
         vm.utils.postData(url, data, callback);
       },
       search(value) {
+        location.href = `${location.href}?keyword=${value}`;
         this.getUserList();
       },
       cancelSearch() {
-        console.log(111);
         this.keyword = '';
+        location.href = location.hash.substring(0,11);
         this.getUserList();
       }
     },

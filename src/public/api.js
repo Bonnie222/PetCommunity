@@ -17,7 +17,6 @@ export default {
 	getPersonal: host + '/user/personal',
 	getMyPetList: host + '/user/petList',
 	updataMyInfo: host + '/user/update',
-	getUserPsd: host + '/user/checkpsd',
 	resetPsd: host + '/user/updatepsd',
 	// 我的寻宠
 	getMyLookList: host + '/user/looklistAll',
@@ -57,10 +56,13 @@ export default {
 	apply: host + '/activity/apply',
 	updateTotal: host + '/activity/upadateTotal',
 
+
 	//宠物秀
 	addPetShow: host + '/petshow/add',
 	getPetshowList: host + '/petshow/list',
 	getPetshowDetail: host + '/petshow/detail',
+	deletePetshow: host + '/petshow/delete',
+	followersPetshowList: host + '/petshow/followers',
 
 	//认证号
 	getUserList: host + '/user/list',

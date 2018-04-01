@@ -1,6 +1,7 @@
 <template>
 	<div id="Petshow">
 		<div class="tab-list">
+				<span></span>
 				<span class="tab-list-span">
 					<span v-for="(item, index) in actTabList.list" >
 						<label>
@@ -12,47 +13,57 @@
 						</label>
 					</span>
 				</span>
+				<router-link to="/petshow/edit" class="camera">
+					<i class="iconfont icon-shangchuantupian_l"></i>
+				</router-link>
 		</div>
-		<div class="detail-wrap" v-for="(item, index) in petshowlist" :key="index">
-			<router-link :to="{ name: 'UserDetail', params: {id: item.userId} }">
-				<div class="detail-title">
-					<div class="user-info">
-						<span class="pic">
-							<img src="../../assets/images/member.png"
-							 v-if="item.userAvatar == null"/>
-							 <span v-else>
-								 <img :src="item.userAvatar.fileUrl"/>
-							 </span>
-						</span>
-						<span class="desc">
-							<span class="name">{{item.userName}}</span>
-							<span>{{item.createTime}}</span>
-						</span>
+		<div class="contain">
+			<div class="detail-wrap" v-for="(item, index) in petshowlist" :key="index">
+				<router-link :to="{ name: 'UserDetail', params: {id: item.userId} }">
+					<div class="detail-title">
+						<div class="user-info">
+							<span class="pic">
+								<img src="../../assets/images/member.png"
+								 v-if="item.userAvatar == null"/>
+								 <span v-else>
+									 <img :src="item.userAvatar.fileUrl"/>
+								 </span>
+							</span>
+							<span class="desc">
+								<span class="name">{{item.userName}}</span>
+								<span>{{item.createTime}}</span>
+							</span>
+						</div>
 					</div>
-				</div>
-			</router-link>
-			<router-link :to="{ name: 'PetshowDetail', params: {id:item.id} }">
-				<div class="detail-notes" v-html="item.content"></div>
-			</router-link>
-				<div class="detail-pic">
-					<yd-lightbox :num="item.petAvatar.length">
-						 <yd-lightbox-img v-for="(pic, per) in item.petAvatar"
-						 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
-						 <yd-lightbox-txt>
-	            <h1 slot="top">{{item.contentTitle}}</h1>
-	            <div slot="content" class="content" v-html="item.contentNote">
-	            </div>
-	        	</yd-lightbox-txt>
-				 </yd-lightbox>
-				</div>
+				</router-link>
+				<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},query:{userId:id}}">
+					<div class="detail-notes" v-html="item.content"></div>
+				</router-link>
+					<div class="detail-pic">
+						<yd-lightbox :num="item.petAvatar.length">
+							 <yd-lightbox-img v-for="(pic, per) in item.petAvatar"
+							 :key="per" :src="pic.fileUrl"></yd-lightbox-img>
+							 <yd-lightbox-txt>
+		            <h1 slot="top">{{item.contentTitle}}</h1>
+		            <div slot="content" class="content" v-html="item.contentNote">
+		            </div>
+		        	</yd-lightbox-txt>
+					 </yd-lightbox>
+					</div>
+			</div>
+			<div class="nodata" v-show="noData">
+				<img src="../../assets/images/nodata.svg" />
+				<p>暂时没有动态哦~</p>
+			</div>
 		</div>
-
 		<Navmenu></Navmenu>
 	</div>
 </template>
 
 <script>
-import Navmenu from '@/components/navmenu'
+import Navmenu from '@/components/navmenu';
+import { mapGetters } from 'vuex';
+
 export default{
 	name:"Petshow",
 	components:{
@@ -78,20 +89,43 @@ export default{
 				}
 			},
 			petshowlist:[],
-			loading: false,
-
+			noData: false,
 		}
 	},
+	computed:{
+		...mapGetters([
+			'id',
+		])
+	},
 	mounted(){
-		this.getPetshowList();
+		const vm = this;
+		vm._type = vm.$route.params.type;
+		vm.changeToTab(vm._type);
 	},
 	methods:{
-		getPetshowList() {
+		changeToTab(val){
 			const vm = this;
-			vm.loading = true;
-			const url = vm.urls.getPetshowList;
+			const value = parseInt(val);
+			$.each(vm.actTabList.list, function(index,item){
+				item.check = false;
+				if(index == value){
+					item.check = true;
+				}
+			})
+			location.href = location.hash.substring(0,15) + value;
+			vm.getList(value);
+		},
+		getList(val) {
+			const vm = this;
+			let url;
+			let data = {};
+			vm.noData = false;
+			vm.$indicator.open({
+			  spinnerType: 'fading-circle'
+			});
 			const callback = (r) => {
-				let data = r.data.data;
+				vm.$indicator.close();
+				let data = r.data.data.data;
 				data.forEach((item) => {
 					if(item.userAvatar) {
 							item.userAvatar = JSON.parse(item.userAvatar);
@@ -106,10 +140,19 @@ export default{
 						item.contentNote = item.content;
 					}
 				});
-				vm.loading = false;
 				vm.petshowlist = data;
+				if(data.length == 0) vm.noData = true;
 			};
-			vm.utils.getData(url, callback);
+			if(val == 1 || val == 2) {
+				url = vm.urls.getPetshowList;
+				vm.utils.getData(url, callback);
+			} else {
+				url = vm.urls.followersPetshowList;
+				data = {
+					id: vm.id,
+				}
+				vm.utils.postData(url, data, callback);
+			}
 		},
 	}
 }
@@ -117,6 +160,14 @@ export default{
 
 <style lang="less" scoped>
 #Petshow{
+	.nodata{
+		text-align: center;
+		margin-top: 50%;
+		p{
+			margin-top: 20px;
+			color: #999999;
+		}
+	}
 	.tab-list{
 		background: #eb695c;
 		position: fixed;
@@ -126,6 +177,18 @@ export default{
 		line-height: 90px;
 		border-bottom: 1px solid #e4e4e4;/*no*/
 		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 20px;
+		.camera{
+			// margin-right: -20px
+			margin-top: 20px;
+			.icon-shangchuantupian_l{
+				color: #fff;
+				font-size: 46px;
+			}
+		}
 		.tab-list-span{
 			display: inline-block;
 			height: 55px;
@@ -135,6 +198,7 @@ export default{
 			border-radius: 10px;
 			text-align: center;
 			overflow: hidden;
+			margin-left: 50px;
 			span{
 				display: inline-block;
 				// padding:0 30px;
@@ -165,8 +229,10 @@ export default{
 		}
 
 	}
+	.contain{
+		margin: 90px 0;
+	}
 	.detail-wrap{
-		margin-top: 90px;
 		background: #ffffff;
 		.detail-title{
 			padding: 20px;

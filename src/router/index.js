@@ -38,6 +38,7 @@ const LookDetail = _import('look/detail');
 const ActivityList = _import('activity/list');
 const ActivityDetail = _import('activity/detail');
 const ActivityEdit = _import('activity/edit');
+const ActivitySign = _import('activity/sign');
 /*认证号*/
 const UserList = _import('user/list');
 const UserDetail = _import('user/detail');
@@ -55,9 +56,9 @@ export default new Router({
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
-	  {	path: '/petshow/list',											name: 'PetshowList',			component: PetshowList		},
+	  {	path: '/petshow/list/:type',											name: 'PetshowList',			component: PetshowList		},
 	  {	path: '/petshow/edit',											name: 'PetshowEdit',			component: PetshowEdit		},
-    {	path: '/petshow/detail/:id',							  name: 'PetshowDetail',  	component: PetshowDetail	},
+    {	path: '/petshow/detail/:id/:userId?',			  name: 'PetshowDetail',  	component: PetshowDetail	},
 	  /*医疗*/
 	  {	path: '/medical',														name: 'Medical',					component: Medical				},
 	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
@@ -84,6 +85,7 @@ export default new Router({
 	 	{	path: '/activity/list/:type',								name: 'ActivityList',			component: ActivityList 	},
 	 	{	path: '/activity/edit',											name: 'ActivityEdit',			component: ActivityEdit 	},
 	 	{	path: '/activity/detail/:type/:id',					name: 'ActivityDetail',		component: ActivityDetail	},
+    {	path: '/activity/sign',											name: 'ActivitySign',			component: ActivitySign 	},
     /*认证号*/
 	 	{	path: '/user/list',								          name: 'UserList',			    component: UserList     	},
     {	path: '/user/detail/:id',								    name: 'UserDetail',  	    component: UserDetail    	},

@@ -50,7 +50,7 @@
 					<i class="icon-right">
 						<img src="../../assets/images/right.svg" />
 					</i>
-				</span
+				</span>
 			</li>
 			<li class="input2">
 				<label><i class="iconfont icon-plus-stop"></i>活动结束时间</label>
