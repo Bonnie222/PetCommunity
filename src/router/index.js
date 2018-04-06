@@ -15,6 +15,7 @@ const PetshowDetail = _import('petshow/detail');
 /*医疗*/
 const Medical = _import('medical/medical');
 const DiseaseList = _import('medical/diseaselist');
+const DiseaseDetail = _import('medical/detail');
 const MedicalEdit = _import('medical/edit');
 /*我的*/
 const Myself = _import('myself/myself');
@@ -30,6 +31,7 @@ const MyfriendList = _import('myself/friends/list');
 const MySetting = _import('myself/setting/setting');
 const MyInfo = _import('myself/setting/personalInfo');
 const MyPsd = _import('myself/setting/resetPsd');
+const MydiseaseList = _import('myself/medical/list');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
@@ -50,18 +52,19 @@ export default new Router({
   routes: [
 	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
-	  { path: '/forget',         						name: 'Forget',   	  	  component: Forget 			},
+	  { path: '/forget',         						        name: 'Forget',   	  	  component: Forget 			},
 	  { path: '/login',   									        name: 'Login',      			component: Login    			},
 	  {	path: '/register', 								          name: 'Register', 				component: Register	 			},
 	  /*首页*/
 	  {	path: '/home',															name: 'Home',							component: Home						},
 	  /*宠物秀*/
-	  {	path: '/petshow/list/:type',											name: 'PetshowList',			component: PetshowList		},
+	  {	path: '/petshow/list/:type',								name: 'PetshowList',			component: PetshowList		},
 	  {	path: '/petshow/edit',											name: 'PetshowEdit',			component: PetshowEdit		},
     {	path: '/petshow/detail/:id/:userId?',			  name: 'PetshowDetail',  	component: PetshowDetail	},
 	  /*医疗*/
 	  {	path: '/medical',														name: 'Medical',					component: Medical				},
-	  {	path: '/medical/list/:type',								name: 'DiseaseList',			component: DiseaseList		},
+	  {	path: '/medical/list',							      	name: 'DiseaseList',			component: DiseaseList		},
+    {	path: '/medical/detail/:id',							 	name: 'DiseaseDetail',  	component: DiseaseDetail  },
 	  {	path: '/medical/edit',											name: 'MedicalEdit',			component: MedicalEdit		},
 	  /*我的*/
 	  {	path: '/myself',														name: 'Myself',						component: Myself					},
@@ -77,6 +80,7 @@ export default new Router({
 	  {	path: '/myself/setting',        						name: 'MySetting',			  component: MySetting  		},
 	  {	path: '/myself/info',        								name: 'MyInfo',					  component: MyInfo		  		},
 	  {	path: '/myself/psd',        								name: 'MyPsd',					  component: MyPsd		  		},
+    {	path: '/myself/disease/list',								name: 'MydiseaseList',		component: MydiseaseList	},
 	  /*寻主/宠*/
 	  {	path: '/look/list',										 			name: 'LookList',					component: LookList				},
 	  {	path: '/look/edit',													name: 'LookEdit',					component: LookEdit				},

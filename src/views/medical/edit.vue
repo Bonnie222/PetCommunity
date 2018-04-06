@@ -114,33 +114,33 @@
 				</ul>
 				<div class="check-wrap">
 					<div class="check-type">
-						<label>选择疾病类型</label>
-						<div class="radio-wrap">
-							<label class="yd-radio" v-for="(item, idx) in diseaseTypeList"
-								:key="idx">
-								<input type="radio" :value="item.value"
-									name="type" v-model="editList.diseaseType">
-								<span class="yd-radio-icon"></span>
-								<span class="yd-radio-text">{{item.text}}</span>
-							</label>
+						<label>选择填写疾病类型</label>
+						<div class="check-list">
+							<yd-checkbox-group v-model="editList.diseaseType"
+								color="#eb695c" size="15" >
+								<span v-for="(item, idx) in diseaseTypeList"
+									:key="idx">
+									<yd-checkbox :val="item.value">{{item.text}}</yd-checkbox>
+								</span>
+							</yd-checkbox-group>
 						</div>
 					</div>
 					<yd-accordion accordion>
-		        <yd-accordion-item title="呼吸系统" open
-							v-show="editList.diseaseType ==1">
+		        <yd-accordion-item title="呼吸系统"
+							v-show="editList.diseaseType.indexOf(1) > -1">
 	            <div class="check-list">
-								<yd-checkbox-group v-model="editList.breath" color="#eb695c" size="15">
+								<yd-checkbox-group v-model="breath" color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList1" :key="idx">
 										<yd-checkbox :val="item"></yd-checkbox>
 									</span>
 								</yd-checkbox-group>
 	            </div>
 		        </yd-accordion-item>
-		        <yd-accordion-item title="消化系统" open
-							v-show="editList.diseaseType ==2">
+		        <yd-accordion-item title="消化系统"
+							v-show="editList.diseaseType.indexOf(2) > -1">
 							<div class="check-list flex">
 								<label>是否有呕吐物</label>
-								<yd-checkbox-group v-model="editList.digestion.vomiting"
+								<yd-checkbox-group v-model="digestion.vomiting"
 									color="#eb695c" size="15" class="checbox-group">
 									<span v-for="(item, idx) in checkList2" :key="idx">
 										<yd-checkbox :val="item"></yd-checkbox>
@@ -149,7 +149,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>是否有腹泻物</label>
-								<yd-checkbox-group v-model="editList.digestion.diarrhea"
+								<yd-checkbox-group v-model="digestion.diarrhea"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList3" :key="idx">
 										<yd-checkbox :val="item"></yd-checkbox>
@@ -157,11 +157,11 @@
 								</yd-checkbox-group>
 							</div>
 		        </yd-accordion-item>
-		        <yd-accordion-item title="皮肤病" open
-							v-show="editList.diseaseType ==3">
+		        <yd-accordion-item title="皮肤病"
+							v-show="editList.diseaseType.indexOf(3) > -1">
 							<div class="check-list flex">
 								<label>瘙痒症状</label>
-								<yd-checkbox-group v-model="editList.skin.tickle"
+								<yd-checkbox-group v-model="skin.tickle"
 									color="#eb695c" size="15" class="checbox-group" >
 									<span v-for="(item, idx) in checkList4" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -170,7 +170,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>掉毛症状</label>
-								<yd-checkbox-group v-model="editList.skin.hair"
+								<yd-checkbox-group v-model="skin.hair"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList5" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -179,7 +179,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>近三个月有患体外寄生虫</label>
-								<yd-checkbox-group v-model="editList.skin.parasite"
+								<yd-checkbox-group v-model="skin.parasite"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList6" :key="idx">
 										<yd-checkbox :val="item"></yd-checkbox>
@@ -188,7 +188,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>是否做体外寄生虫预防</label>
-								<yd-checkbox-group v-model="editList.skin.against"
+								<yd-checkbox-group v-model="skin.against"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
@@ -198,16 +198,17 @@
 							</div>
 							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
 		        </yd-accordion-item>
-						<yd-accordion-item title="骨科、外科">
+						<yd-accordion-item title="骨科、外科"
+							v-show="editList.diseaseType.indexOf(4) > -1">
 							<div class="check-list flex">
 								<label>受伤原因</label>
 								<input type="text" placeholder="请输入"
-									v-model="editList.surgical.cause"/>
+									v-model="surgical.cause"/>
 							</div>
 							<div class="check-list flex">
 								<label>受伤时间</label>
 								<span class="choice" @click="openOutTimePicker">
-									{{editList.surgical.time == '' ? '请选择' : editList.surgical.time}}
+									{{surgical.time == '' ? '请选择' : surgical.time}}
 									<i class="icon-right">
 										<img src="../../assets/images/right.svg" />
 									</i>
@@ -215,40 +216,41 @@
 							</div>
 							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
 		        </yd-accordion-item>
-						<yd-accordion-item title="泌尿生殖系统">
+						<yd-accordion-item title="泌尿生殖系统"
+							v-show="editList.diseaseType.indexOf(5) > -1">
 							<div class="check-list flex">
 								<label>饮水量</label>
-								<yd-checkbox-group v-model="editList.urinary.water"
+								<yd-checkbox-group v-model="urinary.water"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList7" :key="idx">
-										<yd-checkbox :val="item.value"
-											shape="circle">{{item.text}}</yd-checkbox>
+										<yd-checkbox :val="item"
+											shape="circle"></yd-checkbox>
 									</span>
 								</yd-checkbox-group>
 							</div>
 							<div class="check-list flex">
 								<label>尿次数</label>
-								<yd-checkbox-group v-model="editList.urinary.times"
+								<yd-checkbox-group v-model="urinary.times"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList7" :key="idx">
-										<yd-checkbox :val="item.value"
-											shape="circle">{{item.text}}</yd-checkbox>
+										<yd-checkbox :val="item"
+											shape="circle"></yd-checkbox>
 									</span>
 								</yd-checkbox-group>
 							</div>
 							<div class="check-list flex">
 								<label>一天总尿量</label>
-								<yd-checkbox-group v-model="editList.urinary.total"
+								<yd-checkbox-group v-model="urinary.total"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList7" :key="idx">
-										<yd-checkbox :val="item.value"
-											shape="circle">{{item.text}}</yd-checkbox>
+										<yd-checkbox :val="item"
+											shape="circle"></yd-checkbox>
 									</span>
 								</yd-checkbox-group>
 							</div>
 							<div class="check-list flex">
 								<label>尿颜色</label>
-								<yd-checkbox-group v-model="editList.urinary.color"
+								<yd-checkbox-group v-model="urinary.color"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList8" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -257,7 +259,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>如果尿液有血色</label>
-								<yd-checkbox-group v-model="editList.urinary.hasBlood"
+								<yd-checkbox-group v-model="urinary.hasBlood"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList9" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -265,20 +267,21 @@
 								</yd-checkbox-group>
 							</div>
 		        </yd-accordion-item>
-						<yd-accordion-item title="五官科">
+						<yd-accordion-item title="五官科"
+							v-show="editList.diseaseType.indexOf(6) > -1">
 							<div class="check-list flex">
 								<label>眼屎、眼泪</label>
-								<yd-checkbox-group v-model="editList.facial.tears"
+								<yd-checkbox-group v-model="facial.tears"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList7" :key="idx">
-										<yd-checkbox :val="item.value"
-											shape="circle">{{item.text}}</yd-checkbox>
+										<yd-checkbox :val="item"
+											shape="circle"></yd-checkbox>
 									</span>
 								</yd-checkbox-group>
 							</div>
 							<div class="check-list flex">
 								<label>耳有无异味</label>
-								<yd-checkbox-group v-model="editList.facial.earSmell"
+								<yd-checkbox-group v-model="facial.earSmell"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">有</yd-checkbox>
@@ -288,7 +291,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>耳是否瘙痒</label>
-								<yd-checkbox-group v-model="editList.facial.earTickle"
+								<yd-checkbox-group v-model="facial.earTickle"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">有</yd-checkbox>
@@ -298,7 +301,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>耳内分泌物颜色</label>
-								<yd-checkbox-group v-model="editList.facial.earColor"
+								<yd-checkbox-group v-model="facial.earColor"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList10" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -307,7 +310,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>鼻是否干燥</label>
-								<yd-checkbox-group v-model="editList.facial.nose"
+								<yd-checkbox-group v-model="facial.nose"
 									color="#eb695c" size="15">
 									<span v-for="(item, idx) in checkList11" :key="idx">
 										<yd-checkbox :val="item" shape="circle"></yd-checkbox>
@@ -316,7 +319,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>口腔、是否正常进食</label>
-								<yd-checkbox-group v-model="editList.facial.oral"
+								<yd-checkbox-group v-model="facial.oral"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
@@ -326,7 +329,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>流口水症状</label>
-								<yd-checkbox-group v-model="editList.facial.isDrool"
+								<yd-checkbox-group v-model="facial.isDrool"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
@@ -336,7 +339,7 @@
 							</div>
 							<div class="check-list flex">
 								<label>有牙结石</label>
-								<yd-checkbox-group v-model="editList.facial.hasTeeth"
+								<yd-checkbox-group v-model="facial.hasTeeth"
 									color="#eb695c" size="15">
 									<span>
 										<yd-checkbox val="1" shape="circle">是</yd-checkbox>
@@ -345,16 +348,17 @@
 								</yd-checkbox-group>
 							</div>
 		        </yd-accordion-item>
-						<yd-accordion-item title="驱虫">
+						<yd-accordion-item title="驱虫"
+							v-show="editList.diseaseType.indexOf(8) > -1">
 							<div class="check-list flex">
 								<label>主人问题</label>
 								<input type="text" placeholder="请输入"
-									v-model="editList.insert.question"/>
+									v-model="insert.question"/>
 							</div>
 							<div class="check-list flex">
 								<label>最近一次驱虫时间</label>
 								<span class="choice" @click="openInsertTimePicker">
-									{{editList.insert.time == '' ? '请选择' : editList.insert.time}}
+									{{insert.time == '' ? '请选择' : insert.time}}
 									<i class="icon-right">
 										<img src="../../assets/images/right.svg" />
 									</i>
@@ -362,16 +366,17 @@
 							</div>
 							<p class="tip">温馨提示: 请上传病症位置全身图和清晰细节图</p>
 		        </yd-accordion-item>
-						<yd-accordion-item title="免疫">
+						<yd-accordion-item title="免疫"
+							v-show="editList.diseaseType.indexOf(7) > -1">
 							<div class="check-list flex">
 								<label>主人问题</label>
 								<input type="text" placeholder="请输入"
-									v-model="editList.immune.question"/>
+									v-model="immune.question"/>
 							</div>
 							<div class="check-list flex">
 								<label>最近一次免疫时间</label>
 								<span class="choice" @click="openImmuneTimePicker">
-									{{editList.immune.time == '' ? '请选择' : editList.immune.time}}
+									{{immune.time == '' ? '请选择' : immune.time}}
 									<i class="icon-right">
 										<img src="../../assets/images/right.svg" />
 									</i>
@@ -388,9 +393,9 @@
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 				<mt-datetime-picker ref="showOutDatetime" type="datetime" @confirm="handleOutDatetime"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-				<mt-datetime-picker ref="showInsertDatetime" type="datetime" @confirm="handleInsertDatetime"
+				<mt-datetime-picker ref="showInsertDatetime" type="date" @confirm="handleInsertDatetime"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
-				<mt-datetime-picker ref="showImmuneDatetime" type="datetime" @confirm="handleImmuneDatetime"
+				<mt-datetime-picker ref="showImmuneDatetime" type="date" @confirm="handleImmuneDatetime"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
 
 			</div>
@@ -442,19 +447,13 @@ export default{
 			showImgView:false,
 			picList:[],
 			checkList1: ['咳嗽', '流鼻涕', '鼻子干', '有痰', '无痰', '精神良好', '精神不振',
-				'精神萎靡', '食欲良好', '食欲一般'],
+				'精神萎靡', '食欲良好', '食欲一般', '无食欲'],
 			checkList2: ['无', '食物', '黄水', '白色泡沫', '异物'],
 			checkList3: ['无', '软便', '烂泥状', '水状', '腥臭', '酸臭', '腐臭'],
 			checkList4: ['无瘙痒', '轻度瘙痒', '中度瘙痒', '重度瘙痒'],
 			checkList5: ['不掉毛', '少量掉毛', '大量掉毛', '脱毛', '秃毛'],
 			checkList6: ['跳蚤', '蜱虫', '虱子'],
-			checkList7: [{
-				value:1, text:'增多',
-			}, {
-				value:2, text:'减少',
-			}, {
-				value:3, text: '无变化',
-			}],
+			checkList7: ['增多', '减少', '无变化'],
 			checkList8: ['淡黄', '深黄', '血红色', '茶色'],
 			checkList9: ['尿前', '尿中(混合)', '尿后'],
 			checkList10: ['褐色', '黄色'],
@@ -476,6 +475,46 @@ export default{
 			},{
 				text:'驱虫', value:8,
 			}],
+			breath: [],
+			digestion: {
+				vomiting: [],
+				diarrhea: [],
+			},
+			skin: {
+				tickle: [],
+				hair: [],
+				parasite: [],
+				against: [],
+			},
+			surgical: {
+				cause: '',
+				time: '',
+			},
+			urinary: {
+				water: [],
+				times: [],
+				total: [],
+				color: [],
+				hasBlood: [],
+			},
+			facial: {
+				tears: [],
+				earSmell: [],
+				earTickle: [],
+				earColor: [],
+				nose: [],
+				oral: [],
+				isDrool: [],
+				hasTeeth: [],
+			},
+			insert: {
+				question: '',
+				time: '',
+			},
+			immune: {
+				question: '',
+				time: '',
+			},
 			editList:{
 				petAvatar:'',
 				note:'',
@@ -487,47 +526,8 @@ export default{
 				isVaccine:1,
 				petStatus:1,
 				region:'',
-				diseaseType: null,
-				breath: [],
-				digestion: {
-					vomiting: [],
-					diarrhea: [],
-				},
-				skin: {
-					tickle: [],
-					hair: [],
-					parasite: [],
-					against: [],
-				},
-				surgical: {
-					cause: '',
-					time: '',
-				},
-				urinary: {
-					water: [],
-					times: [],
-					total: [],
-					color: [],
-					hasBlood: [],
-				},
-				facial: {
-					tears: [],
-					earsmell: [],
-					earTickle: [],
-					earColor: [],
-					nose: [],
-					oral: [],
-					isDrool: [],
-					hasTeeth: [],
-				},
-				insert: {
-					question: '',
-					time: '',
-				},
-				immune: {
-					question: '',
-					time: '',
-				}
+				diseaseType: [],
+				symptoms: {},
 			},
 			startDate: new Date('1990-01-01'),
 			endDate:new Date(this.utils.getNowTime()),
@@ -627,7 +627,7 @@ export default{
    		let vm = this;
    		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
 	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
-	 		vm.editList.surgical.time = d;
+	 		vm.surgical.time = d;
    	},
 		// 驱虫 时间
    	openInsertTimePicker:function(){
@@ -637,7 +637,7 @@ export default{
    		let vm = this;
    		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
 	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
-	 		vm.editList.insert.time = d;
+	 		vm.insert.time = d;
    	},
 		// 免疫 时间
    	openImmuneTimePicker:function(){
@@ -647,7 +647,7 @@ export default{
    		let vm = this;
    		let d = `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
 	 		d = vm.utils.formatDate(d, 'yyyy-MM-dd hh:mm');
-	 		vm.editList.immune.time = d;
+	 		vm.immune.time = d;
    	},
   	getImg: function(e){
   		let vm = this;
@@ -674,11 +674,14 @@ export default{
     	saveToPublish: function(){
     		let vm = this;
     		if(vm.isSaving) return;
-    		// let dt = window.sessionStorage.userInfo;
 				let data = vm.editList;
 				if(!data.region || !data.petBirth ||
 					!data.petType || !vm.notes || !data.petName){
 						vm.$toast('信息填写不完整');
+						return;
+				}
+				if(!data.diseaseType){
+						vm.$toast('未选择疾病类型');
 						return;
 				}
 
@@ -691,14 +694,24 @@ export default{
     			vm.editList.petAvatar = JSON.stringify(r.data.data);
     			save();
     		}
-    		vm.utils.uploadMore(vm, e, fname, url, callback);
+				if(e) {
+					vm.utils.uploadMore(vm, e, fname, url, callback);
+				} else {
+					save();
+				}
+
 
     		function save(){
-    			let url = vm.urls.addLook;
-    			data.userInfo = dt;
-					data.userId = JSON.parse(dt).id;
+    			const url = vm.urls.addDisease;
+					data.userId = vm.id;
 					data.createTime = vm.utils.getNowTime();
 					data.note = vm.notes.replace(/\n|\r\n/g,"<br/>");
+					let symptom = {};
+					data.diseaseType.forEach((item) => {
+						symptom[vm.config.diseaseListEn[item]] = vm[vm.config.diseaseListEn[item]];
+					});
+					data.diseaseType = JSON.stringify(data.diseaseType);
+					data.symptoms = JSON.stringify(symptom);
 
 				let callback = function(r){
 					vm.$dialog.toast({
@@ -714,7 +727,6 @@ export default{
 				}
 				vm.utils.postData(url, data, callback);
     		}
-
     	}
 	}
 }
@@ -743,6 +755,7 @@ export default{
 				width: 100%;
 				min-height: 300px;
 				border: none;
+				line-height: 40px;
 
 			}
 			textarea::placeholder{
@@ -844,8 +857,8 @@ export default{
 			}
 			.yd-radio-icon{
 				position: absolute;
-				width: 30px;
-				height: 30px;
+				width: 25px;
+				height: 25px;
 				margin-right: 2px;
 				/*background: url(../../assets/images/radioNotCheck.png);
 				*/
@@ -867,6 +880,9 @@ export default{
 			}
 		}
 	}
+	// .yd-accordion-item {
+	// 	margin-bottom: 10px;
+	// }
 	.check-wrap {
 		.check-type {
 			background-color: #ffffff;
@@ -877,6 +893,7 @@ export default{
 			border-left: 0px;
 			border-right: 0px;
 			font-size: 28px;
+			margin-bottom: 10px;
 			label {
 				margin-bottom: 15px;
 			}

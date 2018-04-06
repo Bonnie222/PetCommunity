@@ -1,11 +1,13 @@
 <template>
 	<mt-header :title="title" id="header" :fixed="fixed">
-	    <mt-button icon="back" @click="gotoRouter" slot="left" v-show="headerLeft"></mt-button>
-	    <mt-button slot="right" @click="rightFunc" v-show="headerRight">{{headerRightText}}</mt-button>
-			<mt-button slot="right" icon="more" @click="rightFunc" v-show="headerRightIcon"></mt-button>
+	    <mt-button icon="back" @click="gotoRouter" slot="left"
+				v-show="headerLeft"></mt-button>
+	    <mt-button slot="right" @click="rightFunc"
+				v-show="headerRight">{{headerRightText}}</mt-button>
+			<mt-button slot="right" icon="more" @click="rightFunc"
+				v-show="headerRightIcon"></mt-button>
 	</mt-header>
 </template>
-
 <script>
 export default {
     props:{
@@ -16,18 +18,12 @@ export default {
 			headerRightText: { type:String, default:null },
     	fixed:{ type:Boolean, default:false },
     },
-    data(){
-    	return{
-    	}
-    },
     methods:{
     	gotoRouter(){
-    		//发送事件
-				this.$emit('clickRouter')
+				this.$emit('clickRouter'); //发送事件
     	},
 			rightFunc(){
-    		//发送事件
-				this.$emit('rightFunc');
+				this.$emit('rightFunc');  //发送事件
     	}
     }
 }

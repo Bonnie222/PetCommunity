@@ -748,4 +748,77 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
+ /**
+  * 我的问诊
+  */
+  router.post('/user/diseaseList',(req,res)=>{
+    var sql = $sql.medical.userDiseaseList;
+    var p = req.body;
+      console.log(p);
+      var sqlParams = [p.id];
+      conn.query(sql, sqlParams, function(err, result) {
+          if (err) {
+              console.log(err);
+          }else{
+            jsonWrite(res, result, 'List');
+          }
+      })
+  })
+ /**
+  * 医疗
+  */
+ //发布信息
+ router.post('/disease/add',(req,res)=>{
+ 	var sql = $sql.medical.add;
+ 	var p = req.body;
+     console.log(p);
+     var sqlParams = [p.diseaseType, p.createTime, p.photo, p.note, p.petName, p.petSex, p.petType, p.petBirth, p.isInsert, p.isVaccine, p.petStatus, p.region, p.userId, p.symptoms];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+         	jsonWrite(res, result);
+         }
+     })
+ })
+ router.post('/disease/listAll',(req,res)=>{
+   var sql = $sql.medical.queryAll;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
+ router.post('/disease/listByType',(req,res)=>{
+   var sql = $sql.medical.queryByType;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [`%${p.diseaseType}%`];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
+ router.post('/disease/detail',(req,res)=>{
+   var sql = $sql.medical.detail;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.id];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'Obj');
+         }
+     })
+ })
+
 module.exports = router;

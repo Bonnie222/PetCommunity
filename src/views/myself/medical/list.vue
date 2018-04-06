@@ -1,16 +1,7 @@
 <template>
-	<div id="DiseaseList">
+	<div id="MedicalList">
 		<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
-		<div v-show="!showType">
 			<div class="list-title">
-				<div class="title-wrap">
-					<span class="title" @click="typeWindow">
-						<span class="text">| {{title}}</span>
-						<span class="link">
-							<img src="src/assets/images/right.svg"/>
-						</span>
-					</span>
-				</div>
 				<!-- <div class="title-wrap">
 					<span class="tip">咳嗽</span>
 					<span class="tip">流鼻涕</span>
@@ -21,16 +12,17 @@
 			<div class="list-wrap" v-if="list.length != 0">
 				<div v-for="(item, index) in list" :key="index" class="list-item">
 					<router-link :to="{ name: 'DiseaseDetail', params: {id:item.id} }" >
-						<span class="pic">
-							<img :src="item.userAvatar.fileUrl"/>
-						</span>
+						<span>
+              <span class="pic">
+  							<!-- <img :src="item.userAvatar.fileUrl"/> -->
+  						</span>
+              <span>{{item.petName}}</span>
+            </span>
 						<span class="mess">
 							<span class="desc" v-html="item.note"></span>
-							<span class="tips">
-								<!-- <span class="tip">咳嗽</span>
-								<span class="tip">掉毛</span> -->
-							</span>
-							<span class="time">{{item.createTime}}</span>
+							<span class="time">
+                <span>{{item.createTime}}</span>
+              </span>
 						</span>
 					</router-link>
 				</div>
@@ -39,15 +31,14 @@
 				<img src="src/assets/images/nodata.svg" />
 				<p>暂时没有问诊信息哦~</p>
 			</div>
-		</div>
-		<ChoiceWindow :dataList="typeList" v-show="showType"
-			@confirm="confirmType"></ChoiceWindow>
+
 	</div>
 </template>
 
 <script>
 import Header from '@/components/header';
 import ChoiceWindow from '@/components/choiceWindow';
+import { mapGetters } from 'vuex';
 
 export default{
 	name:"DiseaseList",
@@ -92,40 +83,27 @@ export default{
 			}]
 		}
 	},
+  computed:{
+		...mapGetters([
+			'id',
+			'userInfo',
+		])
+	},
 	mounted() {
- 		const type = this.$route.query.type;
-		this.title = this.config.diseaseList[type];
-		this.getList(type);
+ 		// const type = this.$route.query.type;
+		// this.title = this.config.diseaseList[type];
+		this.getList();
 	},
 	methods:{
 		back() {
-			if(this.topTitle == '问诊列表') {
-				this.$router.replace('/medical');
-			} else {
-				this.showType = false;
-				this.topTitle = "问诊列表";
-			}
-		},
-		typeWindow() {
-			this.showType = true;
-			this.topTitle = "疾病分类选择";
-		},
-		confirmType(obj) {
-			const vm = this;
-			vm.showType = false;
-			vm.topTitle = "问诊列表";
-			vm.title = vm.config.diseaseList[obj.type];
-			vm.getList(obj.type);
-			const href = location.hash;
-			location.href = `${location.hash.substring(0,href.length-1)}${obj.type}`;
+			this.$router.go(-1);
 		},
 		getList(type) {
 			const vm = this;
-			const url = type == 0 ? vm.urls.getDiseaseList : vm.urls.getDiseaseListByType;
-			let data = {};
-			if(type != 0) {
-				data.diseaseType = type;
-			}
+			const url = vm.urls.getUserDiseaseList;
+			let data = {
+        id:vm.id,
+      };
 			vm.$indicator.open({
 			  spinnerType: 'fading-circle'
 			});
@@ -134,9 +112,9 @@ export default{
 				vm.$indicator.close();
 				let list = r.data.data.data;
 				list.forEach((item) => {
-					item.createTime = vm.utils.changeDate(item.createTime, "yyyy-MM-dd hh:mm")
-					if (item.userAvatar) {
-						item.userAvatar = JSON.parse(item.userAvatar);
+					item.createTime = vm.utils.changeDate(item.createTime, "yyyy-MM-dd hh:mm");
+          if (item.photo) {
+						item.photo = JSON.parse(item.photo);
 					}
 				});
 				vm.list = list;
@@ -149,7 +127,7 @@ export default{
 </script>
 
 <style lang="less" scoped>
-#DiseaseList{
+#MedicalList{
 	.list-title{
 		background: #FFFFFF;
 		margin-bottom: 30px;
@@ -217,7 +195,7 @@ export default{
 					}
 				}
 				.time{
-					text-align: right;
+				  text-align: right;
 					color: #999999;
 				}
 			}

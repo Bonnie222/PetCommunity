@@ -95,7 +95,7 @@ export default{
 			otherMenu:[{
 				name:'我的问诊',
 				icon: 'iconfont icon-shouye',
-				href:''
+				href:'/myself/disease/list',
 			},{
 				name:'我的寻宠/主',
 				icon:'iconfont icon-xunzhaochewei',

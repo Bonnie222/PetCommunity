@@ -10,14 +10,15 @@
 		</div>
 		<div class="medical-menu">
 			<div class="menu-item" v-for="item in medicalMenu">
-				<router-link :to="item.href" class="menu-link">
+				<router-link :to="{path:'/medical/list', query:{type:item.type}}"
+					class="menu-link">
 					<i :class="item.icon"></i>
 					<span class="menu-name">{{item.name}}</span>
 				</router-link>
 			</div>
 		</div>
 		<div class="medical-btn">
-			<router-link to="" class="btn">
+			<router-link :to="{path:'/medical/list/', query:{type:0}}" class="btn">
 				<i class="iconfont icon-jibingshaicha"></i>
 				<span>疾病速查</span>
 			</router-link>
@@ -42,39 +43,39 @@ export default{
 		return{
 			headerLeft: false,
 			show1:false,
-			
+
 			medicalMenu:[{
 				name: '呼吸系统',
 				icon:'iconfont icon-huxixitong',
-				href:'/medical/list/1'
+				type: 1,
 			},{
 				name:'消化系统',
 				icon:'iconfont icon-xiaohuaxitong',
-				href:'/medical/list/2'
+				type: 2,
 			},{
 				name:'皮肤病',
 				icon:'iconfont icon-chongwu1',
-				href: '/medical/list/3'
+				type: 3,
 			},{
 				name:'骨科、外科',
 				icon:'iconfont icon-guke',
-				href:'/medical/list/4'
+				type: 4,
 			},{
 				name:'泌尿生殖',
 				icon:'iconfont icon-miniao',
-				href:'/medical/list/5'
+				type: 5,
 			},{
 				name:'五官科',
 				icon:'iconfont icon-xiyiwuguanke',
-				href:'/medical/list/6'
+				type: 6
 			},{
 				name:'免疫',
 				icon:'iconfont icon-zhentongline',
-				href:'/medical/list/7'
+				type: 7
 			},{
 				name:'驱虫',
 				icon:'iconfont icon-quchong',
-				href:'/medical/list/8'
+				type: 8,
 			}]
 		}
 	},
@@ -142,7 +143,7 @@ export default{
 		    	.icon-quchong{
 		    		color: #13227a;
 		    	}
-		    	
+
 		    }
 		}
 	}

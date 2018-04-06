@@ -37,6 +37,9 @@ export default {
 	judgeRelation: host + '/user/judgeRelation',
 	getMyFollowers: host + '/user/followers',
 	getMyFollowings: host + '/user/followings',
+	// 我的问诊
+	getUserDiseaseList: host + '/user/diseaseList',
+	
 	//宠物
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',
@@ -67,4 +70,10 @@ export default {
 	//认证号
 	getUserList: host + '/user/list',
 	userSearch: host + 'user/search',
+
+	// 医疗
+	addDisease: host + '/disease/add',
+	getDiseaseList: host + '/disease/listAll',
+	getDiseaseListByType: host + '/disease/listByType',
+	getDiseaseDetail: host + '/disease/detail',
 }

@@ -23,7 +23,7 @@
 			<span class="findpet-list">
 				<yd-rollnotice autoplay="2000">
 			        <yd-rollnotice-item v-for="item in lookList" :key="item.id">
-			        	<router-link :to="item.href" class="link">
+			        	<router-link :to="item.href" class="linklook">
 			        		<span class="tip">
 											{{item.isFindPet == 1? '寻宠' : '寻主'}}
 									</span>
@@ -160,7 +160,7 @@ export default{
 
 			}
 			.yd-rollnotice-item{
-				.link {
+				.linklook {
 					display: flex;
 					align-items: center;
 				}

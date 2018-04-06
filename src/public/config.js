@@ -70,6 +70,7 @@ export default {
 		12:'摩羯座'
 	},
 	diseaseList: {
+		0:'全部',
 		1:'呼吸系统',
 		2:'消化系统',
 		3:'皮肤病',
@@ -78,5 +79,15 @@ export default {
 		6:'五官科',
 		7:'免疫',
 		8:'驱虫'
+	},
+	diseaseListEn: {
+		1:'breath',
+		2:'digestion',
+		3:'skin',
+		4:'surgical',
+		5:'urinary',
+		6:'facial',
+		7:'insert',
+		8:'immune'
 	},
 }

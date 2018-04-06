@@ -9,7 +9,6 @@
 				</router-link>
 			</div>
 		</div>
-
 		<div class="btn-create" @click="logout">
 			退出账号
 		</div>

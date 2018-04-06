@@ -23,7 +23,7 @@
   						</span>
   						<span class="desc">
   							<span class="name">{{detail.userName}}</span>
-  							<span>{{detail.createTime}}</span>
+  							<span class="time">{{detail.createTime}}</span>
   						</span>
   					</div>
   				</router-link>
@@ -181,6 +181,9 @@ export default{
   						font-size: 28px;
   						margin-bottom: 10px;
   					}
+            .time {
+              font-size: 26px;
+            }
   					.type{
   						color: #999999;
   						&::before{
@@ -207,13 +210,8 @@ export default{
   			max-height: 105px;
   			margin-bottom: 10px;
   			font-size: 28px;
-  			line-height: 36px;
-  			/* 多行文本溢出利用省略号代替,仅用于webkit内核 $line 行数*/
-  			overflow : hidden;
-  			text-overflow: ellipsis;
-  			display: -webkit-box;
-  			-webkit-box-orient: vertical;
-  			-webkit-line-clamp: 3;
+        letter-spacing: 3px;
+  			line-height: 40px;
   			margin: 10px 0 25px;
   			color: #333333;
   			padding: 0 20px;

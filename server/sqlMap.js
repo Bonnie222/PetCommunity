@@ -66,6 +66,15 @@ var sqlMap = {
 		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 		detail: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id And petshow.id = ?',
 		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC'
+	},
+
+	// 医疗
+	medical: {
+		add: 'INSERT INTO disease(id, diseaseType, createTime, photo, note, petName, petSex, petType, petBirth, isInsert, isVaccine, petStatus, region, userId, symptoms) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+		queryAll: 'SELECT disease.*, user.userAvatar FROM disease, user WHERE user.id = disease.userId ORDER BY disease.createTime DESC',
+		queryByType: 'SELECT disease.*, user.userAvatar FROM disease, user WHERE user.id = disease.userId And disease.diseaseType LIKE ? ORDER BY disease.createTime DESC',
+		detail: 'SELECT disease.*, user.userAvatar, user.userName FROM disease, user WHERE user.id = disease.userId And disease.id = ?',
+		userDiseaseList: 'SELECT * FROM disease WHERE userId = ? ORDER BY createTime DESC',
 	}
 }
 

@@ -58,7 +58,8 @@ export default{
         	headers:{'Content-Type':'multipart/form-data'}
       	};
 		//判断上传文件格式是否符合
-		if(formart == "jpg" || formart == "png" || formart == "jpeg"){
+		if(formart == "jpg" || formart == "png" || formart == "jpeg" ||
+				formart == "JPG" || formart == "PNG" || formart == "JPEG"){
 			axios.post(url, formData, config).then(cb).catch(response => {
 				if(response instanceof Error){
 					console.log('Error',response)
@@ -67,11 +68,11 @@ export default{
 				}
 			});
 		}else{
-			return  vm.$dialog.toast({
-			            mes: '该格式不支持上传',
-			            timeout: 1000,
-			            icon: 'success'
-			        });
+			// return  vm.$dialog.toast({
+			//             mes: '该格式不支持上传',
+			//             timeout: 1000,
+			//             icon: 'error'
+			//         });
 		}
 
 	},

@@ -42,5 +42,21 @@ export default {
   .yd-accordion-title{
     font-size: 30px !important;
   }
+  .link{
+		width: 15px;
+		height: 26px;
+		img{
+			width: inherit;
+			height: inherit;
+		}
+	}
+  .nodata{
+		text-align: center;
+		margin-top: 50%;
+		p{
+			margin-top: 20px;
+			color: #999999;
+		}
+	}
 }
 </style>

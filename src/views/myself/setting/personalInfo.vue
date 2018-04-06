@@ -338,8 +338,8 @@ export default{
 				return;
     		}
 
-			var e = vm.files;
-      		var url = vm.urls.uploadSingle;
+			  var e = vm.files;
+      	var url = vm.urls.uploadSingle;
     		var fname = 'avatar'
     		var callback = function(r){
     			vm.userInfo.userAvatar = JSON.stringify(r.data.data);
