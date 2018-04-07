@@ -8,6 +8,7 @@ export default {
 	uploadArray: host + '/uploadArray',
 	//首页
 	getHomeLook: host + '/home/look',
+	getHomePetshow: host + '/home/petshow',
 	//注册
 	queryByPhone: host + '/queryPhone',
 	queryByName: host + '/queryName',
@@ -39,7 +40,7 @@ export default {
 	getMyFollowings: host + '/user/followings',
 	// 我的问诊
 	getUserDiseaseList: host + '/user/diseaseList',
-	
+	deleteDisease: host + '/disease/delete',
 	//宠物
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',

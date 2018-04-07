@@ -36,14 +36,17 @@
 		<div class="pet-list">
 			<div class="pet-list-title">
 				<span class="tip">新宠露脸</span>
-				<span class="more">更多＞</span>
+				<span class="more">
+					<router-link to="/petshow/list/1">更多＞</router-link>
+				</span>
 			</div>
 			<ul>
-				<li>s</li><li>s</li>
-				<li>s</li>
-				<li>s</li>
-				<li>s</li>
-				<li>s</li>
+				<li v-for="(item, idex) in petshowList" :key="idex">
+					<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},
+														query:{userId: item.userId} }" class="imglink">
+						<img :src="item.petAvatar[0].fileUrl" />
+					</router-link>
+				</li>
 			</ul>
 		</div>
 
@@ -64,6 +67,7 @@ export default{
 			headerLeft: false,
 			show1:false,
 			lookList:[],
+			petshowList:[],
 			middleMenu:[{
 				name:'寻宠110',
 				src: require('../../assets/images/xunzhao.svg'),
@@ -85,6 +89,7 @@ export default{
 	},
 	mounted(){
 		this.getHomeLook();
+		this.getHomePetshow();
 	},
 	methods:{
 		getHomeLook() {
@@ -97,6 +102,18 @@ export default{
 					item.note = item.note.replace(/<br\/>/g, " ");
 				});
 				vm.lookList = list;
+			}
+			vm.utils.getData(url,callback);
+		},
+		getHomePetshow(){
+			const vm = this;
+			const url = vm.urls.getHomePetshow;
+			const callback = (r) => {
+				let list = r.data.data.data;
+				list.forEach((item) => {
+					item.petAvatar = JSON.parse(item.petAvatar);
+				});
+				vm.petshowList = list;
 			}
 			vm.utils.getData(url,callback);
 		}
@@ -206,15 +223,25 @@ export default{
 				color: #999999;
 			}
 		}
-		& ul{
+		ul{
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-around;
-			& li{
+			padding: 0 20px;
+			li{
+				flex: 33%;
 				height: 150px;
 				width: 200px;
-				background: yellow;
 				margin-bottom: 20px;
+				overflow: hidden;
+			  .imglink {
+					display: inline-block;
+					width: inherit;
+					height: inherit;
+					img {
+						height: inherit;
+						width: inherit;
+					}
+				}
 			}
 		}
 	}

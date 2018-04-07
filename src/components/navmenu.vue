@@ -70,9 +70,9 @@ export default{
 				href:'/myself'
 			}],
 			MiddleMenu1:[{
-				name: '发帖',
+				name: '发布问诊',
 				icon:'iconfont icon-float_fatie',
-				href:''
+				href:'/medical/edit',
 			},{
 				name:'发布图片',
 				icon:'iconfont icon-tupian',
@@ -181,7 +181,7 @@ export default{
 		.iconfont{
 			font-size: 125px;
 			position: absolute;
-			top:10px;
+			top:20px;
 			left: -3px;
 		}
 		.icon-float_fatie{

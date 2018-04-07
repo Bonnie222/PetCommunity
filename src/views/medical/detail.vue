@@ -5,20 +5,24 @@
     <div class="detail-wrap">
       <div class="detail-main">
         <div class="detail-title">
-  				<router-link :to="{ name: 'UserDetail', params: {id: detail.userId}}">
   					<div class="user-info">
-  						<span class="pic">
-  							<img src="../../assets/images/member.png"
-  							 v-if="detail.userAvatar == null"/>
-                 <span v-else>
-                   <img :src="detail.userAvatar.fileUrl"/>
-                 </span>
-  						</span>
-  						<span class="desc">
-  							<span class="name">{{detail.userName}}</span>
-  						</span>
+              <router-link :to="{ name: 'UserDetail', params: {id: detail.userId}}">
+    						<span class="flex">
+                  <span class="pic">
+      							<img src="../../assets/images/member.png"
+      							 v-if="detail.userAvatar == null"/>
+                     <span v-else>
+                       <img :src="detail.userAvatar.fileUrl"/>
+                     </span>
+      						</span>
+      						<span class="desc">
+      							<span class="name">{{detail.userName}}</span>
+      						</span>
+                </span>
+              </router-link>
+              <span v-show="id==detail.userId" class="delete"
+                @click="del">删除</span>
   					</div>
-  				</router-link>
         </div>
         <div class="detail-time">
           <span></span>
@@ -220,16 +224,16 @@ export default{
     back() {
 			this.$router.go(-1);
 		},
-    delete(){
+    del(){
       const vm = this;
-      const url = vm.urls.deletePetshow;
+      const url = vm.urls.deleteDisease;
       const data = {
         id: vm.$route.params.id,
       }
       const callback = () => {
         vm.$router.go(-1);
       }
-      const tips = '是否确认删除该动态？';
+      const tips = '是否确认删除该问诊？';
       vm.utils.confirmCallback(vm, tips, ()=>{
       	vm.utils.postData(url, data, callback);
       });
@@ -298,6 +302,7 @@ export default{
   			.user-info{
   				display: flex;
   				align-items:center;
+          justify-content: space-between;
   				margin-bottom: 10px;
   				.pic{
   					display: inline-block;
@@ -311,6 +316,10 @@ export default{
               height: 80px;
   					}
   				}
+          .delete {
+            color: blue;
+            font-size: 26px;
+          }
   				.desc{
   					display: flex;
   					flex-direction: column;

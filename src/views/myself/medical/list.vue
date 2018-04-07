@@ -14,7 +14,7 @@
 					<router-link :to="{ name: 'DiseaseDetail', params: {id:item.id} }" >
 						<span>
               <span class="pic">
-  							<!-- <img :src="item.userAvatar.fileUrl"/> -->
+  							<img :src="JSON.parse(userInfo.userAvatar).fileUrl"/>
   						</span>
               <span>{{item.petName}}</span>
             </span>
@@ -47,7 +47,7 @@ export default{
 	},
 	data(){
 		return{
-			topTitle: '问诊列表',
+			topTitle: '我的问诊',
 			headerLeft: true,
 			showType: false,
 			title: '',

@@ -58,5 +58,9 @@ export default {
 			color: #999999;
 		}
 	}
+  .flex {
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

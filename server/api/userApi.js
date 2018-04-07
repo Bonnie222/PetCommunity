@@ -181,6 +181,16 @@ router.get('/home/look',(req, res) => {
         }
     })
 })
+router.get('/home/petshow',(req, res) => {
+	var sql = $sql.petshow.homePage;
+	conn.query(sql, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result, 'List');
+        }
+    })
+})
 /**
  * 用户
  */
@@ -751,11 +761,26 @@ router.post('/user/regisnslist', (req, res) => {
  /**
   * 我的问诊
   */
+  // 获取个人问诊
   router.post('/user/diseaseList',(req,res)=>{
     var sql = $sql.medical.userDiseaseList;
     var p = req.body;
       console.log(p);
       var sqlParams = [p.id];
+      conn.query(sql, sqlParams, function(err, result) {
+          if (err) {
+              console.log(err);
+          }else{
+            jsonWrite(res, result, 'List');
+          }
+      })
+  })
+  // 删除问诊
+  router.post('/disease/delete',(req,res)=>{
+    var sql = $sql.medical.deleteById;
+    var p = req.body;
+      console.log(p);
+      var sqlParams = ['disease', p.id];
       conn.query(sql, sqlParams, function(err, result) {
           if (err) {
               console.log(err);

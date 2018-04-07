@@ -57,15 +57,18 @@ var sqlMap = {
 		userActJoinList: 'SELECT activity.*, actsigns.actId FROM activity, actsigns WHERE activity.id = actsigns.actId And actsigns.userId = ?',
 		userActPublList: 'SELECT * FROM activity WHERE publisherId = ?',
 		actPulRegisnList: 'SELECT user.*, actsigns.signName, actsigns.signContact FROM user, actsigns WHERE user.id = actsigns.userId And actsigns.actId = ?',
+
 	},
 
 	//宠物秀
 	petshow: {
 		add: 'INSERT INTO petshow(id, content, actId, userId, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?)',
-		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
+		// list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
+		list:  'SELECT petshow.* FROM petshow LEFT JOIN like ON like.likeTypeId = petshow.id  FROM petshow,like, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
 		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 		detail: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id And petshow.id = ?',
-		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC'
+		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC',
+		homePage: 'SELECT petAvatar, userId, id FROM petshow ORDER BY createTime DESC LIMIT 6',
 	},
 
 	// 医疗
@@ -75,6 +78,12 @@ var sqlMap = {
 		queryByType: 'SELECT disease.*, user.userAvatar FROM disease, user WHERE user.id = disease.userId And disease.diseaseType LIKE ? ORDER BY disease.createTime DESC',
 		detail: 'SELECT disease.*, user.userAvatar, user.userName FROM disease, user WHERE user.id = disease.userId And disease.id = ?',
 		userDiseaseList: 'SELECT * FROM disease WHERE userId = ? ORDER BY createTime DESC',
+	},
+
+	// 点赞
+	like: {
+		add: 'INSERT INTO like(likeId, likeTypeId, likeType, likeUserId, likeStatus) VALUES(0, ?, ?, ?, ?)',
+		update: 'UPDATE like SET status = ? WHERE likeId = ?',
 	}
 }
 
