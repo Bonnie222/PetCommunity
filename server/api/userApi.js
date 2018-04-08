@@ -845,5 +845,49 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
-
+ /**
+  * 点赞
+  */
+ // 根据点赞类型查询用户点赞列表
+ router.post('/user/likeList',(req,res)=>{
+   var sql = $sql.like.userLikeList;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.type, p.userId];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
+ // 添加点赞数据
+ router.post('/user/likeAdd',(req,res)=>{
+   var sql = $sql.like.add;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.likeTypeId, p.likeType, p.likeUserId, p.likeStatus];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
+ // 修改状态
+ router.post('/user/likeUpdate',(req,res)=>{
+   var sql = $sql.like.update;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.likeStatus, p.likeType, p.likeTypeId, p.likeUserId];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
 module.exports = router;

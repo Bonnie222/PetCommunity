@@ -19,6 +19,7 @@ export default {
 	getMyPetList: host + '/user/petList',
 	updataMyInfo: host + '/user/update',
 	resetPsd: host + '/user/updatepsd',
+
 	// 我的寻宠
 	getMyLookList: host + '/user/looklistAll',
 	getMyLookListByStatus: host + '/user/looklistByStatus',
@@ -77,4 +78,9 @@ export default {
 	getDiseaseList: host + '/disease/listAll',
 	getDiseaseListByType: host + '/disease/listByType',
 	getDiseaseDetail: host + '/disease/detail',
+
+	// 点赞
+	getUserLikeList: host + '/user/likeList',
+	addLike: host + '/user/likeAdd',
+	updateLike: host + '/user/likeUpdate',
 }

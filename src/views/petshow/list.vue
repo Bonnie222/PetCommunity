@@ -50,6 +50,17 @@
 		        	</yd-lightbox-txt>
 					 </yd-lightbox>
 					</div>
+					<div class="detail-footer">
+						<span>
+							<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},query:{userId:id}}">
+								<i class="iconfont icon-8pinglun"></i> <label>{{item.commentCount}}</label>
+							</router-link>
+						</span>
+						<span><i class="iconfont" :class="{'icon-shoucang2': item.isLike, 'icon-buoumaotubiao15':!item.isLike}"></i>
+							 <label v-if="item.isLike" @click="like(item)">{{item.likeCount}}</label>
+							  <label v-else @click="like(item)">{{item.likeCount}}</label>
+						</span>
+					</div>
 			</div>
 			<div class="nodata" v-show="noData">
 				<img src="../../assets/images/nodata.svg" />
@@ -71,6 +82,7 @@ export default{
 	},
 	data(){
 		return{
+			likeList: [],
 			actTabList:{
 				list:{
 					1:{
@@ -100,9 +112,53 @@ export default{
 	mounted(){
 		const vm = this;
 		vm._type = vm.$route.params.type;
-		vm.changeToTab(vm._type);
+		vm.getLikeList();
 	},
 	methods:{
+		like(obj) {
+			const vm = this;
+			const ObjId = {likeTypeId: obj.id};
+			if(obj.isLike) {
+				const url =vm.urls.updateLike;
+				const data = {
+					likeStatus: 0,
+					likeType: 1,
+					likeTypeId: obj.id,
+					likeUserId: vm.id,
+				}
+				const callback = (r) => {
+					obj.isLike = false;
+					obj.likeCount--;
+									// this.likeList.slice({typeId:obj.id}, 1);
+				}
+				vm.utils.post(url, data, callback);
+
+			}else{
+				const isContain = JSON.stringify(this.likeList).indexOf(JSON.stringify(ObjId));
+				console.log(isContain);
+				obj.isLike = true;
+				obj.likeCount++;
+				this.likeList.push({typeId:obj.id});
+			}
+		},
+		getLikeList(){
+			const vm = this;
+			const url = vm.urls.getUserLikeList;
+			const data = {
+				type: 1,
+				userId: Number(vm.id),
+			}
+			const options = {
+				params: {
+					type: 1,
+				}
+			}
+			const callback = (r) => {
+				vm.likeList = r.data.data.data;
+				vm.changeToTab(vm._type);
+			}
+			vm.utils.postData(url, data, callback, options);
+		},
 		changeToTab(val){
 			const vm = this;
 			const value = parseInt(val);
@@ -114,6 +170,7 @@ export default{
 			})
 			location.href = location.hash.substring(0,15) + value;
 			vm.getList(value);
+			console.log(vm.likeList);
 		},
 		getList(val) {
 			const vm = this;
@@ -140,7 +197,13 @@ export default{
 						item.contentNote = item.content;
 					}
 				});
+				vm.likeList.forEach((item)=> {
+					data.forEach((obj)=>{
+							obj.isLike = (item.likeTypeId == obj.id && item.likeStatus == 1);
+					})
+				})
 				vm.petshowlist = data;
+				console.log(data);
 				if(data.length == 0) vm.noData = true;
 			};
 			if(val == 1 || val == 2) {
@@ -234,9 +297,10 @@ export default{
 	}
 	.detail-wrap{
 		background: #ffffff;
+		margin-bottom: 20px;
 		.detail-title{
 			padding: 20px;
-			border-bottom:1px solid #CCCCCC; /*no*/
+			border-bottom:1px solid #e4e4e4; /*no*/
 			.user-info{
 				display: flex;
 				align-items:center;
@@ -299,13 +363,39 @@ export default{
 			padding: 0 20px;
 		}
 		.detail-pic{
-			margin-bottom: 20px;
+			// margin-bottom: 20px;
 			padding: 20px;
 			img{
 				display: inline-block;
 				width: 200px;
 				height: 200px;
 				border-radius: 10px;
+			}
+		}
+		.detail-footer {
+			display: flex;
+			align-items: center;
+			color: #999999;
+			text-align: center;
+			border-top: 1px solid #e4e4e4; /*no*/
+			font-size: 20px;
+			span{
+				padding: 25px 0 15px;
+				flex:1;
+				height: inherit;
+				.iconfont{
+					display: inline-block;
+					font-size: 38px;
+					&.icon-shoucang2{
+						color: red;
+					}
+				}
+				label {
+					font-size: 34px;
+				}
+			}
+			span:first-child{
+				border-right: 1px solid #e4e4e4;
 			}
 		}
 	}

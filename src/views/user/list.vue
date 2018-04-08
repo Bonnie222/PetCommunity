@@ -28,7 +28,7 @@
           <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
               <p>
-                <i class="iconfont icon-huati"></i>
+                <i class="iconfont icon-ren1"></i>
                 {{item.userNumber}}</p>
               <p>
                 <i class="iconfont icon-huati"></i>

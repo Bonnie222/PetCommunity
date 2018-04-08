@@ -63,8 +63,7 @@ var sqlMap = {
 	//宠物秀
 	petshow: {
 		add: 'INSERT INTO petshow(id, content, actId, userId, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?)',
-		// list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
-		list:  'SELECT petshow.* FROM petshow LEFT JOIN like ON like.likeTypeId = petshow.id  FROM petshow,like, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
+		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
 		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 		detail: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id And petshow.id = ?',
 		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC',
@@ -83,7 +82,8 @@ var sqlMap = {
 	// 点赞
 	like: {
 		add: 'INSERT INTO like(likeId, likeTypeId, likeType, likeUserId, likeStatus) VALUES(0, ?, ?, ?, ?)',
-		update: 'UPDATE like SET status = ? WHERE likeId = ?',
+		update: 'UPDATE like SET likeStatus = ? WHERE likeType = ? AND likeTypeId = ? AND likeUserId = ?',
+		userLikeList: 'SELECT * FROM liked WHERE likeType= ? AND likeUserId = ?',
 	}
 }
 
