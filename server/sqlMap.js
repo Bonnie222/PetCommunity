@@ -64,6 +64,7 @@ var sqlMap = {
 	petshow: {
 		add: 'INSERT INTO petshow(id, content, actId, userId, createTime, petAvatar) VALUES (0, ?, ?, ?, ?, ?)',
 		list:  'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.createTime DESC',
+		listTop: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id ORDER BY petshow.likeCount DESC, petshow.createTime DESC LIMIT 10',
 		userPetShowList: 'SELECT * FROM petshow WHERE userId = ? ORDER BY createTime DESC',
 		detail: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user WHERE petshow.userId = user.id And petshow.id = ?',
 		followerShowList: 'SELECT petshow.*, user.userName, user.userAvatar FROM petshow, user, relation WHERE user.id = petshow.userId And petshow.userId = relation.toUserId And relation.fromUserId = ? ORDER BY createTime DESC',
@@ -81,9 +82,11 @@ var sqlMap = {
 
 	// 点赞
 	like: {
-		add: 'INSERT INTO like(likeId, likeTypeId, likeType, likeUserId, likeStatus) VALUES(0, ?, ?, ?, ?)',
-		update: 'UPDATE like SET likeStatus = ? WHERE likeType = ? AND likeTypeId = ? AND likeUserId = ?',
-		userLikeList: 'SELECT * FROM liked WHERE likeType= ? AND likeUserId = ?',
+		add: 'INSERT INTO liked (likeId, likeTypeId, likeType, likeUserId, likeStatus) VALUES (0, ?, ?, ?, ?)',
+		update: 'UPDATE liked SET likeStatus = ? WHERE likeType = ? AND likeTypeId = ? AND likeUserId = ?',
+		userLikeList: 'SELECT likeStatus,likeTypeId FROM liked WHERE likeType= ? AND likeUserId = ?',
+		top7: 'SELECT liked.*, user.userAvatar FROM liked, user WHERE liked.likeType= ? AND liked.likeTypeId= ? AND liked.likeStatus=1 AND liked.likeUserId = user.id',
+		status: 'SELECT * FROM liked WHERE likeType= ? AND likeTypeId=? AND likeUserId = ?',
 	}
 }
 

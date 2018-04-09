@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-09 00:52:59
+Date: 2018-04-09 18:41:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -117,7 +117,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `liked`;
 CREATE TABLE `liked` (
-`likeId`  int(11) NOT NULL ,
+`likeId`  int(11) NOT NULL AUTO_INCREMENT ,
 `likeTypeId`  int(11) NOT NULL ,
 `likeType`  int(11) NOT NULL ,
 `likeUserId`  int(11) NOT NULL ,
@@ -133,6 +133,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of liked
 -- ----------------------------
 BEGIN;
+INSERT INTO `liked` VALUES ('15', '5', '1', '1', '1'), ('16', '3', '1', '1', '0');
 COMMIT;
 
 -- ----------------------------
@@ -221,7 +222,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of petshow
 -- ----------------------------
 BEGIN;
-INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '0');
+INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '1', '0');
 COMMIT;
 
 -- ----------------------------
@@ -287,6 +288,32 @@ CREATE TRIGGER `tri_updateActPeopleNum` AFTER INSERT ON `actsigns` FOR EACH ROW 
  DECLARE sum INT;
  SET sum = (SELECT peopleNum FROM activity WHERE id = new.actId);
  UPDATE activity SET peopleNum = sum+1 WHERE id = new.actId;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateLikeCount1`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateLikeCount1` AFTER INSERT ON `liked` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ IF (new.likeType = 1) THEN
+  SET sum = (SELECT likeCount FROM petshow WHERE id = new.likeTypeId);
+  UPDATE petshow SET likeCount = sum+1 WHERE id = new.likeTypeId;
+ END IF;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateLikeCount2`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateLikeCount2` AFTER UPDATE ON `liked` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ IF (new.likeType = 1) THEN
+  SET sum = (SELECT likeCount FROM petshow WHERE id = new.likeTypeId);
+  IF (new.likeStatus = 0) THEN
+   UPDATE petshow SET likeCount = sum-1 WHERE id = new.likeTypeId;
+  ELSE 
+   UPDATE petshow SET likeCount = sum+1 WHERE id = new.likeTypeId;
+  END IF;
+ END IF;
 END
 ;;
 DELIMITER ;

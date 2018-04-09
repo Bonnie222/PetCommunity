@@ -626,6 +626,17 @@ router.get('/petshow/list',(req, res) => {
         }
     })
 })
+router.get('/petshow/listTop',(req, res) => {
+	var sql = $sql.petshow.listTop;
+	var p = req.body;
+	conn.query(sql, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result, 'List');
+        }
+    })
+})
 //详情
 router.post('/petshow/detail',(req, res) => {
   var sql = $sql.petshow.detail;
@@ -862,6 +873,34 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
+ // 根据点赞类型查询某文章点赞用户列表top7
+ router.post('/like/topLike',(req,res)=>{
+   var sql = $sql.like.top7;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.likeType, p.likeTypeId];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
+ // 获取用户对某文章的点赞状态
+ router.post('/user/likeStatus',(req,res)=>{
+   var sql = $sql.like.status;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.likeType, p.likeTypeId, p.likeUserId];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'Obj');
+         }
+     })
+ })
  // 添加点赞数据
  router.post('/user/likeAdd',(req,res)=>{
    var sql = $sql.like.add;
@@ -872,7 +911,7 @@ router.post('/user/regisnslist', (req, res) => {
          if (err) {
              console.log(err);
          }else{
-           jsonWrite(res, result, 'List');
+           jsonWrite(res, result);
          }
      })
  })
@@ -886,7 +925,7 @@ router.post('/user/regisnslist', (req, res) => {
          if (err) {
              console.log(err);
          }else{
-           jsonWrite(res, result, 'List');
+           jsonWrite(res, result);
          }
      })
  })
