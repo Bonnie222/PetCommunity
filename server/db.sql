@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-09 18:41:15
+Date: 2018-04-10 18:42:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -133,7 +133,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of liked
 -- ----------------------------
 BEGIN;
-INSERT INTO `liked` VALUES ('15', '5', '1', '1', '1'), ('16', '3', '1', '1', '0');
+INSERT INTO `liked` VALUES ('15', '5', '1', '1', '0'), ('16', '3', '1', '1', '0'), ('17', '2', '1', '1', '0'), ('18', '5', '1', '1', '1');
 COMMIT;
 
 -- ----------------------------

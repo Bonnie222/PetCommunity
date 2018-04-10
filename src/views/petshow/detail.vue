@@ -36,6 +36,22 @@
 				 </yd-lightbox>
 				</div>
   		</div>
+      <div class="detail-like">
+        <span>
+          <i class="iconfont" @click="like"
+            :class="{'icon-shoucang2': likeStatus==1,
+            'icon-shoucang3':likeStatus==0 || likeStatus==-1}"></i>
+          <label>{{detail.likeCount}}</label>
+        </span>
+        <span>
+          <span v-for="(item, idx) in likeTop" :key="idx">
+            <router-link :to="{ name: 'UserDetail', params:{id:item.likeUserId}}" class="pic" >
+              <img src="src/assets/images/member.png" v-if="!item.userAvatar"/>
+              <img :src="item.userAvatar.fileUrl" v-else/>
+            </router-link>
+          </span>
+        </span>
+      </div>
     </div>
     <yd-actionsheet :items="myItems1" v-model="sheetVisible" cancel="取消"></yd-actionsheet>
   </div>
@@ -58,6 +74,8 @@ export default{
       },
       detail:{},
       picList:[],
+      likeTop: [],
+      likeStatus: null,
       sheetVisible: false,
       myItems1:[{
         label: '返回首页',
@@ -76,6 +94,8 @@ export default{
     const id = this.$route.params.id;
     const userId = this.$route.query.userId;
     this.getDetail(id);
+    this.getLikeTopUser(id);
+    this.getUserLikeStatus(id);
     if(userId == this.id) this.myItems1.unshift({
       label: '删除',
       callback: () => {
@@ -90,6 +110,42 @@ export default{
     rightFunc() {
       this.sheetVisible = true;
     },
+    like() {
+      const vm = this;
+      // const ObjId = {
+      //   likeStatus: obj.likeStatus,
+      //   likeTypeId: obj.id
+      // };
+      if(vm.likeStatus==1) {
+        const url =vm.urls.updateLike;
+        const data = {
+          likeStatus: 0,
+          likeType: 1,
+          likeTypeId: vm.detail.id,
+          likeUserId: vm.id,
+        }
+        const callback = (r) => {
+          vm.likeStatus = 0;
+          vm.detail.likeCount--;
+          vm.getLikeTopUser(vm.detail.id);
+        }
+        vm.utils.postData(url, data, callback);
+      }else{
+        const url = vm.likeStatus < 0 ? vm.urls.addLike : vm.urls.updateLike;
+        const data = {
+          likeTypeId: vm.detail.id,
+          likeType: 1,
+          likeUserId: vm.id,
+          likeStatus: 1,
+        };
+        const callback = (r) => {
+          vm.likeStatus = 1;
+          vm.detail.likeCount++;
+          vm.getLikeTopUser(vm.detail.id);
+        }
+        vm.utils.postData(url, data, callback);
+      }
+    },
     delete(){
       const vm = this;
       const url = vm.urls.deletePetshow;
@@ -103,6 +159,37 @@ export default{
       vm.utils.confirmCallback(vm, tips, ()=>{
       	vm.utils.postData(url, data, callback);
       });
+    },
+    getUserLikeStatus(_id){
+			const vm = this;
+			const url = vm.urls.userLikeStatus;
+			const data = {
+				likeType: 1,
+        likeTypeId: _id,
+				likeUserId: vm.id,
+			}
+
+			const callback = (r) => {
+        const obj = r.data.data;
+        vm.likeStatus = obj == undefined ? -1 : obj.likeStatus;
+			}
+			vm.utils.postData(url, data, callback);
+		},
+    getLikeTopUser(_id) {
+      const vm = this;
+      const url =vm.urls.likeTop;
+      const data = {
+        likeType: 1,
+        likeTypeId: _id,
+      }
+      const callback = (r) => {
+        const list = r.data.data.data;
+        list.forEach((item)=> {
+          if(item.userAvatar) item.userAvatar = JSON.parse(item.userAvatar);
+        })
+        vm.likeTop = list;
+      }
+      vm.utils.postData(url,data, callback);
     },
     getDetail(_id){
       const vm = this;
@@ -154,6 +241,8 @@ export default{
     }
     .detail-main{
   		background: #ffffff;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e4e4e4; /*no*/
   		.detail-title{
         display: block;
   			padding: 20px;
@@ -227,6 +316,45 @@ export default{
   			}
   		}
   	}
+    .detail-like {
+      background: #ffffff;
+      border-bottom: 1px solid #e4e4e4; /*no*/
+      border-top: 1px solid #e4e4e4; /*no*/
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      span{
+        &:nth-child(2) {
+          flex: 6;
+          .pic{
+            display: inline-block;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 5px;
+            &:last-child{
+              margin-right: 0;
+            }
+            img {
+              height: inherit;
+              width: inherit;
+            }
+          }
+        }
+        &:nth-child(1) {
+          margin-top: 10px;
+          margin-right: 30px;
+          text-align: center;
+          i {
+            font-size: 46px;
+            &.icon-shoucang2 {
+              color: red;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

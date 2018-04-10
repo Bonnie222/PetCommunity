@@ -36,7 +36,7 @@
 						</div>
 					</div>
 				</router-link>
-				<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},query:{userId:id}}">
+				<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},query:{userId: item.userId}}">
 					<div class="detail-notes" v-html="item.content"></div>
 				</router-link>
 					<div class="detail-pic">
@@ -53,12 +53,15 @@
 					<div class="detail-footer">
 						<span>
 							<router-link :to="{ name: 'PetshowDetail', params: {id:item.id},query:{userId:id}}">
-								<i class="iconfont icon-8pinglun"></i> <label>{{item.commentCount}}</label>
+								<i class="iconfont icon-8pinglun"></i>
+								<label>{{item.commentCount==0? '评论':item.commentCount}}</label>
 							</router-link>
 						</span>
-						<span><i class="iconfont" :class="{'icon-shoucang2': item.isLike, 'icon-buoumaotubiao15':!item.isLike}"></i>
-							 <label v-if="item.isLike" @click="like(item)">{{item.likeCount}}</label>
-							  <label v-else @click="like(item)">{{item.likeCount}}</label>
+						<span><i class="iconfont" :class="{'icon-shoucang2': item.likeStatus==1,
+							'icon-shoucang3':item.likeStatus==0 || item.likeStatus==-1}"></i>
+							 <label  @click="like(item)">
+								 {{item.likeCount == 0 ? '喜欢' : item.likeCount}}
+							 </label>
 						</span>
 					</div>
 			</div>
@@ -117,8 +120,11 @@ export default{
 	methods:{
 		like(obj) {
 			const vm = this;
-			const ObjId = {likeTypeId: obj.id};
-			if(obj.isLike) {
+			const ObjId = {
+				likeStatus: obj.likeStatus,
+				likeTypeId: obj.id
+			};
+			if(obj.likeStatus==1) {
 				const url =vm.urls.updateLike;
 				const data = {
 					likeStatus: 0,
@@ -127,18 +133,45 @@ export default{
 					likeUserId: vm.id,
 				}
 				const callback = (r) => {
-					obj.isLike = false;
+					obj.likeStatus = 0;
 					obj.likeCount--;
-									// this.likeList.slice({typeId:obj.id}, 1);
+					let idx;
+					vm.likeList.forEach((item,index) => {
+						if(item.likeTypeId == obj.id) idx = index;
+					})
+					vm.likeList[idx].likeStatus = 0;
 				}
-				vm.utils.post(url, data, callback);
+				vm.utils.postData(url, data, callback);
 
 			}else{
-				const isContain = JSON.stringify(this.likeList).indexOf(JSON.stringify(ObjId));
-				console.log(isContain);
-				obj.isLike = true;
-				obj.likeCount++;
-				this.likeList.push({typeId:obj.id});
+				let idx;
+				vm.likeList.forEach((item,index) => {
+					if(item.likeTypeId == obj.id) {
+						idx = index;
+					} else {
+						idx = -1;
+					}
+				})
+				const url = idx < 0 ? vm.urls.addLike : vm.urls.updateLike;
+				const data = {
+					likeTypeId: obj.id,
+					likeType: 1,
+					likeUserId: vm.id,
+					likeStatus: 1,
+				};
+				const callback = (r) => {
+					obj.likeStatus = 1;
+					obj.likeCount++;
+					if(idx > 0) {
+						vm.likeList[idx].likeStatus = 1;
+					} else {
+						vm.likeList.push({
+							likeTypeId: obj.id,
+							likeStatus: 1,
+						});
+					}
+				}
+				vm.utils.postData(url, data, callback);
 			}
 		},
 		getLikeList(){
@@ -196,25 +229,26 @@ export default{
 					} else {
 						item.contentNote = item.content;
 					}
+					item.likeStatus = -1; // 先设置全部为0
 				});
 				vm.likeList.forEach((item)=> {
 					data.forEach((obj)=>{
-							obj.isLike = (item.likeTypeId == obj.id && item.likeStatus == 1);
+							if(obj.id == item.likeTypeId) obj.likeStatus = item.likeStatus;
 					})
 				})
 				vm.petshowlist = data;
 				console.log(data);
 				if(data.length == 0) vm.noData = true;
 			};
-			if(val == 1 || val == 2) {
-				url = vm.urls.getPetshowList;
-				vm.utils.getData(url, callback);
-			} else {
+			if (val == 3) {
 				url = vm.urls.followersPetshowList;
 				data = {
 					id: vm.id,
 				}
 				vm.utils.postData(url, data, callback);
+			} else {
+				url = val == 1? vm.urls.getPetshowListTop : vm.urls.getPetshowList;
+				vm.utils.getData(url, callback);
 			}
 		},
 	}
@@ -391,7 +425,7 @@ export default{
 					}
 				}
 				label {
-					font-size: 34px;
+					font-size: 30px;
 				}
 			}
 			span:first-child{

@@ -65,6 +65,7 @@ export default {
 	//宠物秀
 	addPetShow: host + '/petshow/add',
 	getPetshowList: host + '/petshow/list',
+	getPetshowListTop: host + '/petshow/listTop',
 	getPetshowDetail: host + '/petshow/detail',
 	deletePetshow: host + '/petshow/delete',
 	followersPetshowList: host + '/petshow/followers',
@@ -83,4 +84,6 @@ export default {
 	getUserLikeList: host + '/user/likeList',
 	addLike: host + '/user/likeAdd',
 	updateLike: host + '/user/likeUpdate',
+	likeTop: host + '/like/topLike',
+	userLikeStatus: host + '/user/likeStatus',
 }
