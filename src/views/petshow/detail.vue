@@ -37,10 +37,9 @@
 				</div>
   		</div>
       <div class="detail-like">
-        <span>
-          <i class="iconfont" @click="like"
-            :class="{'icon-shoucang2': likeStatus==1,
-            'icon-shoucang3':likeStatus==0 || likeStatus==-1}"></i>
+        <span  @click="like">
+            <yd-icon name="like-outline" v-show="likeStatus==0 || likeStatus==-1"></yd-icon>
+            <yd-icon name="like" color="#FF685D" v-show="likeStatus==1"></yd-icon>
           <label>{{detail.likeCount}}</label>
         </span>
         <span>
@@ -112,10 +111,6 @@ export default{
     },
     like() {
       const vm = this;
-      // const ObjId = {
-      //   likeStatus: obj.likeStatus,
-      //   likeTypeId: obj.id
-      // };
       if(vm.likeStatus==1) {
         const url =vm.urls.updateLike;
         const data = {

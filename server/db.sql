@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-10 18:42:35
+Date: 2018-04-11 00:02:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -79,6 +79,32 @@ INSERT INTO `actsigns` VALUES ('11', '1', '3', 'ljy', '13189233129', '[上海]�
 COMMIT;
 
 -- ----------------------------
+-- Table structure for `comment`
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`commentType`  int(11) NOT NULL ,
+`commentTypeId`  int(11) NOT NULL ,
+`content`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL ,
+`contentType`  int(11) NOT NULL ,
+`fromUserId`  int(11) NOT NULL ,
+`toUserId`  int(11) NULL DEFAULT NULL ,
+`createTime`  datetime NOT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+;
+
+-- ----------------------------
+-- Records of comment
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for `disease`
 -- ----------------------------
 DROP TABLE IF EXISTS `disease`;
@@ -133,7 +159,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of liked
 -- ----------------------------
 BEGIN;
-INSERT INTO `liked` VALUES ('15', '5', '1', '1', '0'), ('16', '3', '1', '1', '0'), ('17', '2', '1', '1', '0'), ('18', '5', '1', '1', '1');
+INSERT INTO `liked` VALUES ('17', '2', '1', '1', '0'), ('19', '3', '1', '1', '0'), ('20', '5', '1', '1', '0');
 COMMIT;
 
 -- ----------------------------
@@ -222,7 +248,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of petshow
 -- ----------------------------
 BEGIN;
-INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '1', '0');
+INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '0');
 COMMIT;
 
 -- ----------------------------

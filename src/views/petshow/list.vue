@@ -57,9 +57,10 @@
 								<label>{{item.commentCount==0? '评论':item.commentCount}}</label>
 							</router-link>
 						</span>
-						<span><i class="iconfont" :class="{'icon-shoucang2': item.likeStatus==1,
-							'icon-shoucang3':item.likeStatus==0 || item.likeStatus==-1}"></i>
-							 <label  @click="like(item)">
+						<span @click="like(item)">
+							<yd-icon name="like-outline" v-show="item.likeStatus==0 || item.likeStatus==-1"></yd-icon>
+							<yd-icon name="like" color="#FF685D" v-show="item.likeStatus==1"></yd-icon>
+							 <label>
 								 {{item.likeCount == 0 ? '喜欢' : item.likeCount}}
 							 </label>
 						</span>
@@ -141,16 +142,13 @@ export default{
 					})
 					vm.likeList[idx].likeStatus = 0;
 				}
+				callback();
 				vm.utils.postData(url, data, callback);
 
 			}else{
-				let idx;
+				let idx = -1;
 				vm.likeList.forEach((item,index) => {
-					if(item.likeTypeId == obj.id) {
-						idx = index;
-					} else {
-						idx = -1;
-					}
+					if(item.likeTypeId == obj.id)	idx = index;
 				})
 				const url = idx < 0 ? vm.urls.addLike : vm.urls.updateLike;
 				const data = {
@@ -203,7 +201,6 @@ export default{
 			})
 			location.href = location.hash.substring(0,15) + value;
 			vm.getList(value);
-			console.log(vm.likeList);
 		},
 		getList(val) {
 			const vm = this;
@@ -237,7 +234,6 @@ export default{
 					})
 				})
 				vm.petshowlist = data;
-				console.log(data);
 				if(data.length == 0) vm.noData = true;
 			};
 			if (val == 3) {
