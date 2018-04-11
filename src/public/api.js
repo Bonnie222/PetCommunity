@@ -90,4 +90,5 @@ export default {
 	// 评论
 	addComment: host + '/comment/add',
 	getCommentList: host + '/comment/list',
+	delComment: host + '/comment/delete',
 }

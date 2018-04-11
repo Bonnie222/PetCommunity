@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-11 18:42:02
+Date: 2018-04-12 00:50:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,7 +102,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of comment
 -- ----------------------------
 BEGIN;
-INSERT INTO `comment` VALUES ('1', '1', '5', 'hi', '1', null, null, '2018-04-11 17:18:02');
+INSERT INTO `comment` VALUES ('1', '1', '5', 'hi', '1', null, null, '2018-04-11 17:18:02'), ('2', '1', '3', '666', '1', null, null, '2018-04-12 00:06:04'), ('3', '1', '5', '呀啊', '3', null, null, '2018-04-12 00:46:20');
 COMMIT;
 
 -- ----------------------------
@@ -160,7 +160,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of liked
 -- ----------------------------
 BEGIN;
-INSERT INTO `liked` VALUES ('17', '2', '1', '1', '0'), ('19', '3', '1', '1', '0'), ('20', '5', '1', '1', '0');
+INSERT INTO `liked` VALUES ('17', '2', '1', '1', '0'), ('19', '3', '1', '1', '0'), ('20', '5', '1', '1', '0'), ('21', '5', '1', '3', '0'), ('22', '2', '1', '3', '0');
 COMMIT;
 
 -- ----------------------------
@@ -249,7 +249,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of petshow
 -- ----------------------------
 BEGIN;
-INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '1');
+INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '1'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '2');
 COMMIT;
 
 -- ----------------------------
@@ -325,6 +325,17 @@ CREATE TRIGGER `tri_updateCommentCount1` AFTER INSERT ON `comment` FOR EACH ROW 
  IF (new.commentType = 1) THEN
   SET sum = (SELECT commentCount FROM petshow WHERE id = new.commentTypeId);
   UPDATE petshow SET commentCount = sum+1 WHERE id = new.commentTypeId;
+ END IF;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateCommentCount2`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateCommentCount2` AFTER DELETE ON `comment` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ IF (old.commentType = 1) THEN
+  SET sum = (SELECT commentCount FROM petshow WHERE id = old.commentTypeId);
+  UPDATE petshow SET commentCount = sum-1 WHERE id = old.commentTypeId;
  END IF;
 END
 ;;

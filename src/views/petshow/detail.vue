@@ -56,11 +56,13 @@
           <i class="border-arrow"></i>
           <i class="border-arrow-inner"></i>
         </p>
-        <div v-if="commentList.length !=0">
+        <div v-show="commentList.length!=0">
           <div class="comment-item" v-for="(item, index) in commentList"
-            :key="index" @click="reply(item)">
+            :key="index" @click="commentFunc(item)">
             <div class="comment-info">
-              <img src="src/assets/images/member.png" class="comment-pic" />
+              <img src="src/assets/images/member.png" class="comment-pic"
+                v-if="!item.fromUserAvatar"/>
+              <img :src="item.fromUserAvatar.fileUrl" class="comment-pic" v-else>
               <span class="comment-note">
                 <p class="comment-name">{{item.fromUserName}}</p>
                 <span class="comment-desc">
@@ -73,7 +75,7 @@
             <p class="comment-time">{{item.createTime}}</p>
           </div>
         </div>
-        <div v-else class="no-comment">
+        <div v-show="noData" class="no-comment">
           暂无评论~赶紧去抢沙发吧！
         </div>
       </div>
@@ -82,7 +84,8 @@
       <textarea class="inputText" :placeholder="inputPlaceholder" v-model="commentNote"></textarea>
       <span class="send" @click="sendComment">发送</span>
     </div>
-    <yd-actionsheet :items="myItems1" v-model="sheetVisible" cancel="取消"></yd-actionsheet>
+    <yd-actionsheet :items="myItems1" v-model="sheetVisible1" cancel="取消"></yd-actionsheet>
+    <yd-actionsheet :items="myItems2" v-model="sheetVisible2" cancel="取消"></yd-actionsheet>
   </div>
 </template>
 <script>
@@ -105,7 +108,9 @@ export default{
       picList:[],
       likeTop: [],
       likeStatus: null,
-      sheetVisible: false,
+      noData: false,
+      sheetVisible1: false,
+      sheetVisible2: false,
       commentList: [],
       inputPlaceholder: '说点什么吧...',
       commentNote: null,
@@ -117,6 +122,7 @@ export default{
            this.$router.push('/home');
         }
       }],
+      myItems2:[],
     }
   },
   computed:{
@@ -125,16 +131,17 @@ export default{
     ])
   },
   mounted(){
-    const id = this.$route.params.id;
-    const userId = this.$route.query.userId;
-    this.getDetail(id);
-    this.getLikeTopUser(id);
-    this.getUserLikeStatus(id);
-    this.getCommentList(id);
-    if(userId == this.id) this.myItems1.unshift({
+    const vm = this;
+    const id = vm.$route.params.id;
+    const userId = vm.$route.query.userId;
+    vm.getDetail(id);
+    vm.getLikeTopUser(id);
+    vm.getUserLikeStatus(id);
+    vm.getCommentList();
+    if(userId == vm.id) vm.myItems1.unshift({
       label: '删除',
       callback: () => {
-         this.delete();
+         vm.delete();
       }
     })
   },
@@ -143,7 +150,7 @@ export default{
 			this.$router.go(-1);
 		},
     rightFunc() {
-      this.sheetVisible = true;
+      this.sheetVisible1 = true;
     },
     like() {
       const vm = this;
@@ -190,22 +197,56 @@ export default{
         content: vm.commentNote.replace(/\n|\r\n/g,"<br/>"),
         fromUserId: vm.id,
         toUserId: vm.toUserId,
-        // toUserName:
+        toUserName:vm.toUserName,
         createTime: vm.utils.getNowTime()
       }
       const callback = (r) => {
         vm.$toast('评论成功');
-        // TODO 获取新的评论列表
+        vm.detail.commentCount++;
+        vm.commentNote = null;
+        vm.getCommentList();
       }
       vm.utils.postData(url, data, callback)
     },
     comment() {
       this.toUserId = null;
       this.toUserName = null;
+      this.inputPlaceholder = '说点什么吧...';
     },
-    reply(obj) {
-      console.log(obj);
-      
+    commentFunc(obj) {
+      const vm = this;
+      vm.myItems2 = [];
+      vm.myItems2.push({
+        label: obj.fromUserId == vm.id ? '删除' : `回复“${obj.fromUserName}”`,
+        callback:() =>{
+          if(obj.fromUserId == vm.id) {
+            vm.delComment(obj);
+          } else {
+            vm.toUserId = obj.fromUserId;
+            vm.toUserName = obj.fromUserName;
+            vm.inputPlaceholder = `@${vm.toUserName}:`;
+          }
+        }
+      })
+      this.sheetVisible2 = true;
+    },
+    delComment(obj) {
+      const vm = this;
+      const url = vm.urls.delComment;
+      const data = {
+        id: obj.id,
+      }
+      const options = {
+        params: {
+          id:obj.id
+        }
+      }
+      const callback = () => {
+        vm.$toast('删除成功');
+        vm.detail.commentCount--;
+        vm.getCommentList();
+      }
+      vm.utils.postData(url, data, callback, options);
     },
     delete(){
       const vm = this;
@@ -221,24 +262,26 @@ export default{
       	vm.utils.postData(url, data, callback);
       });
     },
-    getCommentList(_id){
+    getCommentList(){
       const vm = this;
       const url = vm.urls.getCommentList;
       const data = {
         commentType: 1,
-        commentTypeId: _id,
+        commentTypeId: vm.$route.params.id,
       }
       const options = {
         params: {
           commentType: 1,
-          commentTypeId: _id,
+          commentTypeId: vm.$route.params.id,
         }
       }
+      vm.noData = false;
       const callback = (r) => {
         const list = r.data.data.data;
+        if(list.length == 0) vm.noData = true;
         list.forEach((item)=>{
           if(item.fromUserAvatar) item.fromUserAvatar = JSON.parse(item.fromUserAvatar);
-          item.createTime = vm.utils.changeDate(item.createTime, 'yyyy-MM-dd hh:mm:ss');
+          item.createTime = vm.utils.changeDate(item.createTime, 'yyyy-MM-dd hh:mm');
         })
         vm.commentList = list;
       }
@@ -405,7 +448,7 @@ export default{
       border-bottom: 1px solid #e4e4e4; /*no*/
       border-top: 1px solid #e4e4e4; /*no*/
       display: flex;
-      align-items: center;
+      // align-items: center;
       padding: 20px;
       span{
         &:nth-child(2) {

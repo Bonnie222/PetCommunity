@@ -92,7 +92,7 @@ var sqlMap = {
 	//评论
 	comment: {
 		add: 'INSERT INTO comment (id, commentType, commentTypeId, content, fromUserId, createTime, toUserId, toUserName) VALUES (0, ?, ?, ?, ?, ?, ?, ?)',
-	  list: 'SELECT comment.*, user.userName AS fromUserName, user.userAvatar AS formUserAvatar FROM comment, user WHERE comment.commentType = ? AND comment.commentTypeId = ? AND user.id = comment.fromUserId',
+	  list: 'SELECT comment.*, user.userName AS fromUserName, user.userAvatar AS fromUserAvatar FROM comment, user WHERE comment.commentType = ? AND comment.commentTypeId = ? AND user.id = comment.fromUserId ORDER BY comment.createTime DESC',
 	}
 }
 

@@ -142,9 +142,7 @@ export default{
 					})
 					vm.likeList[idx].likeStatus = 0;
 				}
-				callback();
 				vm.utils.postData(url, data, callback);
-
 			}else{
 				let idx = -1;
 				vm.likeList.forEach((item,index) => {

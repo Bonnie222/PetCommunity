@@ -960,4 +960,18 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
+ // 删除评论
+ router.post('/comment/delete',(req,res)=>{
+   var sql = $sql.deleteById;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = ['comment', p.id];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result);
+         }
+     })
+ })
 module.exports = router;
