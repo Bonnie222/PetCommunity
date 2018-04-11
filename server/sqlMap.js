@@ -87,6 +87,12 @@ var sqlMap = {
 		userLikeList: 'SELECT likeStatus,likeTypeId FROM liked WHERE likeType= ? AND likeUserId = ?',
 		top7: 'SELECT liked.*, user.userAvatar FROM liked, user WHERE liked.likeType= ? AND liked.likeTypeId= ? AND liked.likeStatus=1 AND liked.likeUserId = user.id',
 		status: 'SELECT * FROM liked WHERE likeType= ? AND likeTypeId=? AND likeUserId = ?',
+	},
+
+	//评论
+	comment: {
+		add: 'INSERT INTO comment (id, commentType, commentTypeId, content, fromUserId, createTime, toUserId, toUserName) VALUES (0, ?, ?, ?, ?, ?, ?, ?)',
+	  list: 'SELECT comment.*, user.userName AS fromUserName, user.userAvatar AS formUserAvatar FROM comment, user WHERE comment.commentType = ? AND comment.commentTypeId = ? AND user.id = comment.fromUserId',
 	}
 }
 

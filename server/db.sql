@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-11 00:02:50
+Date: 2018-04-11 18:42:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,9 +87,9 @@ CREATE TABLE `comment` (
 `commentType`  int(11) NOT NULL ,
 `commentTypeId`  int(11) NOT NULL ,
 `content`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL ,
-`contentType`  int(11) NOT NULL ,
 `fromUserId`  int(11) NOT NULL ,
 `toUserId`  int(11) NULL DEFAULT NULL ,
+`toUserName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL ,
 `createTime`  datetime NOT NULL ,
 PRIMARY KEY (`id`)
 )
@@ -102,6 +102,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of comment
 -- ----------------------------
 BEGIN;
+INSERT INTO `comment` VALUES ('1', '1', '5', 'hi', '1', null, null, '2018-04-11 17:18:02');
 COMMIT;
 
 -- ----------------------------
@@ -248,7 +249,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of petshow
 -- ----------------------------
 BEGIN;
-INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '0');
+INSERT INTO `petshow` VALUES ('1', '#技能大比拼#厉害厉害，技能大王', '[{\"fileUrl\":\"src/assets/dbimages/picture-1520581889220.jpg\",\"fileName\":\"79f0f736afc379314a650b4eeac4b74543a91143.jpg\"}]', '2', '1', '2018-03-09 15:51:29', '0', '0'), ('2', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522492429303.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 18:33:49', '0', '0'), ('3', '#技能大比拼#', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522494186844.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', '2', '1', '2018-03-31 19:03:06', '0', '0'), ('5', 'halo', '[{\"fileUrl\":\"src/assets/dbimages/picture-1522570161053.jpg\",\"fileName\":\"QQ图片20151112123333.jpg\"}]', null, '3', '2018-04-01 16:09:21', '0', '1');
 COMMIT;
 
 -- ----------------------------
@@ -314,6 +315,17 @@ CREATE TRIGGER `tri_updateActPeopleNum` AFTER INSERT ON `actsigns` FOR EACH ROW 
  DECLARE sum INT;
  SET sum = (SELECT peopleNum FROM activity WHERE id = new.actId);
  UPDATE activity SET peopleNum = sum+1 WHERE id = new.actId;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateCommentCount1`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateCommentCount1` AFTER INSERT ON `comment` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ IF (new.commentType = 1) THEN
+  SET sum = (SELECT commentCount FROM petshow WHERE id = new.commentTypeId);
+  UPDATE petshow SET commentCount = sum+1 WHERE id = new.commentTypeId;
+ END IF;
 END
 ;;
 DELIMITER ;

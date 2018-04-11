@@ -86,4 +86,8 @@ export default {
 	updateLike: host + '/user/likeUpdate',
 	likeTop: host + '/like/topLike',
 	userLikeStatus: host + '/user/likeStatus',
+
+	// 评论
+	addComment: host + '/comment/add',
+	getCommentList: host + '/comment/list',
 }

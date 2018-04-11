@@ -12,7 +12,7 @@
       </div>
       <div class="detail-main">
         <div class="detail-title">
-  				<router-link :to="{ name: 'UserDetail', params: {id: detail.userId} }">
+  				<router-link :to="{ name: 'UserDetail', params:{id:detail.userId}}">
   					<div class="user-info">
   						<span class="pic">
   							<img src="../../assets/images/member.png"
@@ -51,6 +51,36 @@
           </span>
         </span>
       </div>
+      <div class="detail-comment">
+        <p class="title" @click="comment">评论 {{detail.commentCount}}
+          <i class="border-arrow"></i>
+          <i class="border-arrow-inner"></i>
+        </p>
+        <div v-if="commentList.length !=0">
+          <div class="comment-item" v-for="(item, index) in commentList"
+            :key="index" @click="reply(item)">
+            <div class="comment-info">
+              <img src="src/assets/images/member.png" class="comment-pic" />
+              <span class="comment-note">
+                <p class="comment-name">{{item.fromUserName}}</p>
+                <span class="comment-desc">
+                  <span class="comment-reply"
+                    v-show="item.toUserId">@{{item.toUserName}}:</span>
+                    <span v-html="item.content"></span>
+                </span>
+              </span>
+            </div>
+            <p class="comment-time">{{item.createTime}}</p>
+          </div>
+        </div>
+        <div v-else class="no-comment">
+          暂无评论~赶紧去抢沙发吧！
+        </div>
+      </div>
+    </div>
+    <div class="commentInput">
+      <textarea class="inputText" :placeholder="inputPlaceholder" v-model="commentNote"></textarea>
+      <span class="send" @click="sendComment">发送</span>
     </div>
     <yd-actionsheet :items="myItems1" v-model="sheetVisible" cancel="取消"></yd-actionsheet>
   </div>
@@ -76,6 +106,11 @@ export default{
       likeTop: [],
       likeStatus: null,
       sheetVisible: false,
+      commentList: [],
+      inputPlaceholder: '说点什么吧...',
+      commentNote: null,
+      toUserId: null,
+      toUserName: null,
       myItems1:[{
         label: '返回首页',
         callback: () => {
@@ -95,6 +130,7 @@ export default{
     this.getDetail(id);
     this.getLikeTopUser(id);
     this.getUserLikeStatus(id);
+    this.getCommentList(id);
     if(userId == this.id) this.myItems1.unshift({
       label: '删除',
       callback: () => {
@@ -141,6 +177,36 @@ export default{
         vm.utils.postData(url, data, callback);
       }
     },
+    sendComment(){
+      const vm = this;
+      const url = vm.urls.addComment;
+      if(!vm.commentNote) {
+        vm.$toast('评论内容不能为空');
+        return;
+      }
+      const data = {
+        commentType: 1,
+        commentTypeId: this.$route.params.id,
+        content: vm.commentNote.replace(/\n|\r\n/g,"<br/>"),
+        fromUserId: vm.id,
+        toUserId: vm.toUserId,
+        // toUserName:
+        createTime: vm.utils.getNowTime()
+      }
+      const callback = (r) => {
+        vm.$toast('评论成功');
+        // TODO 获取新的评论列表
+      }
+      vm.utils.postData(url, data, callback)
+    },
+    comment() {
+      this.toUserId = null;
+      this.toUserName = null;
+    },
+    reply(obj) {
+      console.log(obj);
+      
+    },
     delete(){
       const vm = this;
       const url = vm.urls.deletePetshow;
@@ -154,6 +220,29 @@ export default{
       vm.utils.confirmCallback(vm, tips, ()=>{
       	vm.utils.postData(url, data, callback);
       });
+    },
+    getCommentList(_id){
+      const vm = this;
+      const url = vm.urls.getCommentList;
+      const data = {
+        commentType: 1,
+        commentTypeId: _id,
+      }
+      const options = {
+        params: {
+          commentType: 1,
+          commentTypeId: _id,
+        }
+      }
+      const callback = (r) => {
+        const list = r.data.data.data;
+        list.forEach((item)=>{
+          if(item.fromUserAvatar) item.fromUserAvatar = JSON.parse(item.fromUserAvatar);
+          item.createTime = vm.utils.changeDate(item.createTime, 'yyyy-MM-dd hh:mm:ss');
+        })
+        vm.commentList = list;
+      }
+      vm.utils.postData(url, data, callback, options);
     },
     getUserLikeStatus(_id){
 			const vm = this;
@@ -349,6 +438,106 @@ export default{
           }
         }
       }
+    }
+  }
+  .detail-comment {
+    background: #ffffff;
+    p.title {
+      padding: 30px 20px;
+      position: relative;
+      border-bottom: 1px solid #e4e4e4;
+      font-size: 26px;
+      .border-arrow {
+        position: absolute;
+        bottom:  -1px;
+        left: 30px;
+        width: 20px;
+        height: 20px;
+        border: 25px solid;
+        border-color : transparent transparent #e4e4e4 transparent ;
+      }
+      .border-arrow-inner {
+        position: absolute;
+        bottom:  -2px;
+        left: 33.5px;
+        width: 15px;
+        height: 15px;
+        border: 22px solid;
+        border-color : transparent transparent #f2f2f2 transparent ;
+      }
+    }
+    .no-comment {
+      padding: 50px 20px;
+      font-size: 26px;
+      text-align: center;
+      background: #f2f2f2;
+      color: #999999;
+      border-bottom: 1px solid #e4e4e4;/*no*/
+    }
+    .comment-item {
+      background: #f2f2f2;
+      border-bottom: 1px solid #e4e4e4;/*no*/
+      padding: 20px;
+      width: 100%;
+      .comment-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        .comment-note {
+          width: 85%;
+        }
+        img.comment-pic {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          border: 1px solid #999999;/*no*/
+          margin-right: 20px;
+        }
+        p.comment-name {
+          margin-bottom: 15px;
+          font-size: 30px;
+          color: #999999;
+        }
+        .comment-desc{
+          font-size: 28px;
+          .comment-reply {
+            color: #eb695c;
+          }
+          word-wrap: break-word;
+          word-break: normal;
+        }
+      }
+      .comment-time {
+        text-align: right;
+        font-size: 24px;
+        color: #999999;
+      }
+    }
+  }
+  .commentInput {
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px solid #e4e4e4;/*no*/
+    height: 85px;
+    width: 100%;
+    padding: 0px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .inputText{
+      background: #e4e4e4;
+      overflow-y: hidden;
+      flex: 2;
+      border-radius: 5px;
+      border: 1px solid #d7d7d7;/*no*/
+      font-size: 26px;
+      height: 55px;
+      padding: 10px;
+      margin-right: 20px;
+    }
+    .send {
+      font-size: 28px;
     }
   }
 }

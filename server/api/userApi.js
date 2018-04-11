@@ -929,4 +929,35 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
+ /**
+  * 评论
+  */
+ // 添加评论
+ router.post('/comment/add',(req,res)=>{
+   var sql = $sql.comment.add;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.commentType, p.commentTypeId, p.content, p.fromUserId, p.createTime, p.toUserId, p.toUserName];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result);
+         }
+     })
+ })
+ // 添加评论
+ router.post('/comment/list',(req,res)=>{
+   var sql = $sql.comment.list;
+   var p = req.body;
+     console.log(p);
+     var sqlParams = [p.commentType, p.commentTypeId];
+     conn.query(sql, sqlParams, function(err, result) {
+         if (err) {
+             console.log(err);
+         }else{
+           jsonWrite(res, result, 'List');
+         }
+     })
+ })
 module.exports = router;
