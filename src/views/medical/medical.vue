@@ -3,9 +3,9 @@
 		<Header title="医疗" :headerLeft="headerLeft"></Header>
 		<div class="swipe-wrap">
 			<mt-swipe :auto="4000">
-		  		<mt-swipe-item>1</mt-swipe-item>
-		  		<mt-swipe-item>2</mt-swipe-item>
-		  		<mt-swipe-item>3</mt-swipe-item>
+		  		<mt-swipe-item v-for="(item, index) in sliceList" :key="index">
+						<img :src="item.pic"/>
+					</mt-swipe-item>
 			</mt-swipe>
 		</div>
 		<div class="medical-menu">
@@ -42,7 +42,6 @@ export default{
 	data(){
 		return{
 			headerLeft: false,
-			show1:false,
 
 			medicalMenu:[{
 				name: '呼吸系统',
@@ -76,6 +75,11 @@ export default{
 				name:'驱虫',
 				icon:'iconfont icon-quchong',
 				type: 8,
+			}],
+			sliceList: [{
+				pic: 'src/assets/images/medical(1).png',
+			}, {
+				pic: 'src/assets/images/medical(2).jpg',
 			}]
 		}
 	},
@@ -89,6 +93,10 @@ export default{
 	.swipe-wrap{
 		background: yellowgreen;
 		height: 250px;
+		img {
+			width: 100%;
+			height: 100%;
+		}
 	}
 	.medical-menu{
 		background: #FFFFFF;

@@ -3,9 +3,9 @@
 		<Header title="首页" :headerLeft="headerLeft"></Header>
 		<div class="swipe-wrap">
 			<mt-swipe :auto="4000">
-		  		<mt-swipe-item>1</mt-swipe-item>
-		  		<mt-swipe-item>2</mt-swipe-item>
-		  		<mt-swipe-item>3</mt-swipe-item>
+				<mt-swipe-item v-for="(item, index) in sliceList" :key="index">
+					<img :src="item.pic"/>
+				</mt-swipe-item>
 			</mt-swipe>
 		</div>
 		<div class="home-menu-wrap">
@@ -73,9 +73,9 @@ export default{
 				src: require('../../assets/images/xunzhao.svg'),
 				href:'/look/list'
 			},{
-				name:'话题',
+				name:'文章',
 				src: require('../../assets/images/huati.svg'),
-				href:''
+				href:'/article/list'
 			},{
 				name:'认证号',
 				src:require('../../assets/images/zixun.svg'),
@@ -84,6 +84,11 @@ export default{
 				name:'活动',
 				src:require('../../assets/images/huodong.svg'),
 				href:'/activity/list/1'
+			}],
+			sliceList: [{
+				pic: 'src/assets/images/home(1).jpg',
+			}, {
+				pic: 'src/assets/images/medical(2).jpg',
 			}]
 		}
 	},
@@ -126,6 +131,10 @@ export default{
 	.swipe-wrap{
 		background: yellowgreen;
 		height: 250px;
+		img {
+			width: 100%;
+			height: 100%;
+		}
 	}
 	.home-menu-wrap{
 		background: #FFFFFF;

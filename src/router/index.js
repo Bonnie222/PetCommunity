@@ -45,6 +45,9 @@ const ActivitySign = _import('activity/sign');
 const UserList = _import('user/list');
 const UserDetail = _import('user/detail');
 const UserInfo = _import('user/info');
+/*文章*/
+const ArticleList = _import('article/list');
+const ArticleDetail = _import('article/detail');
 
 Vue.use(Router)
 
@@ -52,7 +55,7 @@ export default new Router({
   routes: [
 	  { path: '/', redirect: '/home' },
 	  /*登录注册*/
-	  { path: '/forget',         						        name: 'Forget',   	  	  component: Forget 			},
+	  { path: '/forget',         						        name: 'Forget',   	  	  component: Forget 			  },
 	  { path: '/login',   									        name: 'Login',      			component: Login    			},
 	  {	path: '/register', 								          name: 'Register', 				component: Register	 			},
 	  /*首页*/
@@ -94,5 +97,8 @@ export default new Router({
 	 	{	path: '/user/list',								          name: 'UserList',			    component: UserList     	},
     {	path: '/user/detail/:id',								    name: 'UserDetail',  	    component: UserDetail    	},
     {	path: '/user/detail/info/:id',						  name: 'UserInfo',  	      component: UserInfo      	},
+    /*文章*/
+	 	{	path: '/article/list',								      name: 'ArticleList',			component: ArticleList  	},
+    {	path: '/article/detail/:id',							  name: 'ArticleDetail',  	component: ArticleDetail  },
   ]
 })
