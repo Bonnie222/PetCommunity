@@ -93,6 +93,17 @@ var sqlMap = {
 	comment: {
 		add: 'INSERT INTO comment (id, commentType, commentTypeId, content, fromUserId, createTime, toUserId, toUserName) VALUES (0, ?, ?, ?, ?, ?, ?, ?)',
 	  list: 'SELECT comment.*, user.userName AS fromUserName, user.userAvatar AS fromUserAvatar FROM comment, user WHERE comment.commentType = ? AND comment.commentTypeId = ? AND user.id = comment.fromUserId ORDER BY comment.createTime DESC',
+	},
+
+	// 文章
+	article: {
+		list: 'SELECT id, articleTitle, articleCover, createTime, collectCount FROM article ORDER BY createTime ',
+	},
+
+	// 收藏
+	collect: {
+		status: 'SELECT * FROM collected WHERE collectArticleId = ? AND collectUserId = ?',
+		add: 'INSERT INTO collected (collectId, collectArticleId, collectUserId) VALUES (0, ?, ?)',
 	}
 }
 

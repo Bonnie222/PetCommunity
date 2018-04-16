@@ -91,4 +91,9 @@ export default {
 	addComment: host + '/comment/add',
 	getCommentList: host + '/comment/list',
 	delComment: host + '/comment/delete',
+
+	// 文章
+	getArticleList: host + '/article/list',
+	getArticleDetail: host + '/article/detail',
+	collectStatus: host + '/collect/status',
 }

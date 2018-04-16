@@ -23,7 +23,7 @@ var jsonWrite = function(res, ret, type) {
       if(type == 'List') {
          obj.data.data = ret
       } else if (type == 'Obj') {
-        obj.data = ret[0];
+        obj.data = ret[0] || {};
       }
   		obj.message = '请求成功';
   		obj.code = 1;
@@ -946,7 +946,7 @@ router.post('/user/regisnslist', (req, res) => {
          }
      })
  })
- // 添加评论
+ // 评论列表
  router.post('/comment/list',(req,res)=>{
    var sql = $sql.comment.list;
    var p = req.body;
@@ -973,5 +973,50 @@ router.post('/user/regisnslist', (req, res) => {
            jsonWrite(res, result);
          }
      })
+ })
+ /**
+  * 文章
+  */
+ // 文章列表
+ router.get('/article/list',(req,res)=>{
+   var sql = $sql.article.list;
+   conn.query(sql, function(err, result) {
+       if (err) {
+           console.log(err);
+       }else{
+         jsonWrite(res, result, 'List');
+       }
+   })
+ })
+ // 文章详情
+ router.post('/article/detail',(req,res)=>{
+   var sql = $sql.queryById;
+   var p = req.body;
+   console.log(p);
+   var sqlParams = ['article', p.id];
+   conn.query(sql, sqlParams, function(err, result) {
+       if (err) {
+           console.log(err);
+       }else{
+         jsonWrite(res, result, 'Obj');
+       }
+   })
+ })
+ /**
+  * 收藏
+  */
+  // 是否存在收藏某文章
+ router.post('/collect/status',(req,res)=>{
+   var sql = $sql.collect.status;
+   var p = req.body;
+   console.log(p);
+   var sqlParams = [p.collectArticleId, p.collectUserId];
+   conn.query(sql, sqlParams, function(err, result) {
+       if (err) {
+           console.log(err);
+       }else{
+         jsonWrite(res, result, 'Obj');
+       }
+   })
  })
 module.exports = router;

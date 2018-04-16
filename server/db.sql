@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-12 18:37:33
+Date: 2018-04-16 18:39:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,9 +85,12 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
 `id`  int(11) NOT NULL ,
 `articleTitle`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-`artcleContent`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`articleCover`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`articleContent`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `collectCount`  int(11) NOT NULL DEFAULT 0 ,
+`commentCount`  int(11) NOT NULL DEFAULT 0 ,
 `createTime`  datetime NOT NULL ,
+`author`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
@@ -97,6 +100,28 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 
 -- ----------------------------
 -- Records of article
+-- ----------------------------
+BEGIN;
+INSERT INTO `article` VALUES ('1', '猫狗绝育，利大于弊', null, '<p>&nbsp;&nbsp在这个春意萌发、春心萌动的时节，毛开始叫春，狗开始骚动，是时候谈谈这个问题了：要不要给爱宠做绝育手术？<p/>\r\n<p> &nbsp&nbsp据不完全统计，一直母狗和其后代，六年内约能生出6.7万只小狗。一只母猫和其后代，七年内约能繁殖37只小猫！这个数字远远超过能照顾它们的家庭的数量。</p>\r\n<p>&nbsp&nbsp那些没人要的猫狗，只能流浪街头，挣扎度日。有人收养的猫狗，也将面临考验，发情时骚动不安，乱拉乱尿乱叫，甚至是会在追逐异性的过程中走失，或是患上生殖系统疾病，痛苦死去。倘若你给他们做了绝育手术，这些问题将迎刃而解。</p>', '0', '0', '2018-04-16 16:05:50', '爱宠');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for `collected`
+-- ----------------------------
+DROP TABLE IF EXISTS `collected`;
+CREATE TABLE `collected` (
+`collectId`  int(11) NOT NULL AUTO_INCREMENT ,
+`collectArticleId`  int(11) NOT NULL ,
+`collectUserId`  int(11) NOT NULL ,
+PRIMARY KEY (`collectId`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Records of collected
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -183,7 +208,7 @@ DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 -- Records of liked
 -- ----------------------------
 BEGIN;
-INSERT INTO `liked` VALUES ('17', '2', '1', '1', '0'), ('19', '3', '1', '1', '0'), ('20', '5', '1', '1', '0'), ('21', '5', '1', '3', '0'), ('22', '2', '1', '3', '0');
+INSERT INTO `liked` VALUES ('17', '2', '1', '1', '0'), ('19', '3', '1', '1', '0'), ('20', '5', '1', '1', '0'), ('21', '5', '1', '3', '0'), ('22', '2', '1', '3', '0'), ('23', '1', '1', '1', '0');
 COMMIT;
 
 -- ----------------------------

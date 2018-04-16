@@ -2,18 +2,20 @@
   <div id="ArticleList">
     <Header title="文章" :headerLeft="headerLeft" :fixed="isFixed" @clickRouter="back"></Header>
     <div class="list-wrap">
-      <router-link :to="{ name: 'ArticleDetail', params: {id:1} }" >
-        <div class="list-item">
-          <span class="item-text">
-            <p class="title">比爱哦标题一标题表的话快速拉ss s s 升合适的</p>
-            <p class="time">
-              <span>2018040623535</span>
-              <span>收藏：111</span>
-            </p>
-          </span>
-          <span class="item-pic"></span>
-        </div>
-      </router-link>
+      <span v-for="(item, index) in list" :key="index">
+        <router-link :to="{ name: 'ArticleDetail', params: {id:item.id} }" >
+          <div class="list-item">
+            <span class="item-text">
+              <p class="title">{{item.articleTitle}}</p>
+              <p class="time">
+                <span>{{utils.changeDate(item.createTime, 'yyyy-MM-dd hh:mm')}}</span>
+                <span>收藏：{{item.collectCount}}</span>
+              </p>
+            </span>
+            <span class="item-pic"></span>
+          </div>
+        </router-link>
+      </span>
     </div>
   </div>
 </template>
@@ -30,12 +32,26 @@ export default {
     return{
       headerLeft: true,
       isFixed:true,
+      list: [],
     }
+  },
+  mounted() {
+    this.getList();
   },
   methods:{
     back(){
 			this.$router.go(-1);
 		},
+    getList() {
+      const vm = this;
+      const url = vm.urls.getArticleList;
+      const callback = (r) => {
+        const list = r.data.data.data;
+        vm.list = list;
+        console.log(list);
+      }
+      vm.utils.getData(url, callback);
+    }
   }
 }
 </script>

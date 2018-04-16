@@ -28,11 +28,11 @@ export default{
 　　.fade-enter-active,
 　　.fade-leave-active {
 　　　　transition: all .2s linear;
-　　　　transform: translate3D(0, 0, 0);
+　　　　/* transform: translate3D(0, 0, 0); */
 　　}
 　　.fade-enter,
 　　.fade-leave-active {
-　　　　transform: translate3D(100%, 0, 0);
+　　　　/* transform: translate3D(100%, 0, 0); */
 　　}
 	/* bigimg */
 　　.img-view {
@@ -56,7 +56,7 @@ export default{
 　　　　max-width: 100%;
 　　　　display: block;
 　　　　position: fixed;
-	 bottom:30%;
+	 		 bottom:30%;
 　　　　left: 0;
 　　　　right: 0;
 　　　　margin: auto;

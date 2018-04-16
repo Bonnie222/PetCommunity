@@ -129,7 +129,6 @@ export default{
 <style lang="less" scoped>
 #Home{
 	.swipe-wrap{
-		background: yellowgreen;
 		height: 250px;
 		img {
 			width: 100%;

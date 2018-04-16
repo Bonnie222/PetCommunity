@@ -298,7 +298,7 @@ export default{
 
 			const callback = (r) => {
         const obj = r.data.data;
-        vm.likeStatus = obj == undefined ? -1 : obj.likeStatus;
+        vm.likeStatus = Object.keys(obj).length == 0 ? -1 : obj.likeStatus;
 			}
 			vm.utils.postData(url, data, callback);
 		},
