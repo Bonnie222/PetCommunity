@@ -42,6 +42,8 @@ export default {
 	// 我的问诊
 	getUserDiseaseList: host + '/user/diseaseList',
 	deleteDisease: host + '/disease/delete',
+	// 我的收藏列表
+	getUserCollectList: host + '/user/collectList',
 	//宠物
 	addPet: host + '/pet/add',
 	getPetDetail: host + '/pet/detail',
@@ -96,4 +98,7 @@ export default {
 	getArticleList: host + '/article/list',
 	getArticleDetail: host + '/article/detail',
 	collectStatus: host + '/collect/status',
+	addCollect: host + '/collect/add',
+	deleteCollect: host + '/collect/delete',
+	deleteCollectList: host + '/collect/deleteList',
 }

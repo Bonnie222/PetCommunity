@@ -1019,4 +1019,60 @@ router.post('/user/regisnslist', (req, res) => {
        }
    })
  })
+ // 添加收藏
+router.post('/collect/add',(req,res)=>{
+  var sql = $sql.collect.add;
+  var p = req.body;
+  console.log(p);
+  var sqlParams = [p.collectArticleId, p.collectUserId, p.createTime];
+  conn.query(sql, sqlParams, function(err, result) {
+      if (err) {
+          console.log(err);
+      }else{
+        jsonWrite(res, result, 'Obj');
+      }
+  })
+})
+// 删除收藏 单个
+router.post('/collect/delete',(req,res)=>{
+ var sql = $sql.collect.delete;
+ var p = req.body;
+ console.log(p);
+ var sqlParams = [p.collectId];
+ conn.query(sql, sqlParams, function(err, result) {
+     if (err) {
+         console.log(err);
+     }else{
+       jsonWrite(res, result);
+     }
+ })
+})
+// 删除收藏 多个
+router.post('/collect/deleteList',(req,res)=>{
+ var sql = $sql.collect.deleteList;
+ var p = req.body;
+ console.log(p);
+ var sqlParams = [p.collectIds];
+ conn.query(sql, sqlParams, function(err, result) {
+     if (err) {
+         console.log(err);
+     }else{
+       jsonWrite(res, result);
+     }
+ })
+})
+// 我的收藏列表
+router.post('/user/collectList',(req,res)=>{
+ var sql = $sql.collect.list;
+ var p = req.body;
+ console.log(p);
+ var sqlParams = [p.collectUserId];
+ conn.query(sql, sqlParams, function(err, result) {
+     if (err) {
+         console.log(err);
+     }else{
+       jsonWrite(res, result, 'List');
+     }
+ })
+})
 module.exports = router;

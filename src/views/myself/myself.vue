@@ -104,6 +104,10 @@ export default{
 				name:'我的活动',
 				icon:'iconfont icon-grade-alt',
 				href:'/myself/activity/list/0'
+			},{
+				name:'我的收藏',
+				icon:'iconfont icon-shoucang',
+				href:'/myself/collect/list'
 			}]
 		}
 	},

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-16 18:39:33
+Date: 2018-04-17 18:42:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,7 +102,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of article
 -- ----------------------------
 BEGIN;
-INSERT INTO `article` VALUES ('1', '猫狗绝育，利大于弊', null, '<p>&nbsp;&nbsp在这个春意萌发、春心萌动的时节，毛开始叫春，狗开始骚动，是时候谈谈这个问题了：要不要给爱宠做绝育手术？<p/>\r\n<p> &nbsp&nbsp据不完全统计，一直母狗和其后代，六年内约能生出6.7万只小狗。一只母猫和其后代，七年内约能繁殖37只小猫！这个数字远远超过能照顾它们的家庭的数量。</p>\r\n<p>&nbsp&nbsp那些没人要的猫狗，只能流浪街头，挣扎度日。有人收养的猫狗，也将面临考验，发情时骚动不安，乱拉乱尿乱叫，甚至是会在追逐异性的过程中走失，或是患上生殖系统疾病，痛苦死去。倘若你给他们做了绝育手术，这些问题将迎刃而解。</p>', '0', '0', '2018-04-16 16:05:50', '爱宠');
+INSERT INTO `article` VALUES ('1', '猫狗绝育，利大于弊', null, '<p>&nbsp;&nbsp在这个春意萌发、春心萌动的时节，毛开始叫春，狗开始骚动，是时候谈谈这个问题了：要不要给爱宠做绝育手术？<p/>\r\n<p> &nbsp&nbsp据不完全统计，一直母狗和其后代，六年内约能生出6.7万只小狗。一只母猫和其后代，七年内约能繁殖37只小猫！这个数字远远超过能照顾它们的家庭的数量。</p>\r\n<p>&nbsp&nbsp那些没人要的猫狗，只能流浪街头，挣扎度日。有人收养的猫狗，也将面临考验，发情时骚动不安，乱拉乱尿乱叫，甚至是会在追逐异性的过程中走失，或是患上生殖系统疾病，痛苦死去。倘若你给他们做了绝育手术，这些问题将迎刃而解。</p>', '1', '0', '2018-04-16 16:05:50', '爱宠');
 COMMIT;
 
 -- ----------------------------
@@ -113,6 +113,7 @@ CREATE TABLE `collected` (
 `collectId`  int(11) NOT NULL AUTO_INCREMENT ,
 `collectArticleId`  int(11) NOT NULL ,
 `collectUserId`  int(11) NOT NULL ,
+`createTime`  datetime NOT NULL ,
 PRIMARY KEY (`collectId`)
 )
 ENGINE=InnoDB
@@ -124,6 +125,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of collected
 -- ----------------------------
 BEGIN;
+INSERT INTO `collected` VALUES ('1', '1', '1', '2018-04-17 16:30:06');
 COMMIT;
 
 -- ----------------------------
@@ -366,6 +368,24 @@ CREATE TRIGGER `tri_updateActPeopleNum` AFTER INSERT ON `actsigns` FOR EACH ROW 
 END
 ;;
 DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateArticleCollect1`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateArticleCollect1` AFTER INSERT ON `collected` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ SET sum = (SELECT collectCount FROM article WHERE id = new.collectArticleId);
+ UPDATE article SET collectCount = sum+1 WHERE id = new.collectArticleId;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `tri_updateArticleCollect2`;
+DELIMITER ;;
+CREATE TRIGGER `tri_updateArticleCollect2` AFTER DELETE ON `collected` FOR EACH ROW BEGIN
+ DECLARE sum INT;
+ SET sum = (SELECT collectCount FROM article WHERE id = old.collectArticleId);
+ UPDATE article SET collectCount = sum-1 WHERE id = old.collectArticleId;
+END
+;;
+DELIMITER ;
 DROP TRIGGER IF EXISTS `tri_updateCommentCount1`;
 DELIMITER ;;
 CREATE TRIGGER `tri_updateCommentCount1` AFTER INSERT ON `comment` FOR EACH ROW BEGIN
@@ -373,6 +393,9 @@ CREATE TRIGGER `tri_updateCommentCount1` AFTER INSERT ON `comment` FOR EACH ROW 
  IF (new.commentType = 1) THEN
   SET sum = (SELECT commentCount FROM petshow WHERE id = new.commentTypeId);
   UPDATE petshow SET commentCount = sum+1 WHERE id = new.commentTypeId;
+ ELSEIF (new.commentType = 2) THEN
+  SET sum = (SELECT commentCount FROM article WHERE id = new.commentTypeId);
+  UPDATE article SET commentCount = sum+1 WHERE id = new.commentTypeId;
  END IF;
 END
 ;;
@@ -384,6 +407,9 @@ CREATE TRIGGER `tri_updateCommentCount2` AFTER DELETE ON `comment` FOR EACH ROW 
  IF (old.commentType = 1) THEN
   SET sum = (SELECT commentCount FROM petshow WHERE id = old.commentTypeId);
   UPDATE petshow SET commentCount = sum-1 WHERE id = old.commentTypeId;
+ ELSEIF (old.commentType = 2) THEN
+  SET sum = (SELECT commentCount FROM article WHERE id = old.commentTypeId);
+  UPDATE article SET commentCount = sum-1 WHERE id = old.commentTypeId;
  END IF;
 END
 ;;

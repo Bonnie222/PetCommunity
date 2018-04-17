@@ -32,6 +32,7 @@ const MySetting = _import('myself/setting/setting');
 const MyInfo = _import('myself/setting/personalInfo');
 const MyPsd = _import('myself/setting/resetPsd');
 const MydiseaseList = _import('myself/medical/list');
+const MycollectList = _import('myself/collect/list');
 /*寻宠*/
 const LookList = _import('look/list');
 const LookEdit = _import('look/edit');
@@ -84,6 +85,7 @@ export default new Router({
 	  {	path: '/myself/info',        								name: 'MyInfo',					  component: MyInfo		  		},
 	  {	path: '/myself/psd',        								name: 'MyPsd',					  component: MyPsd		  		},
     {	path: '/myself/disease/list',								name: 'MydiseaseList',		component: MydiseaseList	},
+    {	path: '/myself/collect/list',								name: 'MycollectList',		component: MycollectList	},
 	  /*寻主/宠*/
 	  {	path: '/look/list',										 			name: 'LookList',					component: LookList				},
 	  {	path: '/look/edit',													name: 'LookEdit',					component: LookEdit				},

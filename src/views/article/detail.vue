@@ -104,7 +104,27 @@ export default {
     },
     collect() {
       const vm = this;
-
+      const url = vm.collectId ? vm.urls.deleteCollect : vm.urls.addCollect;
+      let data = {};
+      let options = {
+        params: {}
+      };
+      if(vm.collectId) {
+        data.collectId = vm.collectId;
+        options.params.collectId = vm.collectId;
+      } else {
+         data.collectArticleId = vm.articleId;
+         data.collectUserId = vm.id;
+         data.createTime = vm.utils.getNowTime();
+         options.params.articleId = vm.articleId;
+         options.params.userId = vm.id;
+      }
+      const callback = (r) => {
+        const tips = vm.collectId ? '取消成功' : '收藏成功';
+        vm.$toast(tips);
+        vm.myItems1[0].label = vm.collectId ? '收藏' : '取消收藏';
+      }
+      vm.utils.postData(url, data, callback, options);
     },
     sendComment(){
       const vm = this;
