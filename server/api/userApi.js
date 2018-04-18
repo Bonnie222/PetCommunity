@@ -1052,7 +1052,9 @@ router.post('/collect/deleteList',(req,res)=>{
  var sql = $sql.collect.deleteList;
  var p = req.body;
  console.log(p);
+ var reg = /^[\'\"]+|[\'\"]+$/g;
  var sqlParams = [p.collectIds];
+ console.log(sqlParams, ids);
  conn.query(sql, sqlParams, function(err, result) {
      if (err) {
          console.log(err);

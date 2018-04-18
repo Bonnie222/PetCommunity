@@ -103,16 +103,18 @@ export default{
       const vm = this;
       if(vm.checklist.length == 0) return;
       const url = vm.urls.deleteCollectList;
+			const ids = vm.checklist.join(',').replace("\"", "");
       const data = {
-        collectIds: vm.checklist.join(',')
+        collectIds: ids
       }
       const callback = (r) => {
         vm.$toast('删除成功');
-        setTimeOut(()=>{
+        setTimeout(()=>{
           vm.getList();
         }, 500);
       }
-      vm.utils.postData(url, data, callback);
+			console.log(data, ids,  vm.checklist);
+    //  vm.utils.postData(url, data, callback);
     },
 		getList() {
 			const vm = this;

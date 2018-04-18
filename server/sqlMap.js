@@ -103,7 +103,7 @@ var sqlMap = {
 	// 收藏
 	collect: {
 		status: 'SELECT * FROM collected WHERE collectArticleId = ? AND collectUserId = ?',
-		add: 'INSERT INTO collected (collectId, collectArticleId, collectUserId，createTime) VALUES (0, ?, ?, ?)',
+		add: 'INSERT INTO collected (collectId, collectArticleId, collectUserId, createTime) VALUES (0, ?, ?, ?)',
 		delete: 'DELETE FROM collected WHERE collectId = ?',
 		deleteList: 'DELETE FROM collected WHERE collectId in (?)',
 		list: 'SELECT collected.*, article.articleTitle, article.articleCover, article.articleContent FROM collected, article WHERE article.id = collectArticleId AND collectUserId = ?',
