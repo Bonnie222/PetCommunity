@@ -39,7 +39,7 @@
 			</div>
 			<div class="nodata" v-show="noData">
 				<img src="src/assets/images/nodata.svg" />
-				<p>暂时没有问诊信息哦~</p>
+				<p>暂时没有收藏内容哦~</p>
 			</div>
       <div class="checkAll" v-show="showEdit">
         <yd-checkbox v-model="isCheckAll" shape="circle"
@@ -89,8 +89,14 @@ export default{
 		},
     rightFunc() {
       const vm = this;
-      vm.showEdit = !vm.showEdit;
-      vm.headerRightText = vm.showEdit == true ? '取消' : '编辑';
+			if(vm.list.length == 0) {
+				vm.showEdit = false;
+				vm.headerRightText = vm.headerRightText == '编辑' ? '取消' : '编辑';
+			} else {
+				vm.showEdit = !vm.showEdit;
+	      vm.headerRightText = vm.showEdit == true ? '取消' : '编辑';
+			}
+		//	console.log(vm.showEdit)
     },
     checkChange(value, isCheckAll){
       this.isCheckAll = isCheckAll;
@@ -103,18 +109,17 @@ export default{
       const vm = this;
       if(vm.checklist.length == 0) return;
       const url = vm.urls.deleteCollectList;
-			const ids = vm.checklist.join(',').replace("\"", "");
       const data = {
-        collectIds: ids
+        collectIds: vm.checklist.join(",")
       }
       const callback = (r) => {
+				vm.showEdit = false;
         vm.$toast('删除成功');
         setTimeout(()=>{
           vm.getList();
         }, 500);
       }
-			console.log(data, ids,  vm.checklist);
-    //  vm.utils.postData(url, data, callback);
+  		vm.utils.postData(url, data, callback);
     },
 		getList() {
 			const vm = this;

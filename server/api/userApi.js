@@ -1037,7 +1037,6 @@ router.post('/collect/add',(req,res)=>{
 router.post('/collect/delete',(req,res)=>{
  var sql = $sql.collect.delete;
  var p = req.body;
- console.log(p);
  var sqlParams = [p.collectId];
  conn.query(sql, sqlParams, function(err, result) {
      if (err) {
@@ -1049,13 +1048,11 @@ router.post('/collect/delete',(req,res)=>{
 })
 // 删除收藏 多个
 router.post('/collect/deleteList',(req,res)=>{
- var sql = $sql.collect.deleteList;
+ // var sql = $sql.collect.deleteList;
  var p = req.body;
  console.log(p);
- var reg = /^[\'\"]+|[\'\"]+$/g;
- var sqlParams = [p.collectIds];
- console.log(sqlParams, ids);
- conn.query(sql, sqlParams, function(err, result) {
+ var ids = p.collectIds;
+ conn.query('DELETE FROM collected WHERE collectId IN ('+ids+')', function(err, result) {
      if (err) {
          console.log(err);
      }else{
