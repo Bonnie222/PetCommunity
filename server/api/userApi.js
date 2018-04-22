@@ -159,7 +159,7 @@ router.post('/register', (req, res) => {
 	var sql = $sql.register;
 	var p = req.body;
 	console.log(p);
-	var sqlParams = [p.userPhone, p.userName, p.userPsd, p.userEmail, p.userSex, p.userBirth, p.userProblem, p.userAnswer, p.userNumber];
+	var sqlParams = [p.userPhone, p.userName, p.userPsd, p.userEmail, p.userSex, p.userBirth, p.userNumber];
 	conn.query(sql, sqlParams, function(err, result){
 		if (err) {
             console.log(err);

@@ -48,26 +48,23 @@
 					<li class="">
 						<label>生日</label>
 						<input type="text" v-model="userInfo.userBirth"
-							@click="openDatePicker"/>
+							@click="openDatePicker" readonly/>
 					</li>
 				</ul>
 				<!--选择器-->
 				<mt-datetime-picker ref="userBirthPicker" type="date"
 				 :startDate="startDate" :endDate="endDate"
-				 @confirm="handleUserBirth"></mt-datetime-picker>
+				 @confirm="handleUserBirth" v-model="userBirthDate"></mt-datetime-picker>
 			</div>
 			<div class="validator" v-show="errWindow">
 				<span class="err">{{errMsg}}</span>
 			</div>
-			<!--<div class="validator" v-show="errWrap">
-				<span class="err">{{errText}}</span>
-			</div>-->
-			<div class="psdProtect" @click="setAnswer">
+			<!-- <div class="psdProtect" @click="setAnswer">
 				<label>设置密保(必填)</label>
 				<span class="link">
 					<img src="../../assets/images/right.svg">
 				</span>
-			</div>
+			</div> -->
 			<div class="readp">
 				<yd-checkbox v-model="checkbox" color="#f00" size="15">
 					<span>已同意 <span class="article">《ssssss》</span></span>
@@ -78,7 +75,7 @@
 					@click="goRegister">注册</button>
 			</div>
 		</div>
-		<div v-show="psdProtectWindow">
+		<!-- <div v-show="psdProtectWindow">
 			<div class="protect-wrap">
 				<span class="protect-title">请设置您的问题</span>
 				<div class="protect-input">
@@ -95,12 +92,13 @@
 			<div class="btn-wrap">
 				<button class="btn-save"  @click="saveProtect">保存</button>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
 <script>
-import Header from '@/components/header'
+import Header from '@/components/header';
+import utils from '@/public/utils';
 export default {
     name: 'Register',
     components:{
@@ -112,20 +110,18 @@ export default {
     		errWindow:false,
     		errMsg:'',
     		psdProtectWindow:false,
+				userBirthDate: new Date(utils.formatDate(utils.getNowTime())),
     		userInfo:{
     			userPhome:null,
     			userName:null,
     			userPsd:null,
     			userEmail:null,
     			userBirth:null,
-    			userProblem:null,
-    			userAnswer:null,
     		},
     		checkbox:false,
     		/*出生日期范围*/
 				startDate:new Date('1960,1,1'),
-				endDate:new Date(new Date().getFullYear(),new Date().getMonth(),
-				 	new Date().getDate()),
+				endDate:new Date(utils.formatDate(utils.getNowTime())),
     	}
     },
     methods:{
@@ -276,21 +272,22 @@ export default {
 	   		var d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
 	   		d = this.utils.formatDate(d, 'yyyy-MM-dd');
 	   		this.userInfo.userBirth = d;
+				this.userBirthDate = d;
 	   	},
-	   	setAnswer()  {
-	   		this.topTitle = '密保设置'
-	   		this.psdProtectWindow = true;
-	   	},
-	   	saveProtect() {
-	   		var vm = this;
-	   		if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
-	   			vm.$toast('密保问题未填写完整');
-					return;
-	   		}else{
-	   			vm.topTitle = '注册'
-	   			vm.psdProtectWindow = false;
-	   		}
-	   	},
+	   	// setAnswer()  {
+	   	// 	this.topTitle = '密保设置'
+	   	// 	this.psdProtectWindow = true;
+	   	// },
+	   	// saveProtect() {
+	   	// 	var vm = this;
+	   	// 	if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
+	   	// 		vm.$toast('密保问题未填写完整');
+			// 		return;
+	   	// 	}else{
+	   	// 		vm.topTitle = '注册'
+	   	// 		vm.psdProtectWindow = false;
+	   	// 	}
+	   	// },
     	goRegister() {
     		var vm = this;
     		if(!vm.checkbox){
@@ -307,10 +304,10 @@ export default {
 			}else{
     			vm.errWindow = false;
 			}
-    		if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
-					vm.$toast('密保信息未填写');
-					return;
-			}
+    	// 	if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
+			// 		vm.$toast('密保信息未填写');
+			// 		return;
+			// }
 				var  d = new Date();
     		var url = vm.urls.register;
     		var data = vm.userInfo;
@@ -323,7 +320,7 @@ export default {
   					timeout: 1000
 				});
 				setTimeout(function(){
-					vm.$router.replace('/signhome/login');
+					vm.$router.replace('/login');
 				},1500);
 			}
 			vm.utils.postData(url, data, callback);

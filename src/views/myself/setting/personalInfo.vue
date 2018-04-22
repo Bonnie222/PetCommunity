@@ -225,8 +225,8 @@ export default{
 
 		getUserdetail:function(){
 			let vm = this;
-			vm.myInfo = vm.userInfo;
-			vm.avatar = vm.userInfo.userAvatar == null? '':JSON.parse(vm.myInfo.userAvatar).fileUrl;
+			vm.myInfo = JSON.parse(JSON.stringify(vm.userInfo));
+			vm.avatar = vm.myInfo.userAvatar == null? '':JSON.parse(vm.myInfo.userAvatar).fileUrl;
 			vm.myInfo.userBirth = vm.utils.changeDate(vm.myInfo.userBirth);
 			vm.userAge = vm.myInfo.userBirth == null? '请选择':vm.utils.calculateAge(vm.myInfo.userBirth);
 			vm.userCity = vm.myInfo.userCity == null? '请选择':vm.myInfo.userCity;
@@ -357,7 +357,7 @@ export default{
 
 			function save(){
 				$.each(vm.formData, function(prop,value) {
-					vm.formData[prop] = vm.userInfo[prop];
+					vm.formData[prop] = vm.myInfo[prop];
 				});
 	    		var url = vm.urls.updataMyInfo;
 	    		var data = vm.formData;
@@ -373,8 +373,10 @@ export default{
 	  					icon: 'success',
 	  					timeout: 1000
 					});
+					vm.getUserdetail();
+					vm.$store.dispatch('GetUserInfo');
 					vm.isSaving = false;
-	    			vm.saveBtnText = '保存修改';
+	    		vm.saveBtnText = '保存修改';
 				}
 				vm.isSaving = true;
 				vm.utils.postData(url, data, callback);

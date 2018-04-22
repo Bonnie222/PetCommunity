@@ -10,7 +10,7 @@ var sqlMap = {
 	//登录
 	login: 'SELECT * FROM user WHERE userPhone = ?',
 	//注册
-	register: 'INSERT INTO user(id, userPhone, userName, userPsd, userEmail, userSex, userBirth, userProblem, userAnswer, userNumber) VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+	register: 'INSERT INTO user(id, userPhone, userName, userPsd, userEmail, userSex, userBirth, userNumber) VALUES(0, ?, ?, ?, ?, ?, ?, ?)',
 
 
 	//用户

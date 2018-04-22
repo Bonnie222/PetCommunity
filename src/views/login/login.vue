@@ -29,14 +29,14 @@
 			<button class="btn-save" @click="login">登录</button>
 		</div> -->
 		<div class='login-logo-wrap'>
-        <img src="/images/logo.svg" class='login-logo' />
+        <img src="src/assets/images/logo.gif" class='login-logo' />
     </div>
     <div class="login-register-wrap">
         <div class='login-register-title'>登 录</div>
         <div class='login-input-wrap'>
             <div class='login-input'>
                 <span>手机号</span>
-                <input placeholder='请输入手机号' type="text"
+                <input placeholder='请输入手机号' type="number"
 								v-model="loginForm.userPhone"
 								@focus="onPhoneFocus" @blur="onPhoneBlur"/>
             </div>
@@ -54,7 +54,7 @@
         </div>
 				<div class="small-wrap">
 					<router-link :to="{ path: 'forget', query:{phone: loginForm.userPhone}}">
-						找回密码</router-link>
+						忘记密码</router-link>
 					<router-link to="/register">快速注册</router-link>
 				</div>
         <div class="btn-wrap">
@@ -149,7 +149,7 @@ export default {
 #Login{
 	overflow-y: hidden;
 	font-size: 34px;
-	padding: 200px 0px 0px;
+	padding: 100px 0px 0px;
 	height:inherit;
 	background: #eb695c;
 	// .loginform{
@@ -203,10 +203,10 @@ export default {
 	// }
 	.login-logo-wrap {
 	    text-align: center;
-	    margin-bottom: 70px;
+	    // margin-bottom: 70px;
 			.login-logo {
-			    width: 285px;
-			    height: 90px;
+			    width: 600px;
+			    height: 250px;
 					img{
 						width: inherit;
 						height: inherit;
@@ -214,7 +214,7 @@ export default {
 			}
 	}
 	.login-register-wrap {
-			margin: 0 auto;
+			margin: 10px auto 0;
 	    text-align: center;
 	    width:620px;
 	    height: 720px;
