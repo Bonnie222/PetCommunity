@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80002
 File Encoding         : 65001
 
-Date: 2018-04-19 01:14:42
+Date: 2018-04-23 00:54:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -162,18 +162,18 @@ DROP TABLE IF EXISTS `disease`;
 CREATE TABLE `disease` (
 `id`  int(11) NOT NULL AUTO_INCREMENT ,
 `diseaseType`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
-`createTime`  datetime NULL DEFAULT NULL ,
-`photo`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
-`note`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`userId`  int(11) NULL DEFAULT NULL ,
 `petName`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 `petSex`  int(11) NULL DEFAULT NULL ,
 `petType`  int(11) NULL DEFAULT NULL ,
 `petBirth`  datetime NULL DEFAULT NULL ,
+`photo`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`note`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createTime`  datetime NULL DEFAULT NULL ,
 `isInsert`  tinyint(11) NULL DEFAULT NULL ,
 `isVaccine`  tinyint(11) NULL DEFAULT NULL ,
 `petStatus`  int(11) NULL DEFAULT NULL ,
 `region`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
-`userId`  int(11) NULL DEFAULT NULL ,
 `symptoms`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 PRIMARY KEY (`id`)
 )
@@ -186,7 +186,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of disease
 -- ----------------------------
 BEGIN;
-INSERT INTO `disease` VALUES ('2', '[1,2,6,5]', '2018-04-06 19:56:09', '[]', '食欲不振，眼角有分泌物，拉稀，干呕，眼睛下陷，虚弱不能长时间站立走路打晃，请问是什么原因呢？', '小狗狗', '1', '1', '2018-01-01 08:00:00', '1', '1', '1', '黑龙江省 伊春市 美溪区', '1', '{\"breath\":[\"精神不振\",\"无食欲\",\"精神萎靡\"],\"digestion\":{\"vomiting\":[\"无\"],\"diarrhea\":[\"水状\",\"腥臭\"]},\"facial\":{\"tears\":[\"增多\"],\"earSmell\":[\"0\"],\"earTickle\":[\"0\"],\"earColor\":[],\"nose\":[\"干燥\"],\"oral\":[\"0\"],\"isDrool\":[\"0\"],\"hasTeeth\":[\"0\"]},\"urinary\":{\"water\":[\"减少\"],\"times\":[\"减少\"],\"total\":[\"减少\"],\"color\":[\"深黄\"],\"hasBlood\":[]}}'), ('3', '[4]', '2018-04-06 20:01:06', '[{\"fileUrl\":\"src/assets/dbimages/picture-1523016066277.jpg\",\"fileName\":\"timg.jpg\"}]', '脖子无法左转', '小可爱', '1', '1', '2016-01-01 08:00:00', '1', '1', '1', '内蒙古自治区 通辽市 库伦旗', '1', '{\"surgical\":{\"cause\":\"不知道\",\"time\":\"2018-04-05 19:00\"}}'), ('4', '[2,1,5,6,7,3,4,8]', '2018-04-07 02:00:38', '[{\"fileUrl\":\"src/assets/dbimages/picture-1523037638567.jpg\",\"fileName\":\"timg.jpg\"}]', '测试填写全部', '所示', '2', '1', '2016-01-01 08:00:00', '1', '1', '0', '辽宁省 锦州市 北镇市', '1', '{\"digestion\":{\"vomiting\":[\"无\"],\"diarrhea\":[\"酸臭\",\"烂泥状\"]},\"breath\":[\"无食欲\",\"流鼻涕\",\"精神不振\",\"有痰\"],\"urinary\":{\"water\":[\"减少\"],\"times\":[\"减少\"],\"total\":[\"减少\"],\"color\":[\"血红色\"],\"hasBlood\":[\"尿中(混合)\"]},\"facial\":{\"tears\":[\"减少\"],\"earSmell\":[\"1\"],\"earTickle\":[\"0\"],\"earColor\":[\"褐色\"],\"nose\":[\"干燥\"],\"oral\":[\"1\"],\"isDrool\":[\"0\"],\"hasTeeth\":[\"0\"]},\"insert\":{\"question\":\"如何桥多久啊卡开始的卢卡斯倒是考虑到会卡死的卡上的科室领导好\",\"time\":\"2007-10-01 08:00\"},\"skin\":{\"tickle\":[\"无瘙痒\"],\"hair\":[\"少量掉毛\"],\"parasite\":[\"蜱虫\"],\"against\":[\"0\"]},\"surgical\":{\"cause\":\"不知道是不是 打了针呢嗯饿呢呢\",\"time\":\"2018-01-01 08:00\"},\"immune\":{\"question\":\"还要大妈撒大声地打算阿萨德啊啊所多\",\"time\":\"2018-01-01 08:00\"}}');
+INSERT INTO `disease` VALUES ('2', '[1,2,6,5]', '1', '小狗狗', '1', '1', '2018-01-01 08:00:00', '[]', '食欲不振，眼角有分泌物，拉稀，干呕，眼睛下陷，虚弱不能长时间站立走路打晃，请问是什么原因呢？', '2018-04-06 19:56:09', '1', '1', '1', '黑龙江省 伊春市 美溪区', '{\"breath\":[\"精神不振\",\"无食欲\",\"精神萎靡\"],\"digestion\":{\"vomiting\":[\"无\"],\"diarrhea\":[\"水状\",\"腥臭\"]},\"facial\":{\"tears\":[\"增多\"],\"earSmell\":[\"0\"],\"earTickle\":[\"0\"],\"earColor\":[],\"nose\":[\"干燥\"],\"oral\":[\"0\"],\"isDrool\":[\"0\"],\"hasTeeth\":[\"0\"]},\"urinary\":{\"water\":[\"减少\"],\"times\":[\"减少\"],\"total\":[\"减少\"],\"color\":[\"深黄\"],\"hasBlood\":[]}}'), ('3', '[4]', '1', '小可爱', '1', '1', '2016-01-01 08:00:00', '[{\"fileUrl\":\"src/assets/dbimages/picture-1523016066277.jpg\",\"fileName\":\"timg.jpg\"}]', '脖子无法左转', '2018-04-06 20:01:06', '1', '1', '1', '内蒙古自治区 通辽市 库伦旗', '{\"surgical\":{\"cause\":\"不知道\",\"time\":\"2018-04-05 19:00\"}}'), ('4', '[2,1,5,6,7,3,4,8]', '1', '所示', '2', '1', '2016-01-01 08:00:00', '[{\"fileUrl\":\"src/assets/dbimages/picture-1523037638567.jpg\",\"fileName\":\"timg.jpg\"}]', '测试填写全部', '2018-04-07 02:00:38', '1', '1', '0', '辽宁省 锦州市 北镇市', '{\"digestion\":{\"vomiting\":[\"无\"],\"diarrhea\":[\"酸臭\",\"烂泥状\"]},\"breath\":[\"无食欲\",\"流鼻涕\",\"精神不振\",\"有痰\"],\"urinary\":{\"water\":[\"减少\"],\"times\":[\"减少\"],\"total\":[\"减少\"],\"color\":[\"血红色\"],\"hasBlood\":[\"尿中(混合)\"]},\"facial\":{\"tears\":[\"减少\"],\"earSmell\":[\"1\"],\"earTickle\":[\"0\"],\"earColor\":[\"褐色\"],\"nose\":[\"干燥\"],\"oral\":[\"1\"],\"isDrool\":[\"0\"],\"hasTeeth\":[\"0\"]},\"insert\":{\"question\":\"如何桥多久啊卡开始的卢卡斯倒是考虑到会卡死的卡上的科室领导好\",\"time\":\"2007-10-01 08:00\"},\"skin\":{\"tickle\":[\"无瘙痒\"],\"hair\":[\"少量掉毛\"],\"parasite\":[\"蜱虫\"],\"against\":[\"0\"]},\"surgical\":{\"cause\":\"不知道是不是 打了针呢嗯饿呢呢\",\"time\":\"2018-01-01 08:00\"},\"immune\":{\"question\":\"还要大妈撒大声地打算阿萨德啊啊所多\",\"time\":\"2018-01-01 08:00\"}}');
 COMMIT;
 
 -- ----------------------------
@@ -341,8 +341,6 @@ CREATE TABLE `user` (
 `userNote`  char(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 `userConst`  int(11) NULL DEFAULT NULL ,
 `userStatus`  int(11) NULL DEFAULT NULL ,
-`userProblem`  char(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
-`userAnswer`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
 `userCity`  char(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 `userFollowers`  int(11) NULL DEFAULT 0 ,
 `userFollowings`  int(11) NULL DEFAULT 0 ,
@@ -357,7 +355,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('1', '13437851632', '测试修改1', '1234567', '170116131212', '2', '656442@qq.com', '1995-03-01', '{\"fileUrl\":\"src/assets/dbimages/avatar-1523042590180.JPG\",\"fileName\":\"IMG_0005.JPG\"}', null, '11', '5', null, null, '辽宁省 丹东市', '1', '1'), ('2', '13189233139', 'bbb', '123456', null, null, null, null, null, null, null, null, null, null, null, '0', '2'), ('3', '13189233129', 'ccc', '123456', '2018122161618', '2', null, null, null, null, null, null, '111', '111', null, '2', '0');
+INSERT INTO `user` VALUES ('1', '13437851632', '222', '1234567', '170116131212', '2', '616247581@qq.com', '1995-03-01', '{\"fileUrl\":\"src/assets/dbimages/avatar-1523042590180.JPG\",\"fileName\":\"IMG_0005.JPG\"}', null, '11', '5', '辽宁省 丹东市', '1', '1'), ('2', '13189233139', 'bbb', '123456', '170116131212', '2', null, '1970-01-01', null, null, null, null, null, '0', '2'), ('3', '13189233129', 'ccc', '123456', '2018122161618', '2', null, null, null, null, null, null, null, '2', '0');
 COMMIT;
 DROP TRIGGER IF EXISTS `tri_updateActPeopleNum`;
 DELIMITER ;;
