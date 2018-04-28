@@ -74,7 +74,7 @@ export default {
 
 	//认证号
 	getUserList: host + '/user/list',
-	userSearch: host + 'user/search',
+	userSearch: host + '/user/search',
 
 	// 医疗
 	addDisease: host + '/disease/add',
