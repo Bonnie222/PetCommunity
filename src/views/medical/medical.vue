@@ -77,9 +77,9 @@ export default{
 				type: 8,
 			}],
 			sliceList: [{
-				pic: 'src/assets/images/medical(1).png',
+				pic: require('../../assets/images/medical(1).png'),
 			}, {
-				pic: 'src/assets/images/medical(2).jpg',
+				pic: require('../../assets/images/medical(2).jpg'),
 			}]
 		}
 	},

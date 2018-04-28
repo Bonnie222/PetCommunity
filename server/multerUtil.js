@@ -3,7 +3,7 @@ var multer = require('multer');
 //设置文件上传路径和文件命名
 var storage = multer.diskStorage({
 	destination:function(req, file, cb){
-		cb(null, '../src/assets/dbimages');
+		cb(null, '../static/dbimages');
 	},
 	filename: function(req, file, cb){
 		console.log(file);

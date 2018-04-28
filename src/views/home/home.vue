@@ -86,9 +86,9 @@ export default{
 				href:'/activity/list/1'
 			}],
 			sliceList: [{
-				pic: 'src/assets/images/home(1).jpg',
+				pic: require('../../assets/images/home(1).jpg'),
 			}, {
-				pic: 'src/assets/images/medical(2).jpg',
+				pic: require('../../assets/images/medical(2).jpg'),
 			}]
 		}
 	},

@@ -29,7 +29,7 @@
 			<button class="btn-save" @click="login">登录</button>
 		</div> -->
 		<div class='login-logo-wrap'>
-        <img src="src/assets/images/logo.gif" class='login-logo' />
+        <img src="../../assets/images/logo.gif" class='login-logo' />
     </div>
     <div class="login-register-wrap">
         <div class='login-register-title'>登 录</div>
