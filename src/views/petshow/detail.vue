@@ -346,6 +346,7 @@ export default{
 #PetShowDetail{
   .detail-wrap{
     margin-top: 90px;
+    margin-bottom: 100px;
     font-size: 32px;
     .act-title{
       background: #ffffff;

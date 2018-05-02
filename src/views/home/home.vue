@@ -128,6 +128,7 @@ export default{
 
 <style lang="less" scoped>
 #Home{
+
 	.swipe-wrap{
 		height: 250px;
 		img {
@@ -215,7 +216,7 @@ export default{
 		}
 	}
 	.pet-list{
-		margin:0px 25px 25px;
+		margin:100px 25px 25px;
 		background: #FFFFFF;
 		border: 1px solid #e4e4e4;/*no*/
 		border-radius: 10px;
@@ -236,11 +237,14 @@ export default{
 			flex-wrap: wrap;
 			padding: 0 20px;
 			li{
-				flex: 33%;
 				height: 150px;
 				width: 200px;
 				margin-bottom: 20px;
+				margin-right: 25px;
 				overflow: hidden;
+				&:nth-child(3n) {
+					margin-right: 0;
+				}
 			  .imglink {
 					display: inline-block;
 					width: inherit;

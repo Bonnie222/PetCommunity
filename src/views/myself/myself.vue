@@ -256,6 +256,7 @@ export default{
 
 	.other-list{
 		background: #FFFFFF;
+		margin-bottom: 100px;
 		.other-item{
 			height: 90px;
 			line-height: 90px;

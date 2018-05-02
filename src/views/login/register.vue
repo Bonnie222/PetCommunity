@@ -67,7 +67,7 @@
 			</div> -->
 			<div class="readp">
 				<yd-checkbox v-model="checkbox" color="#f00" size="15">
-					<span>已同意 <span class="article">《ssssss》</span></span>
+					<span>已同意 <span class="article">《爱宠社区协议》</span></span>
 				</yd-checkbox>
 			</div>
 			<div class="btn-wrap">

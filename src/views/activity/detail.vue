@@ -188,6 +188,7 @@ export default{
 	}
 	.detailOne{
 		padding-top: 90px;
+		margin-bottom: 100px;
 		.title{
 			background: #FFFFFF;
 			height: 230px;

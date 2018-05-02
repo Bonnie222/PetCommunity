@@ -119,7 +119,7 @@ export default{
 			actType: 1
 		}
 		var callback = function(r){
-			const data = r.data.data;
+			let data = r.data.data.data;
 			$.each(data, function(index, item){
 					item.isChecked = false;
 					item.themePhoto = JSON.parse(item.themePhoto);

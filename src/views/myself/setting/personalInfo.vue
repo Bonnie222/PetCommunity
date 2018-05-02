@@ -1,8 +1,8 @@
 <template>
 	<div id="MyInfo">
 		<div v-show="showContentWindow">
-			<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back"></Header>
-			<div class="info">
+			<Header :title="topTitle" :headerLeft="headerLeft" @clickRouter="back" :isFixed="isFixed"></Header>
+			<div class="info first">
 				<div class="info-item">
 					<span class="item-name">头像</span>
 					<div class="pic">
@@ -123,6 +123,7 @@ export default{
 			//主页
 			topTitle:'个人信息',
 			headerLeft:true,
+			isFixed: true,
 			myInfo:{},
 			userInfoText:{},
 			isDisabled: false,
@@ -399,6 +400,9 @@ export default{
 			height: 26px;
 		}
 	}
+	.first {
+		padding-top: 90px;
+	}
 	.info{
 		background: #FFFFFF;
 		padding: 0 20px;
@@ -548,7 +552,7 @@ export default{
 		}
 	}
 	.btn-wrap{
-		margin-top: 20px;
+		margin: 20px 0;
 		text-align: center;
 		.btn-save{
 	    	height: 80px;

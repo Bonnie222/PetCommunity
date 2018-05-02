@@ -7,7 +7,7 @@
 					<span class="title" @click="typeWindow">
 						<span class="text">| {{title}}</span>
 						<span class="link">
-							<img src="src/assets/images/right.svg"/>
+							<img src="../../assets/images/right.svg"/>
 						</span>
 					</span>
 				</div>

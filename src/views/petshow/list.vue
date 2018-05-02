@@ -321,7 +321,7 @@ export default{
 
 	}
 	.contain{
-		margin: 90px 0;
+		margin: 90px 0 110px;
 	}
 	.detail-wrap{
 		background: #ffffff;

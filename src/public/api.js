@@ -3,6 +3,8 @@ const host = "/api";
 export default {
 	login: host + '/login',
 	register: host + '/register',
+  // 获取验证码
+	getCode: host + '/sendCode',
 	//文件上传
 	uploadSingle: host + '/uploadSingle',
 	uploadArray: host + '/uploadArray',

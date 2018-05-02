@@ -195,7 +195,7 @@ export default{
 		}
 	}
   .tab {
-    padding-top: 160px;
+    padding-top: 180px;
   }
   .pet-wrap{
 		background: #FFFFFF;

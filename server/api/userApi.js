@@ -3,6 +3,8 @@ var express = require('express');
 var router = express.Router();
 //引入multer
 var upload = require('../multerUtil');
+//引入mail
+var mail = require('../mail');
 //导入MySQL模块
 var mysql = require('mysql');
 var db = require('../db');
@@ -30,6 +32,38 @@ var jsonWrite = function(res, ret, type) {
   		res.send(obj).end();
     }
 };
+
+/**
+ * 邮箱验证码
+ */
+router.post('/sendCode', (req, res) => {
+  var user_email = req.body.email;
+  console.log(req);
+  var code = '';
+  while(code.length < 5){
+    code += Math.floor(Math.random()*10);
+  }
+  var options = {
+    from: '"爱宠社区"<lovepetcommunity@sina.com>',
+    to: user_email,
+    subject: '【爱宠社区】找回密码邮件',
+    text: '一封来自爱宠社区的邮件',
+    html: '【爱宠社区】您的验证码为:' + code + ',请在5分钟内填写。'
+  }
+  mail.sendMail(options, (err, msg) =>{
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('Code Send' + code);
+      var obj = {
+        smscode: code
+      }
+      res.send(obj).end();
+    }
+  })
+
+})
+
 
 
 /**
@@ -138,21 +172,21 @@ router.post('/queryName', (req, res) => {
 	})
 })
 router.post('/queryEmail', (req, res) => {
-	var sql = $sql.user.queryByName;
+	var sql = $sql.user.queryByEmail;
 	var params = req.body;
 	console.log(params);
 	var sqlParams = [params.userEmail]
 	conn.query(sql, sqlParams, function(err, result){
 		if (err) {
-            console.log(err);
-            res.send({'message': '服务器出错', 'code': 0}).end();
-        }else{
-        	if(result.length == 0){
-        		res.send({'message': '该邮箱未注册', 'code': 1}).end();
-        	}else{
-        		res.send({'message': '该邮箱已注册', 'code': -1}).end();
-        	}
-        }
+        console.log(err);
+        res.send({'message': '服务器出错', 'code': 0}).end();
+    }else{
+    	if(result.length == 0){
+    		res.send({'message': '该邮箱未注册', 'code': 1}).end();
+    	}else{
+    		res.send({'message': '该邮箱已注册', 'code': -1}).end();
+    	}
+    }
 	})
 })
 router.post('/register', (req, res) => {
