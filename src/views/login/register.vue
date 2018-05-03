@@ -41,9 +41,9 @@
 						</div>
 					</li>
 					<li class="">
-						<label>邮箱</label>
+						<label>邮箱<span class="tip">*</span></label>
 						<input type="email" v-model="userInfo.userEmail"
-							@blur="onEmailBlur"/>
+							@blur="onEmailBlur" @focus="onFocus"/>
 					</li>
 					<li class="">
 						<label>生日</label>
@@ -106,13 +106,14 @@ export default {
     },
     data(){
     	return{
+				canRegister: false,
     		topTitle:'注册',
     		errWindow:false,
     		errMsg:'',
     		psdProtectWindow:false,
 				userBirthDate: new Date(utils.formatDate(utils.getNowTime())),
     		userInfo:{
-    			userPhome:null,
+    			userPhone:null,
     			userName:null,
     			userPsd:null,
     			userEmail:null,
@@ -164,7 +165,7 @@ export default {
 						if(data.code != 1){
 							if(data.code == -1){
 								vm.errMsg = '该号码已被注册';
-	    						vm.errWindow = true;
+	    					vm.errWindow = true;
 							}else{
 								console.log(data.message);
 							}
@@ -231,7 +232,10 @@ export default {
     		var vm = this;
     		var email = vm.userInfo.userEmail == null ? '' : vm.userInfo.userEmail.trim();
     		var partten = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-    		if(email && !partten.test(email)){
+    		if(!email){
+					vm.errMsg = '邮箱不能为空';
+    			vm.errWindow = true;
+				}else if(email && !partten.test(email)){
     			vm.errMsg = '请输入正确的邮箱格式';
     			vm.errWindow = true;
     		}else if(email && partten.test(email)){
@@ -274,40 +278,27 @@ export default {
 	   		this.userInfo.userBirth = d;
 				this.userBirthDate = d;
 	   	},
-	   	// setAnswer()  {
-	   	// 	this.topTitle = '密保设置'
-	   	// 	this.psdProtectWindow = true;
-	   	// },
-	   	// saveProtect() {
-	   	// 	var vm = this;
-	   	// 	if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
-	   	// 		vm.$toast('密保问题未填写完整');
-			// 		return;
-	   	// 	}else{
-	   	// 		vm.topTitle = '注册'
-	   	// 		vm.psdProtectWindow = false;
-	   	// 	}
-	   	// },
     	goRegister() {
     		var vm = this;
     		if(!vm.checkbox){
     			return;
     		}
-    		vm.onPhoneBlur();
-    		vm.onNameBlur();
+    	  vm.onPhoneBlur();
+    	  vm.onNameBlur();
     		vm.onPsdBlur();
     		vm.onEmailBlur();
     		if(!vm.userInfo.userSex){
 					vm.errMsg = '请选择性别';
     				vm.errWindow = true;
 					return;
-			}else{
-    			vm.errWindow = false;
-			}
-    	// 	if(!vm.userInfo.userProblem || !vm.userInfo.userAnswer){
-			// 		vm.$toast('密保信息未填写');
-			// 		return;
-			// }
+				}
+				if(!vm.userInfo.userPhone || !vm.userInfo.userName
+					   || !vm.userInfo.usePsd || !vm.userInfo.userEmail){
+					vm.$toast('请填写必填选项');
+					return;
+				}
+	    	vm.errWindow = false;
+				// if(!vm.canRegister) return;
 				var  d = new Date();
     		var url = vm.urls.register;
     		var data = vm.userInfo;

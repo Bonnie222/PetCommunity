@@ -21,6 +21,7 @@ var sqlMap = {
 		queryByEmail: 'SELECT * FROM user WHERE userEmail = ?',
 		update: 'UPDATE user SET userAvatar=?, userName=?, userEmail=?, userSex=?, userBirth=?, userCity=?, userStatus=?, userConst=?, userNote=? WHERE id=?',
 		updatePsd: 'UPDATE user SET userPsd = ? WHERE id = ?',
+		resetPsd: 'UPDATE user SET userPsd = ? WHERE userEmail = ?',
 		attentions: 'SELECT * FROM relation WHERE fromUserId = ?',
 		fans: 'SELECT * FROM relation WHERE toUserId = ?',
 		toConcern: 'INSERT INTO relation (id, fromUserId, toUserId) VALUES (0, ?, ?)',

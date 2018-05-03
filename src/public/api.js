@@ -5,6 +5,7 @@ export default {
 	register: host + '/register',
   // 获取验证码
 	getCode: host + '/sendCode',
+	resetPsdByEmail: host + '/user/resetpsd',
 	//文件上传
 	uploadSingle: host + '/uploadSingle',
 	uploadArray: host + '/uploadArray',

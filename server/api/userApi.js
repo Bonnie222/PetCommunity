@@ -354,7 +354,7 @@ router.post('/user/search',(req,res)=>{
         }
     })
 })
-// 重置密码
+// 重置密码 id
 router.post('/user/updatepsd',(req,res)=>{
 	var sql = $sql.user.updatePsd;
 	var p = req.body;
@@ -368,7 +368,20 @@ router.post('/user/updatepsd',(req,res)=>{
         }
     })
 })
-
+// 重置密码 email
+router.post('/user/resetpsd',(req,res)=>{
+	var sql = $sql.user.resetPsd;
+	var p = req.body;
+    console.log(p);
+    var sqlParams = [p.password, p.userEmail];
+    conn.query(sql, sqlParams, function(err, result) {
+        if (err) {
+            console.log(err);
+        }else{
+        	jsonWrite(res, result);
+        }
+    })
+})
 
 /**
  * 宠物
