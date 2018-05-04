@@ -12,7 +12,9 @@
                 <span>收藏：{{item.collectCount}}</span>
               </p>
             </span>
-            <span class="item-pic"></span>
+            <span class="item-pic">
+              <img :src="item.articleCover[0].fileUrl"/>
+            </span>
           </div>
         </router-link>
       </span>
@@ -47,8 +49,11 @@ export default {
       const url = vm.urls.getArticleList;
       const callback = (r) => {
         const list = r.data.data.data;
-        vm.list = list;
+        list.forEach((item)=>{
+          item.articleCover = JSON.parse(item.articleCover);
+        })
         console.log(list);
+        vm.list = list;
       }
       vm.utils.getData(url, callback);
     }
@@ -70,6 +75,10 @@ export default {
         background: yellow;
         width: 200px;
         height: 150px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
       .item-text {
         display: inline-block;

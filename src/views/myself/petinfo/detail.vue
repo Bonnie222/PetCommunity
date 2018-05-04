@@ -61,7 +61,7 @@
 					<span class="item-name">到家时间</span>
 					<span>
 						<span  class="item-input" @click="openArrivalPicker" :disabled="isDisabled">
-							{{petInfo.petArrivedDate}}</span>
+							{{petInfo.petArrivedDateText}}</span>
 						<span class="link" :hidden="isDisabled"><img src="../../../assets/images/right.svg"/></span>
 					</span>
 				</div>
@@ -199,12 +199,14 @@ export default{
 				var data = r.data.data;
 				data.petTypeText = vm.config.petTypeList[data.petType];
 				data.petBirth = vm.utils.changeDate(data.petBirth);
-				data.petArrivedDate = data.petArrivedDate == null ? '请选择': vm.utils.changeDate(data.petArrivedDate);
+				data.petArrivedDate = data.petArrivedDate == null ? null : vm.utils.changeDate(data.petArrivedDate);
+				data.petArrivedDateText = data.petArrivedDate == null ? '请选择': vm.utils.changeDate(data.petArrivedDate);
 				data.petCreateDate = data.petCreateDate == null ? '': vm.utils.changeDate(data.petCreateDate);
 				data.petStatusText = data.petStatus == null ? '请选择': vm.config.petStatusList[data.petStatus];
 				data.petAvatar = JSON.parse(data.petAvatar);
 				vm.avatar = data.petAvatar.fileUrl;
 				vm.petInfo = data;
+				console.log(data);
 
 			}
 			vm.utils.postData(url, data, callback, options);
@@ -276,6 +278,8 @@ export default{
 	   		let d = value.getFullYear() + '-' + (value.getMonth()+1) + '-' + value.getDate();
 	   		d = vm.utils.formatDate(d, 'yyyy-MM-dd');
 	   		vm.petInfo.petArrivedDate = d;
+				vm.petInfo.petArrivedDateText = d;
+				console.log(d);
 	   	},
     	delPet: function(){
     		var vm = this;
@@ -290,7 +294,7 @@ export default{
 				}
 			}
 			var callback = function(r){
-				var routeUrl = '/myself/pet';
+				var routeUrl = '/myself/pet/list';
 				var mesText = '删除成功';
 				vm.utils.toastCallback(vm,mesText,routeUrl);
 			}
@@ -344,8 +348,8 @@ export default{
     		}
 
 			function save(){
-				vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDate == '请选择' ? null : vm.petInfo.petArrivedDate;
-				vm.petInfo.petStatusText = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatusText;
+				vm.petInfo.petArrivedDate = vm.petInfo.petArrivedDateText == '请选择' ? null : vm.petInfo.petArrivedDate;
+				vm.petInfo.petStatus = vm.petInfo.petStatusText == '请选择' ? null : vm.petInfo.petStatus;
 	    		var url = vm.urls.updatePet;
 	    		var _id = vm.$route.params.id;
 	    		var data = vm.petInfo;

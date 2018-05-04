@@ -174,14 +174,16 @@ export default{
 		display: flex;
 		align-items: center;
 		.findpet-title{
+			display: block;
 			margin-right: 10px;
-			width: 80px;
+			width: 10%;
 			font-size: 32px;
 			font-weight: bolder;
 			color: #EB695C;
+
 		}
 		.findpet-list{
-			// width: 85%;
+			width: 90%;
 			.yd-rollnotice{
 
 			}
@@ -194,7 +196,7 @@ export default{
 					text-align: center;
 					font-size:26px;
 					display: inline-block;
-					width: 100px;
+					width: 200px;
 					border: 1px solid #D81E06; /*no*/
 					color: #D81E06;
 					padding: 5px 10px;
@@ -216,10 +218,11 @@ export default{
 		}
 	}
 	.pet-list{
-		margin:100px 25px 25px;
+		margin:40px 25px 25px;
 		background: #FFFFFF;
 		border: 1px solid #e4e4e4;/*no*/
 		border-radius: 10px;
+		overflow: hidden;
 		.pet-list-title{
 			padding:25px 20px;
 			color: #666666;

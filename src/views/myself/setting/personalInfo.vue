@@ -7,7 +7,7 @@
 					<span class="item-name">头像</span>
 					<div class="pic">
 						<span class="imgPic">
-							<img src="../../../assets/images/member.png" class="avatar" v-if="avatar == ''"/>
+							<img src="../../../assets/images/member.png" class="avatar" v-if="!avatar"/>
 							<img :src="avatar" class="avatar" @click="previewImg($event)" v-else/>
 						</span>
 						<span class="link" :hidden="isDisabled">
@@ -79,7 +79,7 @@
 				</div>
 				<div class="info-item info-area">
 					<p class="item-name">个人说明<span class="count"> ({{count}}/50)</span></p>
-					<textarea  v-model="userInfo.note" maxlength="50" @input="countWord"></textarea>
+					<textarea  v-model="myInfo.userNote" maxlength="50" @input="countWord"></textarea>
 				</div>
 	    		<mt-datetime-picker ref="userBirthPicker" type="date" @confirm="handleUserBirth"
 					:startDate="startDate" :endDate="endDate"></mt-datetime-picker>
@@ -244,7 +244,7 @@ export default{
 		//个人说明
 		countWord: function(){
 			let vm = this;
-			let len = vm.userInfo.note.length;
+			let len = vm.myInfo.userNote.length;
 			vm.count = len;
 		},
 		//星座选择
@@ -262,7 +262,7 @@ export default{
 			})
 			obj.isChecked = true;
 			vm.userConst = obj.text;
-			vm.userInfo.userConst = obj.value;
+			vm.myInfo.userConst = obj.value;
 			setTimeout(function(){
 				vm.showContentWindow = true;
 				vm.showConstWindow = false;
@@ -283,7 +283,7 @@ export default{
 			})
 			obj.isChecked = true;
 			vm.userStatus = obj.text;
-			vm.userInfo.userStatus = obj.value;
+			vm.myInfo.userStatus = obj.value;
 			setTimeout(function(){
 				vm.showContentWindow = true;
 				vm.showStatusWindow = false;
@@ -296,14 +296,14 @@ export default{
 	   	handleUserBirth: function(value){
 	   		let vm = this;
 	   		let d = vm.utils.returnDatetime(value, 'yyyy-MM-dd');
-	   		vm.userInfo.userBirth = d;
+	   		vm.myInfo.userBirth = d;
 	   		vm.userAge = vm.utils.calculateAge(d);
 	   	},
 	   	//城市选择
 	   	resultCity: function(ret) {
     		let vm = this;
     		let value = ret.itemName1 + ' ' + ret.itemName2
-            vm.userInfo.userCity = value;
+            vm.myInfo.userCity = value;
             vm.userCity = value
         },
     	getImg: function(e){
@@ -331,7 +331,7 @@ export default{
     		if(!vm.userInfo.userName){
 					vm.$toast('昵称未填写');
 					return;
-			}
+			  }
     		let partten = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
     		let email = vm.userInfo.userEmail;
     		if(email && !partten.test(email)){
@@ -343,16 +343,15 @@ export default{
       	var url = vm.urls.uploadSingle;
     		var fname = 'avatar'
     		var callback = function(r){
-    			vm.userInfo.userAvatar = JSON.stringify(r.data.data);
+    			vm.myInfo.userAvatar = JSON.stringify(r.data.data);
     			save();
     		}
 
     		vm.saveBtnText = '正在保存中...';
-    		console.log(e);
     		if(e){
     			vm.utils.upload(vm, e, fname, url, callback);
     		}else{
-//  			vm.userInfo.userAvatar = JSON.stringify(vm.userInfo.userAvatar);
+  				vm.userInfo.userAvatar = vm.userInfo.userAvatar ? JSON.stringify(vm.userInfo.userAvatar): null;
     			save();
     		}
 
@@ -360,26 +359,28 @@ export default{
 				$.each(vm.formData, function(prop,value) {
 					vm.formData[prop] = vm.myInfo[prop];
 				});
-	    		var url = vm.urls.updataMyInfo;
-	    		var data = vm.formData;
-	    		var options = {
+				console.log(vm.myInfo)
+    		var url = vm.urls.updataMyInfo;
+    		var data = vm.formData;
+    		var options = {
 					params:{
 						userid: data.id
 					}
 				}
-	    		console.log(vm.formData)
-	    		var callback = function(r){
+	    	var callback = function(r){
 					vm.$dialog.toast({
 						mes: '修改成功',
 	  					icon: 'success',
 	  					timeout: 1000
 					});
-					vm.getUserdetail();
 					vm.$store.dispatch('GetUserInfo');
+					// vm.getUserdetail();
 					vm.isSaving = false;
 	    		vm.saveBtnText = '保存修改';
+					// reload();
 				}
 				vm.isSaving = true;
+				console.log(data);
 				vm.utils.postData(url, data, callback);
 			}
 

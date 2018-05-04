@@ -21,8 +21,8 @@
           </span>
           <router-link :to="{ name: 'UserDetail', params: {id: item.id} }" >
             <span class="info-bottom">
-              <!-- <p>姓名:{{item.signName}}</p>
-              <p>联系方式:{{item.signContact}}</p> -->
+              <p>姓名:{{item.signName}}</p>
+              <p>联系方式:{{item.signContact}}</p>
             </span>
           </router-link>
         </div>

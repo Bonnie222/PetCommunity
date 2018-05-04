@@ -316,6 +316,7 @@ export default{
 	    	getImg(e){
 	    		let vm = this;
 	    		let file = e.target.files[0];
+					if(!file) return;
 	    		let fileslist = vm.files;
 	    		fileslist = fileslist.push(file);
 	    		if((file.type).indexOf("image/")==-1){

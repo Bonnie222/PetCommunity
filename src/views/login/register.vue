@@ -119,6 +119,10 @@ export default {
     			userEmail:null,
     			userBirth:null,
     		},
+				phone: false,
+				name: false,
+				psd: false,
+				email: false,
     		checkbox:false,
     		/*出生日期范围*/
 				startDate:new Date('1960,1,1'),
@@ -169,6 +173,8 @@ export default {
 							}else{
 								console.log(data.message);
 							}
+						} else {
+							vm.phone = true;
 						}
 
 					}else{
@@ -206,6 +212,8 @@ export default {
 							}else{
 								console.log(data.message);
 							}
+						} else {
+							vm.name = true;
 						}
 
 					}else{
@@ -226,7 +234,9 @@ export default {
     		}else if(psd.length < 6){
     			vm.errMsg = '密码长度不能小于6位数';
     			vm.errWindow = true;
-    		}
+    		} else {
+					vm.psd = true;
+				}
     	},
     	onEmailBlur(){
     		var vm = this;
@@ -258,6 +268,8 @@ export default {
 							}else{
 								console.log(data.message);
 							}
+						}else {
+							vm.email = true;
 						}
 
 					}else{
@@ -292,9 +304,12 @@ export default {
     				vm.errWindow = true;
 					return;
 				}
-				if(!vm.userInfo.userPhone || !vm.userInfo.userName
-					   || !vm.userInfo.usePsd || !vm.userInfo.userEmail){
-					vm.$toast('请填写必填选项');
+				// if(!vm.userInfo.userPhone || !vm.userInfo.userName
+				// 	   || !vm.userInfo.userPsd || !vm.userInfo.userEmail){
+				// 	// vm.$toast('请填写必填选项');
+				// 	return;
+				// }
+				if(!vm.phone || !vm.name || !vm.psd || !vm.email) {
 					return;
 				}
 	    	vm.errWindow = false;

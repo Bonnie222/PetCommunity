@@ -22,7 +22,8 @@
 				<div v-for="(item, index) in list" :key="index" class="list-item">
 					<router-link :to="{ name: 'DiseaseDetail', params: {id:item.id} }" >
 						<span class="pic">
-							<img :src="item.userAvatar.fileUrl"/>
+							<img src="src/assets/images/member.png" v-if="!item.userAvatar"/>
+							<img :src="item.userAvatar.fileUrl" v-else/>
 						</span>
 						<span class="mess">
 							<span class="desc" v-html="item.note"></span>

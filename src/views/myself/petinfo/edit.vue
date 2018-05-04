@@ -300,7 +300,7 @@ export default{
 	  					timeout: 1000
 					});
 					setTimeout(function(){
-						vm.$router.replace("/myself/pet");
+						vm.$router.replace("/myself/pet/list");
 					},1500);
 				}
 				vm.utils.postData(url, data, callback);

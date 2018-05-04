@@ -10,7 +10,7 @@
             <yd-checklist-item :val="item.collectId" class="list-item check">
               <span class="content">
                 <span class="pic">
-                  <!-- <img :src="JSON.parse(userInfo.userAvatar).fileUrl"/> -->
+                  <img :src="item.articleCover[0].fileUrl"/>
                 </span>
                 <span class="mess">
                   <p class="title">{{item.articleTitle}}</p>
@@ -26,7 +26,7 @@
           <router-link :to="{ name: 'ArticleDetail', params: {id:item.collectArticleId}}" >
             <span class="content">
               <span class="pic">
-                <!-- <img :src="JSON.parse(userInfo.userAvatar).fileUrl"/> -->
+                <img :src="item.articleCover[0].fileUrl"/>
               </span>
               <span class="mess">
                 <p class="title">{{item.articleTitle}}</p>
@@ -139,11 +139,11 @@ export default{
 			const callback = (r) => {
 				vm.$indicator.close();
 				let list = r.data.data.data;
-				// list.forEach((item) => {
-        //   // if (item.photo) {
-				// 	// 	item.photo = JSON.parse(item.photo);
-				// 	// }
-				// });
+				list.forEach((item) => {
+          if (item.articleCover) {
+						item.articleCover = JSON.parse(item.articleCover);
+					}
+				});
 				vm.list = list;
 				vm.noData = list.length == 0;
 			}

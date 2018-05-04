@@ -70,7 +70,7 @@
 			<div class="desc-wrap">
 				<span class="publisher">
 					<span class=""><i class="iconfont icon-ren"></i>发起人</span>
-					<span class="namePic"></span>
+					<span class="namePic">{{detailOne.publisher}}</span>
 				</span>
 				<span class="note">
 					<p>活动内容</p>

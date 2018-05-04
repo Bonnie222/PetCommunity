@@ -14,7 +14,8 @@
 					<router-link :to="{ name: 'DiseaseDetail', params: {id:item.id} }" >
 						<span>
               <span class="pic">
-  							<img :src="JSON.parse(userInfo.userAvatar).fileUrl"/>
+								<img src="src/assets/images/member.png" v-if="!userInfo.userAvatar"/>
+  							<img :src="JSON.parse(userInfo.userAvatar).fileUrl" v-else/>
   						</span>
               <span>{{item.petName}}</span>
             </span>

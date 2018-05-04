@@ -112,14 +112,16 @@ export default{
 			vm.saveBtnText = "正在重置...";
 			const callback = () => {
 				vm.$dialog.toast({
-					mes: '重置密码成功',
+					mes: '重置密码成功,请重新登录',
 					icon: 'success',
 					timeout: 1500
 				});
 				vm.saveBtnText = "重置密码";
 				vm.isSaving = false;
 				setTimeout(function(){
-					vm.$router.go(-2);
+					vm.$store.dispatch('Logout').then(() => {
+						location.reload(); //为了重新实例化vue-router对象 避免bug
+					});
 				},2000);
 			}
 			vm.utils.postData(url, data, callback);

@@ -262,7 +262,7 @@ export default{
           vm[vm.config.diseaseListEn[item]] = vm.symptoms[vm.config.diseaseListEn[item]];
         })
         vm.detail = detail;
-        vm.picList = detail.photo;
+        vm.picList = detail.photo ? detail.photo : [];
       };
       vm.utils.postData(url, data, callback, options);
     }
